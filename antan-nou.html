@@ -122,6 +122,7 @@
     <div class="brand-row">
       <div class="brand"><div class="mark">🧭</div><div class="name">Antan Nou</div></div>
       <div class="icon-row">
+        <button class="icon-btn" id="openLang" aria-label="Langue">🌐</button>
         <button class="icon-btn" id="openAccount" aria-label="Se connecter">👤</button>
         <button class="icon-btn" id="openProgram" aria-label="Programme automatique">✨</button>
         <button class="icon-btn" id="openFavs" aria-label="Mes favoris">❤️<span class="badge" id="favBadge" style="display:none;">0</span></button>
@@ -174,6 +175,178 @@ const BUDGETS = [ ["gratuit","Gratuit"], ["petit-budget","Petit budget"], ["prem
 const DUREES = [ ["rapide","< 1h"], ["demi-journee","Demi-journée"], ["journee","Journée entière"] ];
 const MOMENTS = [ ["jour","En journée"], ["soir","En soirée"] ];
 const ACCES = [ ["poussette","Poussette-friendly"], ["pmr","Accès PMR"], ["interieur","À l'abri (si pluie)"] ];
+
+// ==================== Langue de l'interface ====================
+// Traduit les textes de l'appli (boutons, titres, filtres...). Les noms de
+// lieux et leurs descriptions restent en français pour l'instant — les
+// traduire dans les 4 langues serait un chantier à part.
+const LANGS = [
+  { key:"fr", label:"Français", flag:"🇫🇷" },
+  { key:"en", label:"English", flag:"🇬🇧" },
+  { key:"cr", label:"Kréyòl", flag:"🌺" },
+  { key:"es", label:"Español", flag:"🇪🇸" },
+];
+
+const TRANSLATIONS = {
+  fr: {
+    langPickerTitle:"Choisis ta langue", langPickerSub:"Tu peux la changer à tout moment depuis l'icône 🌐.",
+    step0Title:"Où as-tu envie d'aller ?", step0Sub:"Choisis un territoire pour commencer.",
+    step1Title:"Dans quel coin ?", zoneAll:"Toute l'île", chooseZone:"Choisis une zone",
+    step2Title:"Quelle envie ?", step2Sub:"Sélectionne une ou plusieurs ambiances.",
+    moreOptions:"Plus d'options (budget, durée, accessibilité...)",
+    budgetGroupLabel:"Budget", dureeGroupLabel:"Durée", momentGroupLabel:"Moment", accesGroupLabel:"Accessibilité",
+    back:"Retour", seeOutings:"Voir les sorties", step3Title:"Tes sorties",
+    searchPlaceholder:"Chercher par nom...", sortPertinence:"Pertinence", sortAlpha:"A → Z", sortFavoris:"Mes favoris ❤️",
+    resultsTitle:"Résultats", resultSingular:"résultat", resultPlural:"résultats",
+    emptyFavoris:"Aucun favori pour l'instant — touche le cœur sur une sortie pour l'ajouter.",
+    emptyResults:"Rien ne correspond à ces critères — élargis ta recherche ou retire un filtre.",
+    itineraire:"Itinéraire", newSearch:"Nouvelle recherche",
+    favTitle:"Mes favoris", favEmpty:"Aucun favori pour l'instant. Touche le cœur sur une sortie pour l'ajouter ici.",
+    progTitle:"Composer un programme", progSub:"Choisis tes critères, l'algorithme assemble un programme jour par jour à partir des lieux disponibles.",
+    progTerritoire:"Territoire", progDuree:"Durée du séjour", progEnvies:"Envies (optionnel, sinon toutes)", progBudgetLabel:"Budget (optionnel)",
+    progGenerate:"Générer mon programme", progResultTitle:"Ton programme", progDay:"Jour ",
+    progFree:"Libre — rien de disponible pour ce créneau dans la base actuelle", progRegen:"Régénérer",
+    slotMatin:"Matin", slotApresmidi:"Après-midi", slotSoir:"Soir",
+    accountTitle:"Compte", accountNotEnabled:"La connexion avec compte et synchronisation n'est pas encore activée sur cette version de l'appli. Tes favoris restent sauvegardés sur cet appareil.",
+    accountMyAccount:"Mon compte", accountSyncedNote:"Tes favoris sont synchronisés sur tous tes appareils.", accountLogout:"Se déconnecter",
+    accountLoginTitle:"Se connecter", accountSignupTitle:"Créer un compte", accountSub:"Connecte-toi pour retrouver tes favoris sur tous tes appareils.",
+    accountEmail:"Email", accountEmailPlaceholder:"toi@exemple.com", accountPassword:"Mot de passe", accountPasswordPlaceholder:"6 caractères minimum",
+    accountLoginBtn:"Se connecter", accountCreateBtn:"Créer mon compte",
+    accountNoAccount:"Pas encore de compte ? En créer un", accountHasAccount:"Déjà un compte ? Se connecter", accountFillFields:"Remplis l'email et le mot de passe.",
+    errEmailInUse:"Un compte existe déjà avec cet email — essaie de te connecter.", errInvalidEmail:"Adresse email invalide.",
+    errWeakPassword:"Mot de passe trop court (6 caractères minimum).", errWrongCreds:"Email ou mot de passe incorrect.", errGeneric:"Une erreur est survenue. Réessaie.",
+    vibe_manger:"Manger", vibe_plage:"Plage", vibe_nature:"Nature", vibe_activites:"Activités", vibe_famille:"Famille", vibe_couple:"Couple", vibe_boire:"Verre", vibe_culture:"Culture",
+    "budget_gratuit":"Gratuit", "budget_petit-budget":"Petit budget", "budget_premium":"Premium",
+    "duree_rapide":"< 1h", "duree_demi-journee":"Demi-journée", "duree_journee":"Journée entière",
+    "moment_jour":"En journée", "moment_soir":"En soirée",
+    "acces_poussette":"Poussette-friendly", "acces_pmr":"Accès PMR", "acces_interieur":"À l'abri (si pluie)",
+  },
+  en: {
+    langPickerTitle:"Choose your language", langPickerSub:"You can change this anytime from the 🌐 icon.",
+    step0Title:"Where do you want to go?", step0Sub:"Choose a territory to get started.",
+    step1Title:"Which area?", zoneAll:"Whole island", chooseZone:"Choose an area",
+    step2Title:"What's the vibe?", step2Sub:"Select one or more vibes.",
+    moreOptions:"More options (budget, duration, accessibility...)",
+    budgetGroupLabel:"Budget", dureeGroupLabel:"Duration", momentGroupLabel:"Time of day", accesGroupLabel:"Accessibility",
+    back:"Back", seeOutings:"See outings", step3Title:"Your outings",
+    searchPlaceholder:"Search by name...", sortPertinence:"Relevance", sortAlpha:"A → Z", sortFavoris:"My favorites ❤️",
+    resultsTitle:"Results", resultSingular:"result", resultPlural:"results",
+    emptyFavoris:"No favorites yet — tap the heart on an outing to add it.",
+    emptyResults:"Nothing matches these filters — widen your search or remove a filter.",
+    itineraire:"Directions", newSearch:"New search",
+    favTitle:"My favorites", favEmpty:"No favorites yet. Tap the heart on an outing to add it here.",
+    progTitle:"Build a program", progSub:"Choose your criteria, the algorithm puts together a day-by-day program from the available places.",
+    progTerritoire:"Territory", progDuree:"Trip length", progEnvies:"Vibes (optional, otherwise all)", progBudgetLabel:"Budget (optional)",
+    progGenerate:"Generate my program", progResultTitle:"Your program", progDay:"Day ",
+    progFree:"Free — nothing available for this slot in the current database", progRegen:"Regenerate",
+    slotMatin:"Morning", slotApresmidi:"Afternoon", slotSoir:"Evening",
+    accountTitle:"Account", accountNotEnabled:"Account login and sync isn't enabled in this version of the app yet. Your favorites stay saved on this device.",
+    accountMyAccount:"My account", accountSyncedNote:"Your favorites are synced across all your devices.", accountLogout:"Log out",
+    accountLoginTitle:"Log in", accountSignupTitle:"Create an account", accountSub:"Sign in to find your favorites on all your devices.",
+    accountEmail:"Email", accountEmailPlaceholder:"you@example.com", accountPassword:"Password", accountPasswordPlaceholder:"6 characters minimum",
+    accountLoginBtn:"Log in", accountCreateBtn:"Create my account",
+    accountNoAccount:"No account yet? Create one", accountHasAccount:"Already have an account? Log in", accountFillFields:"Fill in your email and password.",
+    errEmailInUse:"An account already exists with this email — try logging in.", errInvalidEmail:"Invalid email address.",
+    errWeakPassword:"Password too short (6 characters minimum).", errWrongCreds:"Incorrect email or password.", errGeneric:"Something went wrong. Try again.",
+    vibe_manger:"Food", vibe_plage:"Beach", vibe_nature:"Nature", vibe_activites:"Activities", vibe_famille:"Family", vibe_couple:"Couple", vibe_boire:"Drinks", vibe_culture:"Culture",
+    "budget_gratuit":"Free", "budget_petit-budget":"Low budget", "budget_premium":"Premium",
+    "duree_rapide":"< 1h", "duree_demi-journee":"Half day", "duree_journee":"Full day",
+    "moment_jour":"Daytime", "moment_soir":"Evening",
+    "acces_poussette":"Stroller-friendly", "acces_pmr":"Wheelchair access", "acces_interieur":"Indoor (rain-proof)",
+  },
+  es: {
+    langPickerTitle:"Elige tu idioma", langPickerSub:"Puedes cambiarlo en cualquier momento desde el icono 🌐.",
+    step0Title:"¿A dónde quieres ir?", step0Sub:"Elige un territorio para empezar.",
+    step1Title:"¿En qué zona?", zoneAll:"Toda la isla", chooseZone:"Elige una zona",
+    step2Title:"¿Qué te apetece?", step2Sub:"Selecciona uno o varios ambientes.",
+    moreOptions:"Más opciones (presupuesto, duración, accesibilidad...)",
+    budgetGroupLabel:"Presupuesto", dureeGroupLabel:"Duración", momentGroupLabel:"Momento del día", accesGroupLabel:"Accesibilidad",
+    back:"Atrás", seeOutings:"Ver salidas", step3Title:"Tus salidas",
+    searchPlaceholder:"Buscar por nombre...", sortPertinence:"Relevancia", sortAlpha:"A → Z", sortFavoris:"Mis favoritos ❤️",
+    resultsTitle:"Resultados", resultSingular:"resultado", resultPlural:"resultados",
+    emptyFavoris:"Todavía no tienes favoritos — toca el corazón en una salida para añadirla.",
+    emptyResults:"Nada coincide con estos filtros — amplía tu búsqueda o quita un filtro.",
+    itineraire:"Cómo llegar", newSearch:"Nueva búsqueda",
+    favTitle:"Mis favoritos", favEmpty:"Todavía no tienes favoritos. Toca el corazón en una salida para añadirla aquí.",
+    progTitle:"Crear un programa", progSub:"Elige tus criterios, el algoritmo arma un programa día a día a partir de los lugares disponibles.",
+    progTerritoire:"Territorio", progDuree:"Duración de la estancia", progEnvies:"Ambientes (opcional, si no todos)", progBudgetLabel:"Presupuesto (opcional)",
+    progGenerate:"Generar mi programa", progResultTitle:"Tu programa", progDay:"Día ",
+    progFree:"Libre — nada disponible para este horario en la base actual", progRegen:"Regenerar",
+    slotMatin:"Mañana", slotApresmidi:"Tarde", slotSoir:"Noche",
+    accountTitle:"Cuenta", accountNotEnabled:"El inicio de sesión y la sincronización todavía no están activados en esta versión de la app. Tus favoritos se guardan en este dispositivo.",
+    accountMyAccount:"Mi cuenta", accountSyncedNote:"Tus favoritos se sincronizan en todos tus dispositivos.", accountLogout:"Cerrar sesión",
+    accountLoginTitle:"Iniciar sesión", accountSignupTitle:"Crear una cuenta", accountSub:"Inicia sesión para encontrar tus favoritos en todos tus dispositivos.",
+    accountEmail:"Correo electrónico", accountEmailPlaceholder:"tu@ejemplo.com", accountPassword:"Contraseña", accountPasswordPlaceholder:"mínimo 6 caracteres",
+    accountLoginBtn:"Iniciar sesión", accountCreateBtn:"Crear mi cuenta",
+    accountNoAccount:"¿Aún no tienes cuenta? Crea una", accountHasAccount:"¿Ya tienes cuenta? Inicia sesión", accountFillFields:"Completa el correo y la contraseña.",
+    errEmailInUse:"Ya existe una cuenta con este correo — intenta iniciar sesión.", errInvalidEmail:"Correo electrónico inválido.",
+    errWeakPassword:"Contraseña demasiado corta (mínimo 6 caracteres).", errWrongCreds:"Correo o contraseña incorrectos.", errGeneric:"Ocurrió un error. Inténtalo de nuevo.",
+    vibe_manger:"Comer", vibe_plage:"Playa", vibe_nature:"Naturaleza", vibe_activites:"Actividades", vibe_famille:"Familia", vibe_couple:"Pareja", vibe_boire:"Copas", vibe_culture:"Cultura",
+    "budget_gratuit":"Gratis", "budget_petit-budget":"Presupuesto bajo", "budget_premium":"Premium",
+    "duree_rapide":"< 1h", "duree_demi-journee":"Media jornada", "duree_journee":"Día completo",
+    "moment_jour":"De día", "moment_soir":"De noche",
+    "acces_poussette":"Apto para cochecitos", "acces_pmr":"Acceso PMR", "acces_interieur":"Bajo techo (por si llueve)",
+  },
+  cr: {
+    langPickerTitle:"Chwazi lang ou", langPickerSub:"Ou ka chanjé-y an nenpòt moman ak zikon 🌐.",
+    step0Title:"Kot ou ni anvi ale ?", step0Sub:"Chwazi an tewitwa pou koumansé.",
+    step1Title:"Ki koté ?", zoneAll:"Tout lil-la", chooseZone:"Chwazi an zòn",
+    step2Title:"Ki anvi ou ni ?", step2Sub:"Chwazi an oben plizyè anbyans.",
+    moreOptions:"Plis chwa (bidjé, dirasyon, aksè...)",
+    budgetGroupLabel:"Bidjé", dureeGroupLabel:"Dirasyon", momentGroupLabel:"Moman", accesGroupLabel:"Aksè",
+    back:"Rétou", seeOutings:"Wè sòti-a", step3Title:"Sòti pa'w",
+    searchPlaceholder:"Chèché pa non...", sortPertinence:"Pli enpòtan", sortAlpha:"A → Z", sortFavoris:"Favori mwen ❤️",
+    resultsTitle:"Rézilta", resultSingular:"rézilta", resultPlural:"rézilta",
+    emptyFavoris:"Pa ni favori ankò — touché kè-a asou an sòti pou ajouté-y.",
+    emptyResults:"Pa ni anyen ki matché ba kritè-a — laji rechèch ou oben wété an fiwt.",
+    itineraire:"Chimen", newSearch:"Nouvo rechèch",
+    favTitle:"Favori mwen", favEmpty:"Pa ni favori ankò. Touché kè-a asou an sòti pou ajouté-y isit.",
+    progTitle:"Konpozé an pwogram", progSub:"Chwazi kritè'w, algoritm-la ka monté an pwogram jou pa jou ak lyé ki disponib.",
+    progTerritoire:"Tewitwa", progDuree:"Dirasyon sejou-a", progEnvies:"Anvi (pa obligatwa, si ou pa chwazi ké tout)", progBudgetLabel:"Bidjé (pa obligatwa)",
+    progGenerate:"Jenéré pwogram mwen", progResultTitle:"Pwogram ou", progDay:"Jou ",
+    progFree:"Lib — pa ni anyen disponib pou kréno sala", progRegen:"Jenéré ankò",
+    slotMatin:"Maten", slotApresmidi:"Apremidi", slotSoir:"Swè",
+    accountTitle:"Kont", accountNotEnabled:"Konèksyon épi kont ak sinkwonizasyon pa ka maché ankò asou vèsyon aplikasyon-tala. Favori'w ka rété séré asou aparèy-tala.",
+    accountMyAccount:"Kont mwen", accountSyncedNote:"Favori'w sinkwonizé asou tout aparèy ou.", accountLogout:"Dékonèkté",
+    accountLoginTitle:"Konèkté", accountSignupTitle:"Kréyé an kont", accountSub:"Konèkté pou jwenn favori'w asou tout aparèy ou.",
+    accountEmail:"Imèl", accountEmailPlaceholder:"ou@egzanp.com", accountPassword:"Mo pas", accountPasswordPlaceholder:"minimòm 6 karaktè",
+    accountLoginBtn:"Konèkté", accountCreateBtn:"Kréyé kont mwen",
+    accountNoAccount:"Ou pa ni kont ankò ? Kréyé younn", accountHasAccount:"Ou ja ni an kont ? Konèkté", accountFillFields:"Ranpli imèl-la épi mo pas-la.",
+    errEmailInUse:"An kont ja égzisté épi imèl-tala — èsèyé konèkté.", errInvalidEmail:"Imèl-la pa bon.",
+    errWeakPassword:"Mo pas twò kout (minimòm 6 karaktè).", errWrongCreds:"Imèl oben mo pas pa bon.", errGeneric:"Ni an érè. Èsèyé ankò.",
+    vibe_manger:"Manjé", vibe_plage:"Laplaj", vibe_nature:"Lanati", vibe_activites:"Aktivite", vibe_famille:"Fanmi", vibe_couple:"Koup", vibe_boire:"Bwè", vibe_culture:"Kilti",
+    "budget_gratuit":"Gratis", "budget_petit-budget":"Ti bidjé", "budget_premium":"Premium",
+    "duree_rapide":"< 1è", "duree_demi-journee":"Dèmi-jounen", "duree_journee":"Tout jounen an",
+    "moment_jour":"Lajounen", "moment_soir":"Lasswè",
+    "acces_poussette":"Bon pou pousèt", "acces_pmr":"Aksè PMR", "acces_interieur":"Anba tonèl (si lapli)",
+  },
+};
+
+let lang = localStorage.getItem('antan_nou_lang') || null;
+function t(key) {
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS.fr;
+  return dict[key] !== undefined ? dict[key] : (TRANSLATIONS.fr[key] !== undefined ? TRANSLATIONS.fr[key] : key);
+}
+function setLang(l) {
+  lang = l;
+  try { localStorage.setItem('antan_nou_lang', l); } catch(e){}
+}
+function openLangModal(forced) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'langOverlay';
+  document.body.appendChild(overlay);
+  if (!forced) overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>${t('langPickerTitle')}</h3>${forced ? '' : '<button class="modal-close" id="closeLang">✕</button>'}</div>
+    ${forced ? '' : `<p class="step-sub" style="margin-bottom:14px;">${t('langPickerSub')}</p>`}
+    <div class="pill-wrap">${LANGS.map(l => `<div class="pill ${lang===l.key?'sel':''}" data-lang="${l.key}" style="font-size:15px; padding:12px 18px;">${l.flag} ${l.label}</div>`).join('')}</div>
+  </div>`;
+  if (!forced) document.getElementById('closeLang').onclick = () => overlay.remove();
+  overlay.querySelectorAll('[data-lang]').forEach(el => {
+    el.onclick = () => { setLang(el.dataset.lang); overlay.remove(); render(); };
+  });
+}
 
 const PLACES = [
   { t:"martinique", z:"Sud", nom:"Grande Anse des Salines", v:["plage","famille"], desc:"La plage la plus réputée du sud, sable fin et cocotiers.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.3986, lng:-60.8672 },
@@ -333,11 +506,11 @@ if (FIREBASE_ENABLED && auth) {
 
 function traduireErreurFirebase(e) {
   const c = e && e.code;
-  if (c === 'auth/email-already-in-use') return "Un compte existe déjà avec cet email — essaie de te connecter.";
-  if (c === 'auth/invalid-email') return "Adresse email invalide.";
-  if (c === 'auth/weak-password') return "Mot de passe trop court (6 caractères minimum).";
-  if (c === 'auth/wrong-password' || c === 'auth/user-not-found' || c === 'auth/invalid-credential') return "Email ou mot de passe incorrect.";
-  return "Une erreur est survenue. Réessaie.";
+  if (c === 'auth/email-already-in-use') return t('errEmailInUse');
+  if (c === 'auth/invalid-email') return t('errInvalidEmail');
+  if (c === 'auth/weak-password') return t('errWeakPassword');
+  if (c === 'auth/wrong-password' || c === 'auth/user-not-found' || c === 'auth/invalid-credential') return t('errWrongCreds');
+  return t('errGeneric');
 }
 
 function openAccountModal() {
@@ -347,8 +520,8 @@ function openAccountModal() {
 
   if (!FIREBASE_ENABLED) {
     overlay.innerHTML = `<div class="modal">
-      <div class="modal-head"><h3>Compte</h3><button class="modal-close" id="closeAccount">✕</button></div>
-      <p class="step-sub">La connexion avec compte et synchronisation n'est pas encore activée sur cette version de l'appli. Tes favoris restent sauvegardés sur cet appareil.</p>
+      <div class="modal-head"><h3>${t('accountTitle')}</h3><button class="modal-close" id="closeAccount">✕</button></div>
+      <p class="step-sub">${t('accountNotEnabled')}</p>
     </div>`;
     document.body.appendChild(overlay);
     overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
@@ -358,9 +531,9 @@ function openAccountModal() {
 
   if (currentUser) {
     overlay.innerHTML = `<div class="modal">
-      <div class="modal-head"><h3>Mon compte</h3><button class="modal-close" id="closeAccount">✕</button></div>
-      <p class="step-sub" style="margin-bottom:16px;">Connecté(e) en tant que <strong>${currentUser.email}</strong>. Tes favoris sont synchronisés sur tous tes appareils.</p>
-      <button class="btn btn-ghost" id="logoutBtn" style="width:100%;">Se déconnecter</button>
+      <div class="modal-head"><h3>${t('accountMyAccount')}</h3><button class="modal-close" id="closeAccount">✕</button></div>
+      <p class="step-sub" style="margin-bottom:16px;">${currentUser.email} — ${t('accountSyncedNote')}</p>
+      <button class="btn btn-ghost" id="logoutBtn" style="width:100%;">${t('accountLogout')}</button>
     </div>`;
     document.body.appendChild(overlay);
     overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
@@ -372,21 +545,21 @@ function openAccountModal() {
   let mode = 'login';
   function renderForm() {
     overlay.innerHTML = `<div class="modal">
-      <div class="modal-head"><h3>${mode === 'login' ? 'Se connecter' : 'Créer un compte'}</h3><button class="modal-close" id="closeAccount">✕</button></div>
-      <p class="step-sub" style="margin-bottom:14px;">Connecte-toi pour retrouver tes favoris sur tous tes appareils.</p>
+      <div class="modal-head"><h3>${mode === 'login' ? t('accountLoginTitle') : t('accountSignupTitle')}</h3><button class="modal-close" id="closeAccount">✕</button></div>
+      <p class="step-sub" style="margin-bottom:14px;">${t('accountSub')}</p>
       <div class="prog-form">
         <div class="adv-group">
-          <p class="adv-label">Email</p>
-          <input type="email" id="accEmail" placeholder="toi@exemple.com" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
+          <p class="adv-label">${t('accountEmail')}</p>
+          <input type="email" id="accEmail" placeholder="${t('accountEmailPlaceholder')}" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
         </div>
         <div class="adv-group">
-          <p class="adv-label">Mot de passe</p>
-          <input type="password" id="accPass" placeholder="6 caractères minimum" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
+          <p class="adv-label">${t('accountPassword')}</p>
+          <input type="password" id="accPass" placeholder="${t('accountPasswordPlaceholder')}" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
         </div>
         <p id="accError" style="color:var(--coral); font-size:12.5px; display:none; margin:0 0 12px;"></p>
       </div>
-      <button class="btn btn-primary" id="accSubmit" style="width:100%; margin-bottom:10px;">${mode === 'login' ? 'Se connecter' : "Créer mon compte"}</button>
-      <button class="btn btn-ghost" id="accSwitch" style="width:100%;">${mode === 'login' ? "Pas encore de compte ? En créer un" : "Déjà un compte ? Se connecter"}</button>
+      <button class="btn btn-primary" id="accSubmit" style="width:100%; margin-bottom:10px;">${mode === 'login' ? t('accountLoginBtn') : t('accountCreateBtn')}</button>
+      <button class="btn btn-ghost" id="accSwitch" style="width:100%;">${mode === 'login' ? t('accountNoAccount') : t('accountHasAccount')}</button>
     </div>`;
     document.getElementById('closeAccount').onclick = () => overlay.remove();
     document.getElementById('accSwitch').onclick = () => { mode = mode === 'login' ? 'signup' : 'login'; renderForm(); };
@@ -395,7 +568,7 @@ function openAccountModal() {
       const pass = document.getElementById('accPass').value;
       const errEl = document.getElementById('accError');
       errEl.style.display = 'none';
-      if (!email || !pass) { errEl.textContent = "Remplis l'email et le mot de passe."; errEl.style.display = 'block'; return; }
+      if (!email || !pass) { errEl.textContent = t('accountFillFields'); errEl.style.display = 'block'; return; }
       try {
         if (mode === 'login') await auth.signInWithEmailAndPassword(email, pass);
         else await auth.createUserWithEmailAndPassword(email, pass);
@@ -411,6 +584,7 @@ function openAccountModal() {
   renderForm();
 }
 document.getElementById('openAccount').onclick = openAccountModal;
+document.getElementById('openLang').onclick = () => openLangModal(false);
 
 // ---- Fenêtre Favoris ----
 function openFavsModal() {
@@ -419,16 +593,16 @@ function openFavsModal() {
   overlay.id = 'favsOverlay';
   const items = PLACES.filter(p => favoris.includes(p.nom));
   overlay.innerHTML = `<div class="modal">
-    <div class="modal-head"><h3>Mes favoris</h3><button class="modal-close" id="closeFavs">✕</button></div>
+    <div class="modal-head"><h3>${t('favTitle')}</h3><button class="modal-close" id="closeFavs">✕</button></div>
     <div id="favsList">${items.length === 0
-      ? `<div class="empty"><span class="e">🤍</span>Aucun favori pour l'instant. Touche le cœur sur une sortie pour l'ajouter ici.</div>`
+      ? `<div class="empty"><span class="e">🤍</span>${t('favEmpty')}</div>`
       : items.map(p => `
         <div class="place">
           <span class="tab">${TERRITOIRES.find(t=>t.key===p.t).label} · ${p.z}</span>
           <button class="fav-btn active" data-nom="${p.nom.replace(/"/g,'&quot;')}">❤️</button>
           <p class="nom">${p.nom}</p>
           <p class="desc">${p.desc}</p>
-          <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener">🧭 Itinéraire</a>
+          <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener">🧭 ${t('itineraire')}</a>
         </div>`).join('')}</div>
   </div>`;
   document.body.appendChild(overlay);
@@ -455,23 +629,23 @@ document.getElementById('openProgram').onclick = openProgramModal;
 
 function renderProgramForm(overlay) {
   overlay.innerHTML = `<div class="modal">
-    <div class="modal-head"><h3>Composer un programme</h3><button class="modal-close" id="closeProg">✕</button></div>
-    <p class="step-sub" style="margin-bottom:16px;">Choisis tes critères, l'algorithme assemble un programme jour par jour à partir des lieux disponibles.</p>
+    <div class="modal-head"><h3>${t('progTitle')}</h3><button class="modal-close" id="closeProg">✕</button></div>
+    <p class="step-sub" style="margin-bottom:16px;">${t('progSub')}</p>
     <div class="prog-form">
-      <div class="adv-group"><p class="adv-label">Territoire</p><div class="adv-row">
+      <div class="adv-group"><p class="adv-label">${t('progTerritoire')}</p><div class="adv-row">
         ${TERRITOIRES.map(t => `<div class="chip-opt ${progT===t.key?'sel':''}" data-pt="${t.key}">${t.stamp} ${t.label}</div>`).join('')}
       </div></div>
-      <div class="adv-group"><p class="adv-label">Durée du séjour</p><div class="num-row">
+      <div class="adv-group"><p class="adv-label">${t('progDuree')}</p><div class="num-row">
         ${[1,2,3,5].map(n => `<div class="num-opt ${progDays===n?'sel':''}" data-pd="${n}">${n}j</div>`).join('')}
       </div></div>
-      <div class="adv-group"><p class="adv-label">Envies (optionnel, sinon toutes)</p><div class="adv-row">
-        ${VIBES.map(v => `<div class="chip-opt ${progV.includes(v.key)?'sel':''}" data-pv="${v.key}">${v.e} ${v.label}</div>`).join('')}
+      <div class="adv-group"><p class="adv-label">${t('progEnvies')}</p><div class="adv-row">
+        ${VIBES.map(v => `<div class="chip-opt ${progV.includes(v.key)?'sel':''}" data-pv="${v.key}">${v.e} ${t('vibe_'+v.key)}</div>`).join('')}
       </div></div>
-      <div class="adv-group"><p class="adv-label">Budget (optionnel)</p><div class="adv-row">
-        ${BUDGETS.map(([k,l]) => `<div class="chip-opt ${progBudget.includes(k)?'sel':''}" data-pb="${k}">${l}</div>`).join('')}
+      <div class="adv-group"><p class="adv-label">${t('progBudgetLabel')}</p><div class="adv-row">
+        ${BUDGETS.map(([k]) => `<div class="chip-opt ${progBudget.includes(k)?'sel':''}" data-pb="${k}">${t('budget_'+k)}</div>`).join('')}
       </div></div>
     </div>
-    <button class="btn btn-primary" id="genProg" style="width:100%;" ${progT?'':'disabled'}>Générer mon programme</button>
+    <button class="btn btn-primary" id="genProg" style="width:100%;" ${progT?'':'disabled'}>${t('progGenerate')}</button>
   </div>`;
   document.getElementById('closeProg').onclick = () => overlay.remove();
   overlay.querySelectorAll('[data-pt]').forEach(el => { el.onclick = () => { progT = el.dataset.pt; renderProgramForm(overlay); }; });
@@ -532,18 +706,18 @@ function generateProgram() {
 
 function renderProgramResult(overlay) {
   const days = generateProgram();
-  const labels = { matin:'Matin', apresmidi:'Après-midi', soir:'Soir' };
+  const labels = { matin:t('slotMatin'), apresmidi:t('slotApresmidi'), soir:t('slotSoir') };
   overlay.innerHTML = `<div class="modal">
-    <div class="modal-head"><h3>Ton programme</h3><button class="modal-close" id="closeProg2">✕</button></div>
-    <p class="step-sub" style="margin-bottom:16px;">${TERRITOIRES.find(t=>t.key===progT).label} · ${progDays} jour${progDays>1?'s':''} — composé automatiquement à partir de la base actuelle.</p>
+    <div class="modal-head"><h3>${t('progResultTitle')}</h3><button class="modal-close" id="closeProg2">✕</button></div>
+    <p class="step-sub" style="margin-bottom:16px;">${TERRITOIRES.find(t=>t.key===progT).label} · ${progDays}j</p>
     ${days.map((day, i) => `
       <div class="day-card">
-        <h4>Jour ${i+1}</h4>
+        <h4>${t('progDay')}${i+1}</h4>
         ${['matin','apresmidi','soir'].map(slot => day[slot] ? `
-          <div class="slot"><div class="when">${labels[slot]}</div><div class="what"><p class="nom">${day[slot].nom}${day[slot].linked ? ' (suite)' : ''}</p><p class="z">${day[slot].z} · <a href="${mapsLink(day[slot])}" target="_blank" rel="noopener" style="color:var(--indigo); font-weight:700;">🧭 Itinéraire</a></p></div></div>
-        ` : `<div class="slot"><div class="when">${labels[slot]}</div><div class="what"><p class="z">Libre — rien de disponible pour ce créneau dans la base actuelle</p></div></div>`).join('')}
+          <div class="slot"><div class="when">${labels[slot]}</div><div class="what"><p class="nom">${day[slot].nom}${day[slot].linked ? ' (+)' : ''}</p><p class="z">${day[slot].z} · <a href="${mapsLink(day[slot])}" target="_blank" rel="noopener" style="color:var(--indigo); font-weight:700;">🧭 ${t('itineraire')}</a></p></div></div>
+        ` : `<div class="slot"><div class="when">${labels[slot]}</div><div class="what"><p class="z">${t('progFree')}</p></div></div>`).join('')}
       </div>`).join('')}
-    <button class="btn btn-ghost" id="regenProg" style="width:100%; margin-top:4px;">Régénérer</button>
+    <button class="btn btn-ghost" id="regenProg" style="width:100%; margin-top:4px;">${t('progRegen')}</button>
   </div>`;
   document.getElementById('closeProg2').onclick = () => overlay.remove();
   document.getElementById('regenProg').onclick = () => renderProgramResult(overlay);
@@ -562,8 +736,8 @@ function render() {
   const sub = document.getElementById('stepSub');
 
   if (step === 0) {
-    title.textContent = "Où as-tu envie d'aller ?";
-    sub.textContent = "Choisis un territoire pour commencer.";
+    title.textContent = t('step0Title');
+    sub.textContent = t('step0Sub');
     main.innerHTML = `<div class="postcard-grid">${TERRITOIRES.map(t => `
       <div class="postcard ${selT===t.key?'sel':''}" data-t="${t.key}" style="background:${t.grad};">
         <span class="stamp">${t.stamp}</span><span class="name">${t.label}</span>
@@ -576,33 +750,33 @@ function render() {
   }
 
   if (step === 1) {
-    title.textContent = "Dans quel coin ?";
+    title.textContent = t('step1Title');
     sub.textContent = TERRITOIRES.find(x=>x.key===selT).label;
     main.innerHTML = `<div class="pill-wrap">
-      <div class="pill ${selZ===null?'sel':''}" data-z="">Toute l'île</div>
+      <div class="pill ${selZ===null?'sel':''}" data-z="">${t('zoneAll')}</div>
       ${ZONES[selT].map(z => `<div class="pill ${selZ===z?'sel':''}" data-z="${z}">${z}</div>`).join('')}
     </div>`;
     main.querySelectorAll('.pill').forEach(el => {
       el.onclick = () => { selZ = el.dataset.z || null; setStep(2); };
     });
-    nav.innerHTML = `<button class="btn btn-ghost" id="back">Retour</button><button class="btn btn-primary" disabled>Choisis une zone</button>`;
+    nav.innerHTML = `<button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" disabled>${t('chooseZone')}</button>`;
     document.getElementById('back').onclick = () => setStep(0);
     return;
   }
 
   if (step === 2) {
-    title.textContent = "Quelle envie ?";
-    sub.textContent = "Sélectionne une ou plusieurs ambiances.";
+    title.textContent = t('step2Title');
+    sub.textContent = t('step2Sub');
     main.innerHTML = `
       <div class="vibe-grid">${VIBES.map(v => `
-        <div class="vibe ${selV.includes(v.key)?'sel':''}" data-v="${v.key}"><span class="e">${v.e}</span><span>${v.label}</span></div>`).join('')}
+        <div class="vibe ${selV.includes(v.key)?'sel':''}" data-v="${v.key}"><span class="e">${v.e}</span><span>${t('vibe_'+v.key)}</span></div>`).join('')}
       </div>
-      <div class="advanced-toggle" id="advToggle">${advOpen?'▲':'▼'} Plus d'options (budget, durée, accessibilité...)</div>
+      <div class="advanced-toggle" id="advToggle">${advOpen?'▲':'▼'} ${t('moreOptions')}</div>
       <div class="advanced-panel ${advOpen?'open':''}" id="advPanel">
-        <div class="adv-group"><p class="adv-label">Budget</p><div class="adv-row">${BUDGETS.map(([k,l]) => `<div class="chip-opt ${selBudget.includes(k)?'sel':''}" data-group="budget" data-k="${k}">${l}</div>`).join('')}</div></div>
-        <div class="adv-group"><p class="adv-label">Durée</p><div class="adv-row">${DUREES.map(([k,l]) => `<div class="chip-opt ${selDuree.includes(k)?'sel':''}" data-group="duree" data-k="${k}">${l}</div>`).join('')}</div></div>
-        <div class="adv-group"><p class="adv-label">Moment</p><div class="adv-row">${MOMENTS.map(([k,l]) => `<div class="chip-opt ${selMoment.includes(k)?'sel':''}" data-group="moment" data-k="${k}">${l}</div>`).join('')}</div></div>
-        <div class="adv-group"><p class="adv-label">Accessibilité</p><div class="adv-row">${ACCES.map(([k,l]) => `<div class="chip-opt ${selAcces.includes(k)?'sel':''}" data-group="acces" data-k="${k}">${l}</div>`).join('')}</div></div>
+        <div class="adv-group"><p class="adv-label">${t('budgetGroupLabel')}</p><div class="adv-row">${BUDGETS.map(([k]) => `<div class="chip-opt ${selBudget.includes(k)?'sel':''}" data-group="budget" data-k="${k}">${t('budget_'+k)}</div>`).join('')}</div></div>
+        <div class="adv-group"><p class="adv-label">${t('dureeGroupLabel')}</p><div class="adv-row">${DUREES.map(([k]) => `<div class="chip-opt ${selDuree.includes(k)?'sel':''}" data-group="duree" data-k="${k}">${t('duree_'+k)}</div>`).join('')}</div></div>
+        <div class="adv-group"><p class="adv-label">${t('momentGroupLabel')}</p><div class="adv-row">${MOMENTS.map(([k]) => `<div class="chip-opt ${selMoment.includes(k)?'sel':''}" data-group="moment" data-k="${k}">${t('moment_'+k)}</div>`).join('')}</div></div>
+        <div class="adv-group"><p class="adv-label">${t('accesGroupLabel')}</p><div class="adv-row">${ACCES.map(([k]) => `<div class="chip-opt ${selAcces.includes(k)?'sel':''}" data-group="acces" data-k="${k}">${t('acces_'+k)}</div>`).join('')}</div></div>
       </div>`;
     main.querySelectorAll('.vibe').forEach(el => {
       el.onclick = () => {
@@ -625,27 +799,27 @@ function render() {
         render();
       };
     });
-    nav.innerHTML = `<button class="btn btn-ghost" id="back">Retour</button><button class="btn btn-primary" id="go">Voir les sorties</button>`;
+    nav.innerHTML = `<button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" id="go">${t('seeOutings')}</button>`;
     document.getElementById('back').onclick = () => setStep(1);
     document.getElementById('go').onclick = () => setStep(3);
     return;
   }
 
   if (step === 3) {
-    title.textContent = "Tes sorties";
+    title.textContent = t('step3Title');
     sub.textContent = TERRITOIRES.find(x=>x.key===selT).label + (selZ ? ' · ' + selZ : '');
     main.innerHTML = `
-      <div class="search-bar">🔎 <input type="text" id="searchInput" placeholder="Chercher par nom..." value="${searchQ}"></div>
+      <div class="search-bar">🔎 <input type="text" id="searchInput" placeholder="${t('searchPlaceholder')}" value="${searchQ}"></div>
       <div class="sort-row">
-        <div class="sort-chip ${sortBy==='pertinence'?'sel':''}" data-s="pertinence">Pertinence</div>
-        <div class="sort-chip ${sortBy==='alpha'?'sel':''}" data-s="alpha">A → Z</div>
-        <div class="sort-chip ${sortBy==='favoris'?'sel':''}" data-s="favoris">Mes favoris ❤️</div>
+        <div class="sort-chip ${sortBy==='pertinence'?'sel':''}" data-s="pertinence">${t('sortPertinence')}</div>
+        <div class="sort-chip ${sortBy==='alpha'?'sel':''}" data-s="alpha">${t('sortAlpha')}</div>
+        <div class="sort-chip ${sortBy==='favoris'?'sel':''}" data-s="favoris">${t('sortFavoris')}</div>
       </div>
-      <div class="results-head"><h2>Résultats</h2><span id="resCount"></span></div>
+      <div class="results-head"><h2>${t('resultsTitle')}</h2><span id="resCount"></span></div>
       <div id="resultsList"></div>`;
     document.getElementById('searchInput').oninput = (e) => { searchQ = e.target.value; renderResults(); };
     main.querySelectorAll('.sort-chip').forEach(el => { el.onclick = () => { sortBy = el.dataset.s; render(); }; });
-    nav.innerHTML = `<button class="btn btn-ghost" id="back">Retour</button><button class="btn btn-primary" id="restart">Nouvelle recherche</button>`;
+    nav.innerHTML = `<button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" id="restart">${t('newSearch')}</button>`;
     document.getElementById('back').onclick = () => setStep(2);
     document.getElementById('restart').onclick = () => { selT=null; selZ=null; selV=[]; selBudget=[]; selDuree=[]; selMoment=[]; selAcces=[]; searchQ=''; sortBy='pertinence'; setStep(0); };
     renderResults();
@@ -668,11 +842,11 @@ function renderResults() {
   if (sortBy === 'alpha') results = results.slice().sort((a,b) => a.nom.localeCompare(b.nom));
   if (sortBy === 'favoris') results = results.filter(p => isFav(p.nom));
 
-  document.getElementById('resCount').textContent = results.length + ' résultat' + (results.length>1?'s':'');
-  const budgetLabel = k => BUDGETS.find(b=>b[0]===k)[1];
-  const dureeLabel = k => DUREES.find(d=>d[0]===k)[1];
+  document.getElementById('resCount').textContent = results.length + ' ' + (results.length>1?t('resultPlural'):t('resultSingular'));
+  const budgetLabel = k => t('budget_'+k);
+  const dureeLabel = k => t('duree_'+k);
   document.getElementById('resultsList').innerHTML = results.length === 0
-    ? `<div class="empty"><span class="e">🌴</span>${sortBy==='favoris' ? "Aucun favori pour l'instant — touche le cœur sur une sortie pour l'ajouter." : "Rien ne correspond à ces critères — élargis ta recherche ou retire un filtre."}</div>`
+    ? `<div class="empty"><span class="e">🌴</span>${sortBy==='favoris' ? t('emptyFavoris') : t('emptyResults')}</div>`
     : results.map(p => `
       <div class="place">
         <span class="tab">${p.z}</span>
@@ -680,12 +854,12 @@ function renderResults() {
         <p class="nom">${p.nom}</p>
         <p class="desc">${p.desc}</p>
         <div class="vibes">
-          ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${VIBES.find(x=>x.key===v).label}</span>`).join('')}
+          ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
           <span class="chip-meta">${budgetLabel(p.budget)}</span>
           <span class="chip-meta">${dureeLabel(p.duree)}</span>
           ${p.tarif ? `<span class="chip-meta">💶 ${p.tarif}</span>` : ''}
         </div>
-        <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener">🧭 Itinéraire</a>
+        <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener">🧭 ${t('itineraire')}</a>
       </div>`).join('');
   document.querySelectorAll('.fav-btn').forEach(el => { el.onclick = () => toggleFav(el.dataset.nom); });
 }
@@ -693,6 +867,7 @@ function renderResults() {
 render();
 updateFavBadge();
 updateAccountIcon();
+if (!lang) openLangModal(true);
 
 // Enregistrement du service worker : rend l'appli installable et utilisable
 // hors-ligne UNE FOIS hébergée en ligne (https ou localhost). Ne fonctionne
