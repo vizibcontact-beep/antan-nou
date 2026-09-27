@@ -200,7 +200,7 @@ const TRANSLATIONS = {
     moreOptions:"Plus d'options (budget, durée, accessibilité...)",
     budgetGroupLabel:"Budget", dureeGroupLabel:"Durée", momentGroupLabel:"Moment", accesGroupLabel:"Accessibilité",
     back:"Retour", seeOutings:"Voir les sorties", step3Title:"Tes sorties",
-    searchPlaceholder:"Chercher par nom...", sortPertinence:"Pertinence", sortAlpha:"A → Z", sortFavoris:"Mes favoris ❤️",
+    searchPlaceholder:"Chercher un lieu, une ambiance...", sortPertinence:"Pertinence", sortAlpha:"A → Z", sortFavoris:"Mes favoris ❤️",
     resultsTitle:"Résultats", resultSingular:"résultat", resultPlural:"résultats",
     emptyFavoris:"Aucun favori pour l'instant — touche le cœur sur une sortie pour l'ajouter.",
     emptyResults:"Rien ne correspond à ces critères — élargis ta recherche ou retire un filtre.",
@@ -227,6 +227,12 @@ const TRANSLATIONS = {
     "acces_poussette":"Poussette-friendly", "acces_pmr":"Accès PMR", "acces_interieur":"À l'abri (si pluie)",
     detailSite:"Plus d'infos", detailTarif:"Tarif", detailTarifUnknown:"Tarif non communiqué — vérifie sur place ou en ligne.",
     detailConseil:"Conseil",
+    avisTitle:"Avis", avisLoading:"Chargement des avis...", avisNone:"Aucun avis pour l'instant",
+    avisSingular:"avis", avisPlural:"avis",
+    avisLoginRequired:"Connecte-toi (icône 👤) pour laisser un avis sur ce lieu.",
+    avisPlaceholder:"Ton commentaire (optionnel)...", avisSubmit:"Publier mon avis",
+    avisSuccess:"Merci, ton avis a été publié !", avisError:"Impossible d'enregistrer ton avis pour le moment.",
+    avisNoteRequired:"Choisis une note avant de publier.", avisFirebaseOff:"Les avis ne sont pas disponibles sur cette version de l'appli.",
   },
   en: {
     langPickerTitle:"Choose your language", langPickerSub:"You can change this anytime from the 🌐 icon.",
@@ -236,7 +242,7 @@ const TRANSLATIONS = {
     moreOptions:"More options (budget, duration, accessibility...)",
     budgetGroupLabel:"Budget", dureeGroupLabel:"Duration", momentGroupLabel:"Time of day", accesGroupLabel:"Accessibility",
     back:"Back", seeOutings:"See outings", step3Title:"Your outings",
-    searchPlaceholder:"Search by name...", sortPertinence:"Relevance", sortAlpha:"A → Z", sortFavoris:"My favorites ❤️",
+    searchPlaceholder:"Search a place, a vibe...", sortPertinence:"Relevance", sortAlpha:"A → Z", sortFavoris:"My favorites ❤️",
     resultsTitle:"Results", resultSingular:"result", resultPlural:"results",
     emptyFavoris:"No favorites yet — tap the heart on an outing to add it.",
     emptyResults:"Nothing matches these filters — widen your search or remove a filter.",
@@ -263,6 +269,12 @@ const TRANSLATIONS = {
     "acces_poussette":"Stroller-friendly", "acces_pmr":"Wheelchair access", "acces_interieur":"Indoor (rain-proof)",
     detailSite:"More info", detailTarif:"Price", detailTarifUnknown:"Price not listed — check on site or online.",
     detailConseil:"Tip",
+    avisTitle:"Reviews", avisLoading:"Loading reviews...", avisNone:"No reviews yet",
+    avisSingular:"review", avisPlural:"reviews",
+    avisLoginRequired:"Log in (👤 icon) to leave a review for this place.",
+    avisPlaceholder:"Your comment (optional)...", avisSubmit:"Post my review",
+    avisSuccess:"Thanks, your review was posted!", avisError:"Couldn't save your review right now.",
+    avisNoteRequired:"Pick a rating before posting.", avisFirebaseOff:"Reviews aren't available in this version of the app.",
   },
   es: {
     langPickerTitle:"Elige tu idioma", langPickerSub:"Puedes cambiarlo en cualquier momento desde el icono 🌐.",
@@ -272,7 +284,7 @@ const TRANSLATIONS = {
     moreOptions:"Más opciones (presupuesto, duración, accesibilidad...)",
     budgetGroupLabel:"Presupuesto", dureeGroupLabel:"Duración", momentGroupLabel:"Momento del día", accesGroupLabel:"Accesibilidad",
     back:"Atrás", seeOutings:"Ver salidas", step3Title:"Tus salidas",
-    searchPlaceholder:"Buscar por nombre...", sortPertinence:"Relevancia", sortAlpha:"A → Z", sortFavoris:"Mis favoritos ❤️",
+    searchPlaceholder:"Busca un lugar, un ambiente...", sortPertinence:"Relevancia", sortAlpha:"A → Z", sortFavoris:"Mis favoritos ❤️",
     resultsTitle:"Resultados", resultSingular:"resultado", resultPlural:"resultados",
     emptyFavoris:"Todavía no tienes favoritos — toca el corazón en una salida para añadirla.",
     emptyResults:"Nada coincide con estos filtros — amplía tu búsqueda o quita un filtro.",
@@ -299,6 +311,12 @@ const TRANSLATIONS = {
     "acces_poussette":"Apto para cochecitos", "acces_pmr":"Acceso PMR", "acces_interieur":"Bajo techo (por si llueve)",
     detailSite:"Más información", detailTarif:"Precio", detailTarifUnknown:"Precio no indicado — verifica en el lugar o en línea.",
     detailConseil:"Consejo",
+    avisTitle:"Opiniones", avisLoading:"Cargando opiniones...", avisNone:"Todavía no hay opiniones",
+    avisSingular:"opinión", avisPlural:"opiniones",
+    avisLoginRequired:"Inicia sesión (icono 👤) para dejar una opinión sobre este lugar.",
+    avisPlaceholder:"Tu comentario (opcional)...", avisSubmit:"Publicar mi opinión",
+    avisSuccess:"¡Gracias, tu opinión fue publicada!", avisError:"No se pudo guardar tu opinión ahora mismo.",
+    avisNoteRequired:"Elige una puntuación antes de publicar.", avisFirebaseOff:"Las opiniones no están disponibles en esta versión de la app.",
   },
   cr: {
     langPickerTitle:"Chwazi lang ou", langPickerSub:"Ou ka chanjé-y an nenpòt moman ak zikon 🌐.",
@@ -308,7 +326,7 @@ const TRANSLATIONS = {
     moreOptions:"Plis chwa (bidjé, dirasyon, aksè...)",
     budgetGroupLabel:"Bidjé", dureeGroupLabel:"Dirasyon", momentGroupLabel:"Moman", accesGroupLabel:"Aksè",
     back:"Rétou", seeOutings:"Wè sòti-a", step3Title:"Sòti pa'w",
-    searchPlaceholder:"Chèché pa non...", sortPertinence:"Pli enpòtan", sortAlpha:"A → Z", sortFavoris:"Favori mwen ❤️",
+    searchPlaceholder:"Chèché an lyé, an anbyans...", sortPertinence:"Pli enpòtan", sortAlpha:"A → Z", sortFavoris:"Favori mwen ❤️",
     resultsTitle:"Rézilta", resultSingular:"rézilta", resultPlural:"rézilta",
     emptyFavoris:"Pa ni favori ankò — touché kè-a asou an sòti pou ajouté-y.",
     emptyResults:"Pa ni anyen ki matché ba kritè-a — laji rechèch ou oben wété an fiwt.",
@@ -335,6 +353,12 @@ const TRANSLATIONS = {
     "acces_poussette":"Bon pou pousèt", "acces_pmr":"Aksè PMR", "acces_interieur":"Anba tonèl (si lapli)",
     detailSite:"Plis enfo", detailTarif:"Pri", detailTarifUnknown:"Pri pa endiké — véwifyé asou plas oben an liy.",
     detailConseil:"Konsèy",
+    avisTitle:"Avi", avisLoading:"Avi ka chajé...", avisNone:"Pa ni avi ankò",
+    avisSingular:"avi", avisPlural:"avi",
+    avisLoginRequired:"Konèkté (zikon 👤) pou kité an avi asou lyé-tala.",
+    avisPlaceholder:"Kòmantè'w (pa obligatwa)...", avisSubmit:"Pibliyé avi mwen",
+    avisSuccess:"Mèsi, avi'w pibliyé !", avisError:"Nou pa rivé anrejistré avi'w kounyé-a.",
+    avisNoteRequired:"Chwazi an nòt avan ou pibliyé.", avisFirebaseOff:"Avi pa disponib asou vèsyon aplikasyon-tala.",
   },
 };
 
@@ -431,6 +455,16 @@ const PLACES = [
   { t:"saint-martin", z:"Toute l'île", nom:"Baie Rouge", v:["plage","couple"], desc:"Plage sauvage réputée pour ses couchers de soleil.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:18.0870, lng:-63.1290 },
   { t:"saint-martin", z:"Toute l'île", nom:"Maho Beach", v:["plage","activites"], desc:"Plage rendue célèbre par les avions qui atterrissent à très basse altitude juste au-dessus des baigneurs, côté hollandais.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:18.0410, lng:-63.1180, conseils:"Consulte les horaires d'atterrissage en ligne pour ne pas manquer les plus gros passages." },
   { t:"saint-martin", z:"Toute l'île", nom:"Baie de Friar's / Happy Bay", v:["plage","nature","couple"], desc:"Deux plages voisines côté français, accessibles par un sentier côtier, ambiance plus sauvage et préservée qu'Orient Bay.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:18.0960, lng:-63.1000, conseils:"Rejoins Happy Bay à pied depuis Friar's Bay par le sentier côtier, environ 15 minutes de marche." },
+  { t:"saint-martin", z:"Toute l'île", nom:"Fort Louis (Marigot)", v:["culture","nature"], desc:"Fort du XVIIIe siècle dominant Marigot, vue panoramique sur la baie et jusqu'à Anguilla après une courte montée.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:18.0733, lng:-63.0836 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Parfumerie Tijon (Grand Case)", v:["culture","shopping","activites"], desc:"Atelier de création de parfum sur-mesure inspiré des Caraïbes — l'activité terrestre la mieux notée de l'île sur Tripadvisor.", budget:"premium", duree:"rapide", moment:"jour", acces:["interieur"], lat:18.1080, lng:-63.0620 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Parc aux oiseaux (Parotte Ville)", v:["famille","nature"], desc:"Parc ornithologique avec plus de 140 oiseaux tropicaux en semi-liberté, une des activités préférées des enfants sur l'île.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["poussette"], lat:18.0950, lng:-63.0300, tarif:"Environ 10$ l'entrée" },
+  { t:"saint-martin", z:"Toute l'île", nom:"Pinel Island", v:["plage","activites","famille"], desc:"Îlot désert accessible en navette depuis Cul-de-Sac, plages tranquilles, snorkeling et petits restaurants de plage.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:18.1170, lng:-63.0350, tarif:"Parking + navette : environ 12$ aller-retour par personne" },
+  { t:"saint-martin", z:"Toute l'île", nom:"Under SXM (parc de sculptures sous-marines)", v:["activites","nature","sport"], desc:"Parc de sculptures sous-marines à explorer en plongée ou snorkeling, mêlant art et sensibilisation à la préservation marine.", budget:"premium", duree:"demi-journee", moment:"jour", acces:[], lat:18.0201, lng:-63.0743 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Vie nocturne de Simpson Bay & Maho", v:["nightlife","boire"], desc:"Surnommé le Las Vegas des Caraïbes côté hollandais : casinos, discothèques, bars karaoké et rooftops ouverts jusqu'au bout de la nuit.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"], lat:18.0430, lng:-63.1150 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Vie nocturne de Grand Case", v:["nightlife","manger","couple"], desc:"Ambiance festive plus décontractée côté français : bars à cocktails, musique live et dîners en bord de mer jusque tard le week-end.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"], lat:18.1085, lng:-63.0625 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Shopping de Marigot", v:["shopping","culture"], desc:"Boutiques de mode, parfums et souvenirs le long de la rue de la République, à deux pas du port et du marché couvert.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:18.0731, lng:-63.0826 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Amuseum Naturalis", v:["culture","famille"], desc:"Petit musée gratuit consacré à la nature et au patrimoine de Saint-Martin, au Quartier d'Orléans.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["interieur","poussette"], lat:18.0700, lng:-63.0180 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Great Bay Beach & promenade de Philipsburg", v:["plage","shopping","culture"], desc:"Longue plage urbaine bordée par la promenade animée de la capitale hollandaise, boutiques hors-taxes et bars en front de mer.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:18.0237, lng:-63.0458 },
 
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Plage de Saint-Jean", v:["plage","couple"], desc:"Plage principale bordée de boutiques et restaurants.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:17.9020, lng:-62.8340 },
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Gustavia", v:["culture","boire","nightlife","shopping"], desc:"Port historique et ses bars/restaurants en soirée.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"], lat:17.8965, lng:-62.8500 },
@@ -511,6 +545,16 @@ const DESC_I18N = {
   "Baie Rouge": { en:"Wild beach famous for its sunsets.", es:"Playa salvaje famosa por sus atardeceres.", cr:"Plaj sovaj ki renonmé pou koushé solèy li." },
   "Maho Beach": { en:"Beach made famous by planes landing at very low altitude right above the swimmers, on the Dutch side.", es:"Playa famosa por los aviones que aterrizan a muy baja altura justo encima de los bañistas, en el lado holandés.", cr:"Plaj koni pou avyon ki ka atéri ba anlè moun ki ka benyen, kòté olandé-a." },
   "Baie de Friar's / Happy Bay": { en:"Two neighboring beaches on the French side, reached by a coastal trail, wilder and more unspoiled than Orient Bay.", es:"Dos playas vecinas en el lado francés, accesibles por un sendero costero, más salvajes y preservadas que Orient Bay.", cr:"Dé plaj vwazen kòté fwansé-a, ou pé rivé pa an chimen bò lanmè, pli sovaj ki Orient Bay." },
+  "Fort Louis (Marigot)": { en:"18th-century fort overlooking Marigot, panoramic view of the bay and Anguilla after a short climb.", es:"Fuerte del siglo XVIII que domina Marigot, vista panorámica de la bahía y de Anguila tras una breve subida.", cr:"Fò diznévyèm syèk ki ka domine Marigo, bel vi asou bé-a ek jis Angiy apré an ti monté.", },
+  "Parfumerie Tijon (Grand Case)": { en:"Custom perfume-making workshop inspired by the Caribbean — the island's top-rated land activity on Tripadvisor.", es:"Taller de creación de perfumes a medida inspirado en el Caribe — la actividad terrestre mejor valorada de la isla en Tripadvisor.", cr:"Aselyé fè pafen sou-mizi enspiré Karayib — pli bon aktivité tè lil-la asou Tripadvisor." },
+  "Parc aux oiseaux (Parotte Ville)": { en:"Bird park with over 140 tropical birds roaming freely, one of kids' favorite activities on the island.", es:"Parque ornitológico con más de 140 aves tropicales en semilibertad, una de las actividades favoritas de los niños en la isla.", cr:"Pak zwazo ak plis ki 140 zwazo twopikal an libèté, yonn adan aktivité timanmay renmen pli asou lil-la." },
+  "Pinel Island": { en:"Deserted islet reached by shuttle from Cul-de-Sac, quiet beaches, snorkeling and small beach restaurants.", es:"Islote desierto al que se llega en lancha desde Cul-de-Sac, playas tranquilas, snorkel y pequeños restaurantes de playa.", cr:"Ti zilé dézè ou pé rivé an bato apati Cul-de-Sac, plaj trankil, snorkeling ek ti restoran bò lanmè." },
+  "Under SXM (parc de sculptures sous-marines)": { en:"Underwater sculpture park to explore by diving or snorkeling, blending art with marine conservation awareness.", es:"Parque de esculturas submarinas para explorar buceando o haciendo snorkel, que combina arte y sensibilización sobre la conservación marina.", cr:"Pak eskilti anba lanmè ou pé eksploré an plonjé oben snorkeling, ka mélanjé lar ek sansibilizasyon pou konsèvasyon lanmè." },
+  "Vie nocturne de Simpson Bay & Maho": { en:"Known as the Las Vegas of the Caribbean on the Dutch side: casinos, nightclubs, karaoke bars and rooftops open till late.", es:"Conocida como el Las Vegas del Caribe en el lado holandés: casinos, discotecas, bares de karaoke y azoteas abiertas hasta tarde.", cr:"Yo ka rélé'y Las Vegas Karayib-la kòté olandé-a : kazino, bwat, bar karaoké ek rouftòp ouvè jistan ta." },
+  "Vie nocturne de Grand Case": { en:"A more relaxed festive vibe on the French side: cocktail bars, live music and seaside dinners late into the weekend.", es:"Un ambiente festivo más relajado en el lado francés: bares de cócteles, música en vivo y cenas junto al mar hasta tarde los fines de semana.", cr:"An anbyans fèt pli dékontrakté kòté fwansé-a : bar koktèl, mizik anlivé ek dine bò lanmè jistan ta wikenn." },
+  "Shopping de Marigot": { en:"Fashion, perfume and souvenir boutiques along Rue de la République, steps from the port and covered market.", es:"Tiendas de moda, perfumes y souvenirs a lo largo de la Rue de la République, cerca del puerto y del mercado cubierto.", cr:"Boutik mòd, pafen ek souvni lon Rue de la République, toupré pò-a ek mahé kouvè-a." },
+  "Amuseum Naturalis": { en:"Small free museum dedicated to Saint-Martin's nature and heritage, in Quartier d'Orléans.", es:"Pequeño museo gratuito dedicado a la naturaleza y el patrimonio de Saint-Martin, en Quartier d'Orléans.", cr:"Ti mizé gratis ki dédyé a lanati ek patrimwàn Sen-Marten, an Katyé d'Orléans." },
+  "Great Bay Beach & promenade de Philipsburg": { en:"A long city beach lined by the lively boardwalk of the Dutch capital, duty-free shops and seafront bars.", es:"Una larga playa urbana bordeada por el animado paseo de la capital holandesa, tiendas libres de impuestos y bares frente al mar.", cr:"An long plaj lavil bòdé pa pwonnad anniméyé kapital olandé-a, boutik san taks ek bar bò lanmè." },
   "Plage de Saint-Jean": { en:"Main beach lined with shops and restaurants.", es:"Playa principal bordeada de tiendas y restaurantes.", cr:"Prensipal plaj bòdé ak boutik ek restoran." },
   "Gustavia": { en:"Historic port with bars and restaurants that come alive at night.", es:"Puerto histórico con bares y restaurantes animados por la noche.", cr:"Pò istorik ak ba ek restoran ki anniman lasswè." },
   "Musée Territorial de Saint-Barthélemy": { en:"Small museum tracing the island's history and traditions, in Gustavia.", es:"Pequeño museo que recorre la historia y las tradiciones de la isla, en Gustavia.", cr:"Ti mizé ki rakonté istwa ek tradisyon lil-la, Gustavia." },
@@ -955,7 +999,11 @@ function renderResults() {
     if (selDuree.length && !selDuree.includes(p.duree)) return false;
     if (selMoment.length && !selMoment.includes(p.moment)) return false;
     if (selAcces.length && !selAcces.every(a => p.acces.includes(a))) return false;
-    if (searchQ.trim() && !p.nom.toLowerCase().includes(searchQ.trim().toLowerCase())) return false;
+    if (searchQ.trim()) {
+      const q = searchQ.trim().toLowerCase();
+      const haystack = (p.nom + ' ' + p.z + ' ' + placeDesc(p) + ' ' + p.v.map(v => t('vibe_'+v)).join(' ')).toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
     return true;
   });
   if (sortBy === 'alpha') results = results.slice().sort((a,b) => a.nom.localeCompare(b.nom));
@@ -983,6 +1031,113 @@ function renderResults() {
   });
 }
 
+// ---- Photos libres de droit (Wikimedia Commons) ----
+const TERRITOIRE_SEARCH_TERM = {
+  martinique: "Martinique", guadeloupe: "Guadeloupe", guyane: "French Guiana",
+  "saint-martin": "Saint Martin Caribbean", "saint-barthelemy": "Saint Barthélemy",
+};
+const photoCache = {};
+async function fetchPlacePhoto(p) {
+  if (photoCache[p.nom] !== undefined) return photoCache[p.nom];
+  try {
+    const term = `${p.nom} ${TERRITOIRE_SEARCH_TERM[p.t] || ''}`;
+    const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=700&format=json&origin=*`;
+    const res = await fetch(url);
+    const json = await res.json();
+    const pages = json.query && json.query.pages;
+    let result = null;
+    if (pages) {
+      const first = Object.values(pages)[0];
+      const info = first && first.imageinfo && first.imageinfo[0];
+      if (info) result = { url: info.thumburl || info.url, page: info.descriptionurl || info.url };
+    }
+    photoCache[p.nom] = result;
+    return result;
+  } catch (e) {
+    photoCache[p.nom] = null;
+    return null;
+  }
+}
+
+// ---- Avis / notes utilisateurs (Firestore, collection "avis") ----
+function slugId(nom) {
+  return nom.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').toLowerCase();
+}
+let selectedNote = 0;
+async function loadAvis(p) {
+  const box = document.getElementById('avisList');
+  const avgEl = document.getElementById('avisAverage');
+  if (!FIREBASE_ENABLED || !db) {
+    if (box) box.innerHTML = `<p class="step-sub">${t('avisFirebaseOff')}</p>`;
+    if (avgEl) avgEl.textContent = '';
+    return;
+  }
+  try {
+    const doc = await db.collection('avis').doc(slugId(p.nom)).get();
+    const entries = (doc.exists && doc.data().entries) || [];
+    const sorted = entries.slice().sort((a, b) => (b.date || 0) - (a.date || 0));
+    if (avgEl) {
+      if (sorted.length) {
+        const avg = sorted.reduce((s, e) => s + (e.note || 0), 0) / sorted.length;
+        avgEl.textContent = `⭐ ${avg.toFixed(1)} (${sorted.length} ${sorted.length > 1 ? t('avisPlural') : t('avisSingular')})`;
+      } else {
+        avgEl.textContent = t('avisNone');
+      }
+    }
+    if (box) {
+      box.innerHTML = sorted.slice(0, 20).map(e => `
+        <div style="border-top:1px solid var(--line); padding:8px 0;">
+          <p style="margin:0 0 2px; font-weight:600; font-size:13px;">${'⭐'.repeat(e.note || 0)} <span style="font-weight:400; color:var(--muted); font-size:11px;">${(e.pseudo || '').replace(/</g,'&lt;')}</span></p>
+          ${e.commentaire ? `<p style="margin:0; font-size:13px;">${e.commentaire.replace(/</g,'&lt;')}</p>` : ''}
+        </div>`).join('');
+    }
+  } catch (e) {
+    if (box) box.innerHTML = `<p class="step-sub">${t('avisError')}</p>`;
+  }
+}
+function renderAvisForm(p) {
+  const formBox = document.getElementById('avisFormBox');
+  if (!formBox) return;
+  if (!FIREBASE_ENABLED || !currentUser) {
+    formBox.innerHTML = `<p class="step-sub">${t('avisLoginRequired')}</p>`;
+    return;
+  }
+  formBox.innerHTML = `
+    <div id="avisStars" style="font-size:22px; cursor:pointer; margin-bottom:8px;">
+      ${[1,2,3,4,5].map(n => `<span data-n="${n}" style="opacity:0.3;">⭐</span>`).join('')}
+    </div>
+    <textarea id="avisTextarea" placeholder="${t('avisPlaceholder')}" style="width:100%; min-height:60px; border-radius:10px; border:1.5px solid var(--line); padding:8px; font-size:13px; font-family:inherit; margin-bottom:8px; box-sizing:border-box;"></textarea>
+    <button class="btn" id="avisSubmitBtn" style="width:100%;">${t('avisSubmit')}</button>
+  `;
+  selectedNote = 0;
+  const stars = formBox.querySelectorAll('#avisStars span');
+  stars.forEach(s => {
+    s.onclick = () => {
+      selectedNote = parseInt(s.dataset.n, 10);
+      stars.forEach(x => x.style.opacity = parseInt(x.dataset.n, 10) <= selectedNote ? '1' : '0.3');
+    };
+  });
+  document.getElementById('avisSubmitBtn').onclick = () => submitAvis(p);
+}
+async function submitAvis(p) {
+  if (!FIREBASE_ENABLED || !currentUser) return;
+  if (!selectedNote) { alert(t('avisNoteRequired')); return; }
+  const commentaire = document.getElementById('avisTextarea').value.trim().slice(0, 500);
+  const pseudo = (currentUser.email || '').split('@')[0];
+  const ref = db.collection('avis').doc(slugId(p.nom));
+  try {
+    const doc = await ref.get();
+    const entries = (doc.exists && doc.data().entries) || [];
+    const filtered = entries.filter(e => e.uid !== currentUser.uid);
+    filtered.push({ uid: currentUser.uid, pseudo, note: selectedNote, commentaire, date: Date.now() });
+    await ref.set({ entries: filtered });
+    document.getElementById('avisFormBox').innerHTML = `<p class="step-sub">${t('avisSuccess')}</p>`;
+    loadAvis(p);
+  } catch (e) {
+    alert(t('avisError'));
+  }
+}
+
 // ---- Fiche détail d'un lieu ----
 function openPlaceDetail(p) {
   const overlay = document.createElement('div');
@@ -992,6 +1147,10 @@ function openPlaceDetail(p) {
   overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
   overlay.innerHTML = `<div class="modal">
     <div class="modal-head"><h3>${p.nom}</h3><button class="modal-close" id="closePlace">✕</button></div>
+    <div id="placePhotoWrap" style="margin-bottom:6px; border-radius:14px; overflow:hidden; background:var(--line); aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;">
+      <span style="font-size:32px;">🌴</span>
+    </div>
+    <p id="placePhotoCredit" style="font-size:10px; color:var(--muted); text-align:right; margin:2px 0 12px;"></p>
     <p class="loc" style="margin-bottom:10px;">${TERRITOIRES.find(x=>x.key===p.t).label} · ${p.z}</p>
     <p class="desc" style="margin-bottom:14px;">${placeDesc(p)}</p>
     <div class="vibes" style="margin-bottom:14px;">
@@ -1005,9 +1164,29 @@ function openPlaceDetail(p) {
       ${p.conseils ? `<p class="adv-label" style="margin-bottom:6px;">${t('detailConseil')}</p><p style="margin:0; font-size:13.5px;">💡 ${p.conseils}</p>` : ''}
     </div>
     <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener" style="display:flex; justify-content:center; margin-bottom:10px;">🧭 ${t('itineraire')}</a>
-    ${p.site ? `<a class="btn btn-ghost" href="${p.site}" target="_blank" rel="noopener" style="display:block; text-align:center; text-decoration:none;">🔗 ${t('detailSite')}</a>` : ''}
+    ${p.site ? `<a class="btn btn-ghost" href="${p.site}" target="_blank" rel="noopener" style="display:block; text-align:center; text-decoration:none; margin-bottom:10px;">🔗 ${t('detailSite')}</a>` : ''}
+    <div class="day-card" style="margin-top:4px;">
+      <p class="adv-label" style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+        <span>${t('avisTitle')}</span> <span id="avisAverage" style="font-weight:600;">…</span>
+      </p>
+      <div id="avisList" style="margin-bottom:10px;"><p class="step-sub">${t('avisLoading')}</p></div>
+      <div id="avisFormBox"></div>
+    </div>
   </div>`;
   document.getElementById('closePlace').onclick = () => overlay.remove();
+  fetchPlacePhoto(p).then(res => {
+    const wrap = document.getElementById('placePhotoWrap');
+    const credit = document.getElementById('placePhotoCredit');
+    if (wrap && res && res.url) {
+      wrap.innerHTML = `<img src="${res.url}" alt="${p.nom.replace(/"/g,'&quot;')}" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">`;
+      if (credit) credit.innerHTML = `<a href="${res.page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 Wikimedia Commons</a>`;
+    } else if (wrap) {
+      const vibeEmoji = p.v[0] ? (VIBES.find(x => x.key === p.v[0]) || {}).e : '🌴';
+      wrap.innerHTML = `<span style="font-size:32px;">${vibeEmoji || '🌴'}</span>`;
+    }
+  });
+  loadAvis(p);
+  renderAvisForm(p);
 }
 
 render();
