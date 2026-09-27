@@ -1,6 +1,8 @@
-/* Service worker minimal : met l'appli en cache pour qu'elle fonctionne
-   même sans réseau une fois ouverte une première fois en ligne. */
-const CACHE_NAME = "antan-nou-v1";
+/* Service worker : garde l'appli utilisable hors-ligne, tout en allant
+   toujours chercher la dernière version en ligne quand une connexion est
+   disponible (stratégie "réseau d'abord, cache en secours" — évite de
+   rester bloqué sur une ancienne version après une mise à jour). */
+const CACHE_NAME = "antan-nou-v2";
 const FILES_TO_CACHE = [
   "./antan-nou.html",
   "./manifest.json",
@@ -26,6 +28,12 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    fetch(event.request)
+      .then((fresh) => {
+        const copy = fresh.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        return fresh;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
