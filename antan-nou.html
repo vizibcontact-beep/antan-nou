@@ -403,9 +403,9 @@ function openAccountModal() {
       }
     };
   }
-  renderForm();
   document.body.appendChild(overlay);
   overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  renderForm();
 }
 document.getElementById('openAccount').onclick = openAccountModal;
 
@@ -444,9 +444,9 @@ function openProgramModal() {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'progOverlay';
-  renderProgramForm(overlay);
   document.body.appendChild(overlay);
   overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  renderProgramForm(overlay);
 }
 document.getElementById('openProgram').onclick = openProgramModal;
 
