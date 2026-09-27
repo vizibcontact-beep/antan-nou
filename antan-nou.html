@@ -133,6 +133,7 @@
         <button class="icon-btn" id="openAccount" aria-label="Se connecter">👤</button>
         <button class="icon-btn" id="openProgram" aria-label="Programme automatique">✨</button>
         <button class="icon-btn" id="openFavs" aria-label="Mes favoris">❤️<span class="badge" id="favBadge" style="display:none;">0</span></button>
+        <button class="icon-btn" id="openLegal" aria-label="Informations légales">ℹ️</button>
       </div>
     </div>
     <div class="stepper"><div class="dot" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
@@ -809,6 +810,133 @@ function openFavsModal() {
   });
 }
 document.getElementById('openFavs').onclick = openFavsModal;
+
+// ---- Informations légales (mentions légales / confidentialité / CGU) ----
+const LEGAL_TEXTS = {
+  mentions: {
+    title: "Mentions légales",
+    html: `
+      <h4>Éditeur du site</h4>
+      <p>Le site et l'application <strong>Antan Nou</strong> (« Trouve ta sortie ») sont édités par Maureen, à titre personnel et non professionnel.</p>
+      <ul>
+        <li>Contact : vizib.contact@gmail.com</li>
+        <li>Directeur de la publication : Maureen</li>
+        <li>Conformément à l'article 6-III de la loi n°2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, l'adresse postale de l'éditeur est : 97232 Le Lamentin, Martinique.</li>
+      </ul>
+      <h4>Hébergement</h4>
+      <p>Le site est hébergé par GitHub Inc. (GitHub Pages), 88 Colin P. Kelly Jr Street, San Francisco, CA 94107, États-Unis — <a href="https://github.com" target="_blank" rel="noopener">github.com</a>.</p>
+      <p>Les fonctionnalités de compte utilisateur, d'authentification et de stockage des avis sont assurées par les services Firebase (Firebase Authentication, Cloud Firestore), fournis par Google Ireland Limited / Google LLC.</p>
+      <h4>Propriété intellectuelle</h4>
+      <p>Sauf mention contraire, les contenus du site (textes, structure, code source) sont la propriété de l'éditeur.</p>
+      <p>Les photographies illustrant les fiches lieux proviennent de Wikimedia Commons et sont utilisées sous des licences libres (domaine public, Creative Commons ou équivalent), selon les conditions propres à chaque média.</p>
+      <p>Les avis et commentaires publiés par les utilisateurs restent la propriété de leurs auteurs ; en les publiant, l'utilisateur autorise leur affichage public sur le site.</p>
+      <h4>Données personnelles</h4>
+      <p>Pour plus de détails sur les données collectées, leur usage et vos droits, consultez notre <a href="#" data-legal-link="privacy">politique de confidentialité</a>.</p>
+      <h4>Cookies et stockage local</h4>
+      <p>Le site peut utiliser le stockage local du navigateur (localStorage) afin de conserver certaines préférences d'affichage (langue, territoire sélectionné). Ce stockage reste local à l'appareil de l'utilisateur.</p>
+      <h4>Responsabilité</h4>
+      <p>Les informations relatives aux lieux, tarifs, horaires et conditions d'accès sont fournies à titre indicatif, à partir de sources publiques, et peuvent évoluer sans préavis. Il est recommandé de vérifier les informations importantes directement auprès des lieux concernés avant tout déplacement.</p>
+      <h4>Droit applicable</h4>
+      <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+    `
+  },
+  privacy: {
+    title: "Politique de confidentialité",
+    html: `
+      <h4>Responsable du traitement</h4>
+      <p>Maureen, éditrice du site et de l'application Antan Nou, agissant à titre personnel. Contact : vizib.contact@gmail.com</p>
+      <h4>Données collectées</h4>
+      <ul>
+        <li><strong>Adresse email</strong> — lors de la création d'un compte (Firebase Authentication), pour authentifier l'utilisateur et lui permettre de publier des avis.</li>
+        <li><strong>Avis et notes publiés</strong> — pour les afficher à tous les visiteurs sur la fiche du lieu concerné.</li>
+        <li><strong>Préférences d'affichage</strong> (langue, territoire) — stockées localement dans le navigateur, non transmises à l'éditeur.</li>
+      </ul>
+      <p>Aucune autre donnée (nom, adresse, téléphone, paiement, géolocalisation précise) n'est demandée ni collectée.</p>
+      <h4>Base légale</h4>
+      <p>Le traitement repose sur l'exécution du service demandé par l'utilisateur (article 6.1.b du RGPD).</p>
+      <h4>Destinataires des données</h4>
+      <p>Les données sont hébergées et traitées par Firebase (Google Ireland Limited / Google LLC), sous-traitant technique. Aucune donnée n'est vendue ni transmise à des tiers à des fins commerciales. Si des publicités ou de l'affiliation sont ajoutées, cette politique sera mise à jour avant leur activation.</p>
+      <h4>Durée de conservation</h4>
+      <p>Les données de compte et les avis sont conservés tant que le compte reste actif, et supprimés dans un délai raisonnable en cas de suppression du compte ou de demande expresse.</p>
+      <h4>Vos droits</h4>
+      <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition et de portabilité de vos données, à exercer en écrivant à vizib.contact@gmail.com (réponse sous un mois). Vous pouvez aussi introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>).</p>
+      <h4>Sécurité</h4>
+      <p>Les données sont stockées sur l'infrastructure sécurisée de Firebase, avec des règles d'accès restreignant la lecture et l'écriture aux utilisateurs authentifiés concernés.</p>
+      <h4>Mineurs</h4>
+      <p>Le site ne cible pas spécifiquement un public mineur et ne demande aucune information relative à l'âge lors de la création d'un compte.</p>
+      <h4>Cookies</h4>
+      <p>Le site n'utilise pas de cookies publicitaires ou de suivi à ce jour. Le stockage local (langue, territoire) reste sur l'appareil de l'utilisateur.</p>
+      <p style="margin-top:14px;font-style:italic;color:var(--muted);">Dernière mise à jour : 27 septembre 2026</p>
+    `
+  },
+  cgu: {
+    title: "Conditions générales d'utilisation",
+    html: `
+      <h4>Objet</h4>
+      <p>Les présentes conditions générales d'utilisation (CGU) régissent l'accès et l'usage du site et de l'application Antan Nou, service gratuit de recommandation de sorties en Martinique, Guadeloupe, Guyane, Saint-Martin et Saint-Barthélemy.</p>
+      <h4>Accès au service</h4>
+      <p>Le service est accessible gratuitement à tout utilisateur disposant d'un accès à internet. La création d'un compte (email/mot de passe) est optionnelle et uniquement nécessaire pour publier un avis ou sauvegarder des favoris liés à un compte.</p>
+      <h4>Avis et contenus publiés par les utilisateurs</h4>
+      <p>Tout utilisateur disposant d'un compte peut publier un avis (note et commentaire) sur un lieu référencé. En publiant un avis, l'utilisateur s'engage à :</p>
+      <ul>
+        <li>ne publier que des propos sincères, en lien avec le lieu concerné ;</li>
+        <li>ne pas publier de contenu injurieux, diffamatoire, discriminatoire, obscène ou illicite ;</li>
+        <li>ne pas publier de spam, de contenu publicitaire non sollicité ou de données personnelles de tiers ;</li>
+        <li>respecter les droits de propriété intellectuelle d'autrui.</li>
+      </ul>
+      <p>L'éditeur se réserve le droit de modérer, modifier ou supprimer tout avis ne respectant pas ces règles, sans préavis. Un utilisateur peut demander la suppression de son propre avis en écrivant à vizib.contact@gmail.com.</p>
+      <h4>Propriété intellectuelle</h4>
+      <p>Le contenu du site (textes, code, mise en forme) est la propriété de l'éditeur, à l'exception des photographies (Wikimedia Commons, sous licences libres) et des avis publiés par les utilisateurs, qui en restent les auteurs.</p>
+      <h4>Responsabilité</h4>
+      <p>Les informations sur les lieux (tarifs, horaires, accès) sont fournies à titre indicatif à partir de sources publiques et peuvent évoluer sans préavis. L'éditeur ne saurait être tenu responsable des conséquences d'une information devenue inexacte, ni du contenu des avis publiés par les utilisateurs. Il est recommandé de vérifier les informations importantes avant tout déplacement.</p>
+      <h4>Disponibilité du service</h4>
+      <p>L'éditeur s'efforce d'assurer l'accessibilité du service mais ne garantit pas une disponibilité continue ni l'absence d'erreurs, le service étant proposé gratuitement et sans obligation de résultat.</p>
+      <h4>Modification des CGU</h4>
+      <p>Les présentes CGU peuvent être modifiées à tout moment pour refléter l'évolution du service. La poursuite de l'utilisation du site après modification vaut acceptation des nouvelles CGU.</p>
+      <h4>Droit applicable</h4>
+      <p>Les présentes CGU sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+      <p style="margin-top:14px;font-style:italic;color:var(--muted);">Dernière mise à jour : 27 septembre 2026</p>
+    `
+  }
+};
+
+function openLegalDoc(key) {
+  const doc = LEGAL_TEXTS[key];
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'legalDocOverlay';
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>${doc.title}</h3><button class="modal-close" id="closeLegalDoc">✕</button></div>
+    <div style="font-size:13.5px; line-height:1.55;">${doc.html}</div>
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  document.getElementById('closeLegalDoc').onclick = () => overlay.remove();
+  overlay.querySelectorAll('[data-legal-link]').forEach(a => {
+    a.onclick = (e) => { e.preventDefault(); overlay.remove(); openLegalDoc(a.dataset.legalLink); };
+  });
+}
+
+function openLegalModal() {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'legalOverlay';
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>Informations légales</h3><button class="modal-close" id="closeLegal">✕</button></div>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <button class="btn-ghost" style="flex:none; text-align:left; padding:14px;" data-legal="mentions">📄 Mentions légales</button>
+      <button class="btn-ghost" style="flex:none; text-align:left; padding:14px;" data-legal="privacy">🔒 Politique de confidentialité</button>
+      <button class="btn-ghost" style="flex:none; text-align:left; padding:14px;" data-legal="cgu">📋 Conditions générales d'utilisation</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  document.getElementById('closeLegal').onclick = () => overlay.remove();
+  overlay.querySelectorAll('[data-legal]').forEach(btn => {
+    btn.onclick = () => { overlay.remove(); openLegalDoc(btn.dataset.legal); };
+  });
+}
+document.getElementById('openLegal').onclick = openLegalModal;
 
 // ---- Fenêtre Programme automatique ----
 let progT = null, progDays = 2, progV = [], progBudget = [];
