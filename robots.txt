@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vizibcontact-beep.github.io/antan-nou/sitemap.xml
