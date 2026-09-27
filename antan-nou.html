@@ -169,6 +169,10 @@ const VIBES = [
   { key:"couple", label:"Couple", e:"💕" },
   { key:"boire", label:"Verre", e:"🍹" },
   { key:"culture", label:"Culture", e:"🗿" },
+  { key:"sport", label:"Sport & aventure", e:"🧗" },
+  { key:"nightlife", label:"Vie nocturne", e:"🪩" },
+  { key:"shopping", label:"Shopping & artisanat", e:"🛍️" },
+  { key:"bienetre", label:"Bien-être & détente", e:"🧘" },
 ];
 
 const BUDGETS = [ ["gratuit","Gratuit"], ["petit-budget","Petit budget"], ["premium","Premium"] ];
@@ -216,10 +220,13 @@ const TRANSLATIONS = {
     errEmailInUse:"Un compte existe déjà avec cet email — essaie de te connecter.", errInvalidEmail:"Adresse email invalide.",
     errWeakPassword:"Mot de passe trop court (6 caractères minimum).", errWrongCreds:"Email ou mot de passe incorrect.", errGeneric:"Une erreur est survenue. Réessaie.",
     vibe_manger:"Manger", vibe_plage:"Plage", vibe_nature:"Nature", vibe_activites:"Activités", vibe_famille:"Famille", vibe_couple:"Couple", vibe_boire:"Verre", vibe_culture:"Culture",
+    vibe_sport:"Sport & aventure", vibe_nightlife:"Vie nocturne", vibe_shopping:"Shopping & artisanat", vibe_bienetre:"Bien-être & détente",
     "budget_gratuit":"Gratuit", "budget_petit-budget":"Petit budget", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Demi-journée", "duree_journee":"Journée entière",
     "moment_jour":"En journée", "moment_soir":"En soirée",
     "acces_poussette":"Poussette-friendly", "acces_pmr":"Accès PMR", "acces_interieur":"À l'abri (si pluie)",
+    detailSite:"Plus d'infos", detailTarif:"Tarif", detailTarifUnknown:"Tarif non communiqué — vérifie sur place ou en ligne.",
+    detailConseil:"Conseil",
   },
   en: {
     langPickerTitle:"Choose your language", langPickerSub:"You can change this anytime from the 🌐 icon.",
@@ -249,10 +256,13 @@ const TRANSLATIONS = {
     errEmailInUse:"An account already exists with this email — try logging in.", errInvalidEmail:"Invalid email address.",
     errWeakPassword:"Password too short (6 characters minimum).", errWrongCreds:"Incorrect email or password.", errGeneric:"Something went wrong. Try again.",
     vibe_manger:"Food", vibe_plage:"Beach", vibe_nature:"Nature", vibe_activites:"Activities", vibe_famille:"Family", vibe_couple:"Couple", vibe_boire:"Drinks", vibe_culture:"Culture",
+    vibe_sport:"Sport & adventure", vibe_nightlife:"Nightlife", vibe_shopping:"Shopping & crafts", vibe_bienetre:"Wellness & relaxation",
     "budget_gratuit":"Free", "budget_petit-budget":"Low budget", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Half day", "duree_journee":"Full day",
     "moment_jour":"Daytime", "moment_soir":"Evening",
     "acces_poussette":"Stroller-friendly", "acces_pmr":"Wheelchair access", "acces_interieur":"Indoor (rain-proof)",
+    detailSite:"More info", detailTarif:"Price", detailTarifUnknown:"Price not listed — check on site or online.",
+    detailConseil:"Tip",
   },
   es: {
     langPickerTitle:"Elige tu idioma", langPickerSub:"Puedes cambiarlo en cualquier momento desde el icono 🌐.",
@@ -282,10 +292,13 @@ const TRANSLATIONS = {
     errEmailInUse:"Ya existe una cuenta con este correo — intenta iniciar sesión.", errInvalidEmail:"Correo electrónico inválido.",
     errWeakPassword:"Contraseña demasiado corta (mínimo 6 caracteres).", errWrongCreds:"Correo o contraseña incorrectos.", errGeneric:"Ocurrió un error. Inténtalo de nuevo.",
     vibe_manger:"Comer", vibe_plage:"Playa", vibe_nature:"Naturaleza", vibe_activites:"Actividades", vibe_famille:"Familia", vibe_couple:"Pareja", vibe_boire:"Copas", vibe_culture:"Cultura",
+    vibe_sport:"Deporte y aventura", vibe_nightlife:"Vida nocturna", vibe_shopping:"Compras y artesanía", vibe_bienetre:"Bienestar y relax",
     "budget_gratuit":"Gratis", "budget_petit-budget":"Presupuesto bajo", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Media jornada", "duree_journee":"Día completo",
     "moment_jour":"De día", "moment_soir":"De noche",
     "acces_poussette":"Apto para cochecitos", "acces_pmr":"Acceso PMR", "acces_interieur":"Bajo techo (por si llueve)",
+    detailSite:"Más información", detailTarif:"Precio", detailTarifUnknown:"Precio no indicado — verifica en el lugar o en línea.",
+    detailConseil:"Consejo",
   },
   cr: {
     langPickerTitle:"Chwazi lang ou", langPickerSub:"Ou ka chanjé-y an nenpòt moman ak zikon 🌐.",
@@ -315,10 +328,13 @@ const TRANSLATIONS = {
     errEmailInUse:"An kont ja égzisté épi imèl-tala — èsèyé konèkté.", errInvalidEmail:"Imèl-la pa bon.",
     errWeakPassword:"Mo pas twò kout (minimòm 6 karaktè).", errWrongCreds:"Imèl oben mo pas pa bon.", errGeneric:"Ni an érè. Èsèyé ankò.",
     vibe_manger:"Manjé", vibe_plage:"Laplaj", vibe_nature:"Lanati", vibe_activites:"Aktivite", vibe_famille:"Fanmi", vibe_couple:"Koup", vibe_boire:"Bwè", vibe_culture:"Kilti",
+    vibe_sport:"Espò & avantir", vibe_nightlife:"Lavi lannwit", vibe_shopping:"Shopin & atizana", vibe_bienetre:"Byennèt & détant",
     "budget_gratuit":"Gratis", "budget_petit-budget":"Ti bidjé", "budget_premium":"Premium",
     "duree_rapide":"< 1è", "duree_demi-journee":"Dèmi-jounen", "duree_journee":"Tout jounen an",
     "moment_jour":"Lajounen", "moment_soir":"Lasswè",
     "acces_poussette":"Bon pou pousèt", "acces_pmr":"Aksè PMR", "acces_interieur":"Anba tonèl (si lapli)",
+    detailSite:"Plis enfo", detailTarif:"Pri", detailTarifUnknown:"Pri pa endiké — véwifyé asou plas oben an liy.",
+    detailConseil:"Konsèy",
   },
 };
 
@@ -352,60 +368,123 @@ const PLACES = [
   { t:"martinique", z:"Sud", nom:"Grande Anse des Salines", v:["plage","famille"], desc:"La plage la plus réputée du sud, sable fin et cocotiers.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.3986, lng:-60.8672 },
   { t:"martinique", z:"Sud", nom:"Rocher du Diamant", v:["plage","activites"], desc:"Îlot emblématique face à une longue plage de sable.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.4388, lng:-61.0363 },
   { t:"martinique", z:"Sud", nom:"Les Anses-d'Arlet", v:["plage","couple"], desc:"Village de pêcheurs et petites plages tranquilles.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.4964, lng:-61.0700 },
-  { t:"martinique", z:"Sud", nom:"Bars de plage de Sainte-Anne", v:["boire","couple"], desc:"Ambiance festive en bord de mer, surtout en soirée.", budget:"petit-budget", duree:"rapide", moment:"soir", acces:[], lat:14.4384, lng:-60.8807 },
+  { t:"martinique", z:"Sud", nom:"Bars de plage de Sainte-Anne", v:["boire","couple","nightlife"], desc:"Ambiance festive en bord de mer, surtout en soirée.", budget:"petit-budget", duree:"rapide", moment:"soir", acces:[], lat:14.4384, lng:-60.8807 },
   { t:"martinique", z:"Centre", nom:"Fort Saint-Louis", v:["culture"], desc:"Fortification historique dominant la baie de Fort-de-France.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:14.6009, lng:-61.0693 },
-  { t:"martinique", z:"Centre", nom:"Marché couvert de Fort-de-France", v:["manger","culture"], desc:"Épices, fruits et artisanat local en plein centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["poussette","interieur"], lat:14.6070, lng:-61.0685 },
-  { t:"martinique", z:"Centre", nom:"Habitation Clément", v:["culture","couple"], desc:"Domaine historique et distillerie de rhum vieux, avec jardins.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["pmr"], lat:14.6110, lng:-60.9080, tarif:"13€ adulte · 8€ (15-17 ans) · gratuit -15 ans, dégustation incluse" },
-  { t:"martinique", z:"Nord Caraïbe", nom:"Gorges de la Falaise", v:["nature","activites"], desc:"Randonnée aquatique dans un canyon encaissé.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:14.7893, lng:-61.1330 },
-  { t:"martinique", z:"Nord Caraïbe", nom:"Montagne Pelée", v:["nature","activites"], desc:"Ascension du volcan emblématique du nord.", budget:"gratuit", duree:"journee", moment:"jour", acces:[], lat:14.8125, lng:-61.1653 },
+  { t:"martinique", z:"Centre", nom:"Marché couvert de Fort-de-France", v:["manger","culture","shopping"], desc:"Épices, fruits et artisanat local en plein centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["poussette","interieur"], lat:14.6070, lng:-61.0685 },
+  { t:"martinique", z:"Centre", nom:"Habitation Clément", v:["culture","couple"], desc:"Domaine historique et distillerie de rhum vieux, avec jardins.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["pmr"], lat:14.6110, lng:-60.9080, tarif:"13€ adulte · 8€ (15-17 ans) · gratuit -15 ans, dégustation incluse", conseils:"Réserve la visite tôt le matin pour profiter des jardins avant la chaleur." },
+  { t:"martinique", z:"Nord Caraïbe", nom:"Gorges de la Falaise", v:["nature","activites","sport"], desc:"Randonnée aquatique dans un canyon encaissé.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:14.7893, lng:-61.1330, conseils:"Prévois des chaussures fermées et un maillot — une partie du parcours se fait dans l'eau." },
+  { t:"martinique", z:"Nord Caraïbe", nom:"Montagne Pelée", v:["nature","activites","sport"], desc:"Ascension du volcan emblématique du nord.", budget:"gratuit", duree:"journee", moment:"jour", acces:[], lat:14.8125, lng:-61.1653, conseils:"Pars tôt le matin : le sommet se couvre souvent de nuages en cours de journée." },
   { t:"martinique", z:"Nord Caraïbe", nom:"Plage du Carbet", v:["plage"], desc:"Plage de sable noir au pied du Carbet, chargée d'histoire.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.7300, lng:-61.1790 },
   { t:"martinique", z:"Nord Atlantique", nom:"Réserve naturelle de la Caravelle", v:["nature","famille"], desc:"Presqu'île protégée, sentiers côtiers et ruines historiques.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.7660, lng:-60.9130 },
-  { t:"martinique", z:"Centre", nom:"Cascades d'Absalon", v:["nature","activites"], desc:"Bassins d'eau chaude et sentier forestier facile d'accès.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.6520, lng:-61.0450 },
+  { t:"martinique", z:"Centre", nom:"Cascades d'Absalon", v:["nature","activites","bienetre"], desc:"Bassins d'eau chaude et sentier forestier facile d'accès.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.6520, lng:-61.0450 },
   { t:"martinique", z:"Nord Atlantique", nom:"Distillerie Saint James", v:["culture","manger"], desc:"Plus ancienne marque de rhum agricole de Martinique, musée sur place.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["interieur"], lat:14.7830, lng:-61.1080 },
-  { t:"martinique", z:"Centre", nom:"Jardin de Balata", v:["nature","famille"], desc:"Jardin tropical remarquable dans les hauteurs de Fort-de-France.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.6480, lng:-61.0400, tarif:"16,50€ adulte · 11€ enfant (3-12 ans) · gratuit -3 ans" },
+  { t:"martinique", z:"Centre", nom:"Jardin de Balata", v:["nature","famille","bienetre"], desc:"Jardin tropical remarquable dans les hauteurs de Fort-de-France.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.6480, lng:-61.0400, tarif:"16,50€ adulte · 11€ enfant (3-12 ans) · gratuit -3 ans" },
   { t:"martinique", z:"Nord Caraïbe", nom:"Zoo de Martinique (Habitation Latouche)", v:["famille","nature"], desc:"Zoo tropical au Carbet, dans le cadre d'une ancienne habitation.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette","pmr"], lat:14.7250, lng:-61.1850, tarif:"17,50€ adulte · 12€ enfant (3-12 ans)" },
   { t:"martinique", z:"Sud", nom:"Lolos de la Grande Anse des Salines", v:["manger","plage"], desc:"Cabanes de plage servant poisson grillé et poulet boucané face à la mer.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:14.3986, lng:-60.8672, tarif:"14-18€ le plat · ti-punch 4-5€" },
 
   { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Plage de Bois Jolan", v:["plage","famille"], desc:"Longue plage familiale bordée de filaos.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.1850, lng:-61.3850 },
   { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Pointe des Châteaux", v:["plage","nature"], desc:"Point de vue spectaculaire à la pointe est de l'île.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.2508, lng:-61.1808 },
-  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Chutes du Carbet", v:["nature","activites"], desc:"Cascades majestueuses au cœur du parc national.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.0500, lng:-61.6600 },
-  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"La Soufrière", v:["nature","activites"], desc:"Volcan actif, randonnée vers le sommet.", budget:"gratuit", duree:"journee", moment:"jour", acces:[], lat:16.0456, lng:-61.6640 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Chutes du Carbet", v:["nature","activites","sport"], desc:"Cascades majestueuses au cœur du parc national.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.0500, lng:-61.6600 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"La Soufrière", v:["nature","activites","sport"], desc:"Volcan actif, randonnée vers le sommet.", budget:"gratuit", duree:"journee", moment:"jour", acces:[], lat:16.0456, lng:-61.6640, conseils:"Prévois de bonnes chaussures et vérifie la météo avant de partir, le sentier peut être glissant." },
   { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Plage de Grande Anse (Deshaies)", v:["plage","couple"], desc:"Une des plus belles plages de l'île, ambiance paisible.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.3080, lng:-61.7960 },
-  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Jardin botanique de Deshaies", v:["nature","famille"], desc:"Jardin tropical avec perroquets et bassins de koïs.", budget:"premium", duree:"demi-journee", moment:"jour", acces:["poussette","pmr"], lat:16.3050, lng:-61.7940, tarif:"15,90€ adulte · 10€ enfant (5 ans et +)" },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Jardin botanique de Deshaies", v:["nature","famille","bienetre"], desc:"Jardin tropical avec perroquets et bassins de koïs.", budget:"premium", duree:"demi-journee", moment:"jour", acces:["poussette","pmr"], lat:16.3050, lng:-61.7940, tarif:"15,90€ adulte · 10€ enfant (5 ans et +)", site:"https://jardin-botanique.com/" },
   { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Cascade aux Écrevisses", v:["nature"], desc:"Petite cascade très accessible en forêt tropicale.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["poussette"], lat:16.1730, lng:-61.7120 },
-  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Réserve Cousteau (îlet Pigeon)", v:["nature","activites"], desc:"Snorkeling et plongée dans une réserve marine réputée.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.1730, lng:-61.7910, tarif:"à partir de 29€ (excursion snorkeling encadrée)" },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Réserve Cousteau (îlet Pigeon)", v:["nature","activites","sport"], desc:"Snorkeling et plongée dans une réserve marine réputée.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.1730, lng:-61.7910, tarif:"à partir de 29€ (excursion snorkeling encadrée)" },
   { t:"guadeloupe", z:"Région Pointoise", nom:"Fort Fleur d'Épée", v:["culture"], desc:"Fortification du XVIIIe siècle avec vue sur la baie.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.2270, lng:-61.5330 },
-  { t:"guadeloupe", z:"Région Pointoise", nom:"Marché de Pointe-à-Pitre", v:["manger","culture"], desc:"Marché aux épices et fruits en centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:16.2415, lng:-61.5330 },
-  { t:"guadeloupe", z:"Région Pointoise", nom:"Aquarium de Guadeloupe", v:["famille","culture"], desc:"Aquarium tropical avec requins et tortues, au Gosier.", budget:"premium", duree:"rapide", moment:"jour", acces:["poussette","pmr","interieur"], lat:16.2140, lng:-61.5090, tarif:"14,90€ adulte (13 ans+) · 9,90€ enfant (3-12 ans) · gratuit -3 ans" },
-  { t:"guadeloupe", z:"Région Pointoise", nom:"Mémorial ACTe", v:["culture"], desc:"Centre caribéen d'expressions et de mémoire de la traite et de l'esclavage, à Pointe-à-Pitre.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["pmr","interieur"], lat:16.2400, lng:-61.5280, tarif:"15€ plein tarif · 8€ tarif réduit (étudiants/seniors) · gratuit -12 ans" },
+  { t:"guadeloupe", z:"Région Pointoise", nom:"Marché de Pointe-à-Pitre", v:["manger","culture","shopping"], desc:"Marché aux épices et fruits en centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:16.2415, lng:-61.5330 },
+  { t:"guadeloupe", z:"Région Pointoise", nom:"Aquarium de Guadeloupe", v:["famille","culture"], desc:"Aquarium tropical avec requins et tortues, au Gosier.", budget:"premium", duree:"rapide", moment:"jour", acces:["poussette","pmr","interieur"], lat:16.2140, lng:-61.5090, tarif:"14,90€ adulte (13 ans+) · 9,90€ enfant (3-12 ans) · gratuit -3 ans", site:"http://www.aquariumdelaguadeloupe.com/" },
+  { t:"guadeloupe", z:"Région Pointoise", nom:"Mémorial ACTe", v:["culture"], desc:"Centre caribéen d'expressions et de mémoire de la traite et de l'esclavage, à Pointe-à-Pitre.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["pmr","interieur"], lat:16.2400, lng:-61.5280, tarif:"15€ plein tarif · 8€ tarif réduit (étudiants/seniors) · gratuit -12 ans", site:"https://memorial-acte.fr/" },
   { t:"guadeloupe", z:"Les Saintes", nom:"Terre-de-Haut", v:["plage","couple"], desc:"Îlot pittoresque aux criques et maisons colorées.", budget:"petit-budget", duree:"journee", moment:"jour", acces:[], lat:15.8667, lng:-61.5833 },
   { t:"guadeloupe", z:"Marie-Galante", nom:"Distilleries de Marie-Galante", v:["culture","manger"], desc:"Île aux nombreuses distilleries de rhum agricole.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["interieur"], lat:15.9000, lng:-61.2667 },
   { t:"guadeloupe", z:"La Désirade", nom:"Plages de La Désirade", v:["nature","plage"], desc:"Île préservée aux paysages arides et plages désertes.", budget:"gratuit", duree:"journee", moment:"jour", acces:[], lat:16.3167, lng:-61.0500 },
 
-  { t:"guyane", z:"Kourou", nom:"Centre Spatial Guyanais", v:["culture","activites"], desc:"Base de lancement spatiale européenne, visites guidées.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["pmr","interieur"], lat:5.2360, lng:-52.7750, tarif:"Gratuit sur réservation obligatoire · pièce d'identité exigée · dès ~8 ans" },
+  { t:"guyane", z:"Kourou", nom:"Centre Spatial Guyanais", v:["culture","activites"], desc:"Base de lancement spatiale européenne, visites guidées.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["pmr","interieur"], lat:5.2360, lng:-52.7750, tarif:"Gratuit sur réservation obligatoire · pièce d'identité exigée · dès ~8 ans", site:"https://centrespatialguyanais.cnes.fr/en/rendez-nous-visite", conseils:"Réserve plusieurs semaines à l'avance, les places partent vite en haute saison." },
   { t:"guyane", z:"Kourou", nom:"Îles du Salut", v:["culture","nature"], desc:"Anciennes îles du bagne, accessibles en bateau depuis Kourou.", budget:"premium", duree:"journee", moment:"jour", acces:[], lat:5.2833, lng:-52.5833, tarif:"Environ 30-50€ adulte l'aller-retour en bateau (inclut souvent l'accès aux îles), enfant tarif réduit" },
-  { t:"guyane", z:"Cayenne & littoral", nom:"Marché de Cayenne", v:["manger","culture"], desc:"Marché coloré mêlant influences créole, hmong et brésilienne.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:4.9333, lng:-52.3333 },
+  { t:"guyane", z:"Cayenne & littoral", nom:"Marché de Cayenne", v:["manger","culture","shopping"], desc:"Marché coloré mêlant influences créole, hmong et brésilienne.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:4.9333, lng:-52.3333 },
   { t:"guyane", z:"Cayenne & littoral", nom:"Place des Palmistes", v:["culture","famille"], desc:"Cœur historique de Cayenne, bordé de bâtiments coloniaux.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["poussette"], lat:4.9370, lng:-52.3260 },
   { t:"guyane", z:"Cayenne & littoral", nom:"Plage de Montjoly", v:["plage","famille"], desc:"Plage proche de Cayenne, prisée le week-end.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:4.8833, lng:-52.2833 },
   { t:"guyane", z:"Cayenne & littoral", nom:"Pointe Buzaré", v:["nature","plage"], desc:"Petite pointe rocheuse et boisée en bord de mer, proche du centre.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:4.9500, lng:-52.3200 },
-  { t:"guyane", z:"Saint-Laurent-du-Maroni", nom:"Camp de la Transportation", v:["culture"], desc:"Ancien bagne, vestige majeur de l'histoire pénitentiaire.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["pmr"], lat:5.4990, lng:-54.0330, tarif:"8€ plein tarif · 6€ groupe · 5€ réduit · 4€ enfant" },
+  { t:"guyane", z:"Saint-Laurent-du-Maroni", nom:"Camp de la Transportation", v:["culture"], desc:"Ancien bagne, vestige majeur de l'histoire pénitentiaire.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["pmr"], lat:5.4990, lng:-54.0330, tarif:"8€ plein tarif · 6€ groupe · 5€ réduit · 4€ enfant", site:"https://www.guyane-amazonie.fr/activite/visite-guidee-du-camp-de-la-transportation/" },
   { t:"guyane", z:"Intérieur & fleuves", nom:"Fleuve Maroni", v:["nature","activites"], desc:"Remontée en pirogue vers les villages amérindiens et bushinengué.", budget:"premium", duree:"journee", moment:"jour", acces:[], lat:5.5000, lng:-54.0300 },
   { t:"guyane", z:"Intérieur & fleuves", nom:"Chutes Voltaire", v:["nature","activites"], desc:"Cascade au cœur de la forêt amazonienne, près de Roura.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:4.7300, lng:-52.3200 },
 
   { t:"saint-martin", z:"Toute l'île", nom:"Plage de l'Orient", v:["plage","famille"], desc:"Grande plage bordée de restaurants et activités nautiques.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:18.0730, lng:-63.0180 },
-  { t:"saint-martin", z:"Toute l'île", nom:"Marché de Marigot", v:["manger","culture"], desc:"Marché animé en bord de mer, spécialités créoles.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:18.0731, lng:-63.0822 },
-  { t:"saint-martin", z:"Toute l'île", nom:"Pic Paradis", v:["nature","activites"], desc:"Point culminant de l'île, vue à 360° depuis un sentier de randonnée gratuit.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:18.0850, lng:-63.0700 },
-  { t:"saint-martin", z:"Toute l'île", nom:"Loterie Farm", v:["nature","activites","famille"], desc:"Réserve naturelle avec piscine en pleine forêt, tyroliennes et parcours dans les arbres.", budget:"premium", duree:"demi-journee", moment:"jour", acces:[], lat:18.0810, lng:-63.0790, tarif:"Tyrolienne/Fly Zone : environ 25 à 100$ selon le parcours" },
+  { t:"saint-martin", z:"Toute l'île", nom:"Marché de Marigot", v:["manger","culture","shopping"], desc:"Marché animé en bord de mer, spécialités créoles.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:18.0731, lng:-63.0822 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Pic Paradis", v:["nature","activites","sport"], desc:"Point culminant de l'île, vue à 360° depuis un sentier de randonnée gratuit.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:18.0850, lng:-63.0700 },
+  { t:"saint-martin", z:"Toute l'île", nom:"Loterie Farm", v:["nature","activites","famille","sport"], desc:"Réserve naturelle avec piscine en pleine forêt, tyroliennes et parcours dans les arbres.", budget:"premium", duree:"demi-journee", moment:"jour", acces:[], lat:18.0810, lng:-63.0790, tarif:"Tyrolienne/Fly Zone : environ 25 à 100$ selon le parcours", site:"https://www.loteriefarm.com/" },
   { t:"saint-martin", z:"Toute l'île", nom:"Restaurants de Grand Case", v:["manger","couple"], desc:"Rue gastronomique réputée en bord de mer, de la gastronomie fine aux lolos à prix doux.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"], lat:18.1080, lng:-63.0630 },
   { t:"saint-martin", z:"Toute l'île", nom:"Baie Rouge", v:["plage","couple"], desc:"Plage sauvage réputée pour ses couchers de soleil.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:18.0870, lng:-63.1290 },
 
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Plage de Saint-Jean", v:["plage","couple"], desc:"Plage principale bordée de boutiques et restaurants.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:17.9020, lng:-62.8340 },
-  { t:"saint-barthelemy", z:"Toute l'île", nom:"Gustavia", v:["culture","boire"], desc:"Port historique et ses bars/restaurants en soirée.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"], lat:17.8965, lng:-62.8500 },
-  { t:"saint-barthelemy", z:"Toute l'île", nom:"Musée Territorial de Saint-Barthélemy", v:["culture"], desc:"Petit musée retraçant l'histoire et les traditions de l'île, à Gustavia.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:17.8990, lng:-62.8510, tarif:"2€ l'entrée" },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Gustavia", v:["culture","boire","nightlife","shopping"], desc:"Port historique et ses bars/restaurants en soirée.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"], lat:17.8965, lng:-62.8500 },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Musée Territorial de Saint-Barthélemy", v:["culture"], desc:"Petit musée retraçant l'histoire et les traditions de l'île, à Gustavia.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:17.8990, lng:-62.8510, tarif:"2€ l'entrée", site:"https://www.access.sb/fr/st-barth/services/musees/le-musee-territorial/" },
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Shell Beach", v:["plage","couple"], desc:"Petite plage de coquillages à deux pas de Gustavia.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:17.8970, lng:-62.8480 },
-  { t:"saint-barthelemy", z:"Toute l'île", nom:"Colombier", v:["nature","activites"], desc:"Sentier de randonnée isolé avec vue sur la mer des Caraïbes.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:17.9200, lng:-62.8600 },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Colombier", v:["nature","activites","sport"], desc:"Sentier de randonnée isolé avec vue sur la mer des Caraïbes.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:17.9200, lng:-62.8600 },
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Anse du Gouverneur", v:["plage","couple"], desc:"Plage isolée au pied d'une falaise, très prisée en couple.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:17.8850, lng:-62.8460 },
 ];
+
+// Traductions des descriptions de lieux (anglais/espagnol/créole). Clé =
+// nom exact du lieu dans PLACES. Le français reste la langue de référence
+// (champ "desc" de chaque lieu) ; si une traduction manque, le français
+// s'affiche par défaut.
+const DESC_I18N = {
+  "Grande Anse des Salines": { en:"The most famous beach in the south, fine sand and coconut trees.", es:"La playa más famosa del sur, arena fina y cocoteros.", cr:"Laplaj pli renonmé an sid-la, sab fen ek pyé koko." },
+  "Rocher du Diamant": { en:"Iconic islet facing a long sandy beach.", es:"Islote emblemático frente a una larga playa de arena.", cr:"Ti lil ki koni anfas an gran plaj sab." },
+  "Les Anses-d'Arlet": { en:"Fishing village with small, quiet beaches.", es:"Pueblo de pescadores con pequeñas playas tranquilas.", cr:"Vilaj péchè ek ti plaj trankil." },
+  "Bars de plage de Sainte-Anne": { en:"Lively seaside atmosphere, especially in the evening.", es:"Ambiente festivo junto al mar, sobre todo por la noche.", cr:"Anbyans fèt bò lanmè, sitou lasswè." },
+  "Fort Saint-Louis": { en:"Historic fortress overlooking Fort-de-France bay.", es:"Fortificación histórica que domina la bahía de Fort-de-France.", cr:"Fò istorik ki ka domine bé Fò-di-Frans." },
+  "Marché couvert de Fort-de-France": { en:"Spices, fruit and local crafts right in the city center.", es:"Especias, frutas y artesanía local en pleno centro.", cr:"Zépis, fwi ek atizana lokal an plen sant-vil." },
+  "Habitation Clément": { en:"Historic estate and aged rum distillery, with gardens.", es:"Finca histórica y destilería de ron añejo, con jardines.", cr:"Bitasyon istorik ek distilri wonm vyé, ak jaden." },
+  "Gorges de la Falaise": { en:"Water hike through a narrow canyon.", es:"Senderismo acuático por un cañón estrecho.", cr:"Rando nan dlo adan an gòj sèré." },
+  "Montagne Pelée": { en:"Climb up the north's iconic volcano.", es:"Ascenso al volcán emblemático del norte.", cr:"Monté volkan koni nan nò-a." },
+  "Plage du Carbet": { en:"Black sand beach at the foot of Le Carbet, steeped in history.", es:"Playa de arena negra al pie de Carbet, cargada de historia.", cr:"Plaj sab nwè o pyé Kabé, plen istwa." },
+  "Réserve naturelle de la Caravelle": { en:"Protected peninsula with coastal trails and historic ruins.", es:"Península protegida con senderos costeros y ruinas históricas.", cr:"Prèskil pwotéjé, chimen bò lanmè ek rwin istorik." },
+  "Cascades d'Absalon": { en:"Warm-water pools and an easy forest trail.", es:"Piscinas de agua tibia y un sendero forestal fácil.", cr:"Basen dlo cho ek an ti chimen an bwa fasil." },
+  "Distillerie Saint James": { en:"Martinique's oldest agricultural rum brand, with an on-site museum.", es:"La marca de ron agrícola más antigua de Martinica, con museo in situ.", cr:"Pli ansyen mak wonm agrikol Matinik, ak an mizé asou plas-la." },
+  "Jardin de Balata": { en:"Remarkable tropical garden in the hills above Fort-de-France.", es:"Notable jardín tropical en las alturas de Fort-de-France.", cr:"Bel jaden twopikal anlè Fò-di-Frans." },
+  "Zoo de Martinique (Habitation Latouche)": { en:"Tropical zoo in Le Carbet, set on a former plantation.", es:"Zoológico tropical en Le Carbet, en una antigua hacienda.", cr:"Zoo twopikal Kabé, asou an ansyen bitasyon." },
+  "Lolos de la Grande Anse des Salines": { en:"Beach shacks serving grilled fish and smoked chicken by the sea.", es:"Cabañas de playa que sirven pescado a la parrilla y pollo ahumado frente al mar.", cr:"Ti kabann bò plaj ka sèvi pwason gwiyé ek poulé boukané fasafas lanmè." },
+  "Plage de Bois Jolan": { en:"Long family-friendly beach lined with casuarina trees.", es:"Larga playa familiar bordeada de casuarinas.", cr:"Long plaj bon pou fanmi, bòdé ak pyé filao." },
+  "Pointe des Châteaux": { en:"Spectacular viewpoint at the island's eastern tip.", es:"Mirador espectacular en la punta este de la isla.", cr:"Bel pwen vi an bout lès lil-la." },
+  "Chutes du Carbet": { en:"Majestic waterfalls at the heart of the national park.", es:"Cascadas majestuosas en el corazón del parque nacional.", cr:"Chit dlo majestyé an mitan pak nasyonal-la." },
+  "La Soufrière": { en:"Active volcano, hike up to the summit.", es:"Volcán activo, senderismo hasta la cima.", cr:"Volkan aktif, rando pou rivé o somè-a." },
+  "Plage de Grande Anse (Deshaies)": { en:"One of the island's most beautiful beaches, peaceful atmosphere.", es:"Una de las playas más bonitas de la isla, ambiente tranquilo.", cr:"Youn adan pli bel plaj lil-la, anbyans trankil." },
+  "Jardin botanique de Deshaies": { en:"Tropical garden with parrots and koi ponds.", es:"Jardín tropical con loros y estanques de carpas koi.", cr:"Jaden twopikal ak jako ek basen pwason koi." },
+  "Cascade aux Écrevisses": { en:"Small, very accessible waterfall in the tropical forest.", es:"Pequeña cascada muy accesible en la selva tropical.", cr:"Ti chit dlo fasil pou rivé adan forè twopikal-la." },
+  "Réserve Cousteau (îlet Pigeon)": { en:"Snorkeling and diving in a renowned marine reserve.", es:"Esnórquel y buceo en una reconocida reserva marina.", cr:"Naje ak tiba ek plonjé adan an rézèv maritim renonmé." },
+  "Fort Fleur d'Épée": { en:"18th-century fortification with a view over the bay.", es:"Fortificación del siglo XVIII con vistas a la bahía.", cr:"Fò 18tyèm syèk ak vi asou bé-a." },
+  "Marché de Pointe-à-Pitre": { en:"Spice and fruit market in the city center.", es:"Mercado de especias y frutas en el centro.", cr:"Mahé zépis ek fwi an sant-vil." },
+  "Aquarium de Guadeloupe": { en:"Tropical aquarium with sharks and turtles, in Le Gosier.", es:"Acuario tropical con tiburones y tortugas, en Le Gosier.", cr:"Akwaryòm twopikal ak reken ek tòti, Gozyé." },
+  "Mémorial ACTe": { en:"Caribbean center for expression and memory of the slave trade and slavery, in Pointe-à-Pitre.", es:"Centro caribeño de expresión y memoria de la trata y la esclavitud, en Pointe-à-Pitre.", cr:"Sant karayib pou memwa lèsklavaj, Pwent-a-Pit." },
+  "Terre-de-Haut": { en:"Picturesque islet with coves and colorful houses.", es:"Isla pintoresca con calas y casas de colores.", cr:"Ti lil bel ak ans ek kaz kolowé." },
+  "Distilleries de Marie-Galante": { en:"Island with many agricultural rum distilleries.", es:"Isla con numerosas destilerías de ron agrícola.", cr:"Lil ki ni anpil distilri wonm agrikol." },
+  "Plages de La Désirade": { en:"Unspoiled island with arid landscapes and deserted beaches.", es:"Isla preservada con paisajes áridos y playas desiertas.", cr:"Lil prézèvé ak péyizaj sèk ek plaj dézè." },
+  "Centre Spatial Guyanais": { en:"European space launch base, guided tours.", es:"Base europea de lanzamiento espacial, visitas guiadas.", cr:"Baz lansman espasyal éwopéyen, vizit gidé." },
+  "Îles du Salut": { en:"Former penal colony islands, reachable by boat from Kourou.", es:"Antiguas islas del presidio, accesibles en barco desde Kourou.", cr:"Ansyen lil bagn, ou ka rivé la an bato depi Kourou." },
+  "Marché de Cayenne": { en:"Colorful market blending Creole, Hmong and Brazilian influences.", es:"Mercado colorido que mezcla influencias criollas, hmong y brasileñas.", cr:"Mahé plen koulè ki melanjé enfliyans kréyòl, hmong ek brézilyen." },
+  "Place des Palmistes": { en:"Historic heart of Cayenne, lined with colonial buildings.", es:"Corazón histórico de Cayena, bordeado de edificios coloniales.", cr:"Kè istorik Kayenn, bòdé ak bâtiman kolonyal." },
+  "Plage de Montjoly": { en:"Beach near Cayenne, popular on weekends.", es:"Playa cerca de Cayena, muy visitada los fines de semana.", cr:"Plaj toupré Kayenn, moun ka vini anpil wikenn." },
+  "Pointe Buzaré": { en:"Small rocky, wooded point by the sea, close to downtown.", es:"Pequeña punta rocosa y boscosa junto al mar, cerca del centro.", cr:"Ti pwent wòch ek bwa bò lanmè, toupré sant-vil-la." },
+  "Camp de la Transportation": { en:"Former penal colony, a major relic of penitentiary history.", es:"Antiguo presidio, vestigio importante de la historia penitenciaria.", cr:"Ansyen bagn, gran tras istwa prizon-an." },
+  "Fleuve Maroni": { en:"Dugout canoe trip up to Amerindian and Bushinengue villages.", es:"Remontada en piragua hacia los pueblos amerindios y bushinengué.", cr:"Monté an pirog pou rivé bò vilaj Endyen ek Bushinengué." },
+  "Chutes Voltaire": { en:"Waterfall deep in the Amazon rainforest, near Roura.", es:"Cascada en el corazón de la selva amazónica, cerca de Roura.", cr:"Chit dlo an mitan forè amazonyèn, toupré Roura." },
+  "Plage de l'Orient": { en:"Large beach lined with restaurants and water activities.", es:"Gran playa bordeada de restaurantes y actividades acuáticas.", cr:"Gran plaj bòdé ak restoran ek aktivite nan dlo." },
+  "Marché de Marigot": { en:"Lively seaside market with Creole specialties.", es:"Animado mercado junto al mar con especialidades criollas.", cr:"Mahé anniman bò lanmè ak espesyalité kréyòl." },
+  "Pic Paradis": { en:"The island's highest point, 360° views from a free hiking trail.", es:"El punto más alto de la isla, vistas de 360° desde un sendero gratuito.", cr:"Pi wo pwen lil-la, vi 360° an long an chimen rando gratis." },
+  "Loterie Farm": { en:"Nature reserve with a forest pool, ziplines and treetop courses.", es:"Reserva natural con piscina en el bosque, tirolinas y recorridos entre los árboles.", cr:"Rézèv natirèl ak pisin an forè, tirolyèn ek chimen anlè pyébwa." },
+  "Restaurants de Grand Case": { en:"Renowned dining strip by the sea, from fine cuisine to affordable lolos.", es:"Reconocida calle gastronómica junto al mar, de la alta cocina a los lolos económicos.", cr:"Ri restoran renonmé bò lanmè, sòti nan gran kizin rivé bò lolo bon mache." },
+  "Baie Rouge": { en:"Wild beach famous for its sunsets.", es:"Playa salvaje famosa por sus atardeceres.", cr:"Plaj sovaj ki renonmé pou koushé solèy li." },
+  "Plage de Saint-Jean": { en:"Main beach lined with shops and restaurants.", es:"Playa principal bordeada de tiendas y restaurantes.", cr:"Prensipal plaj bòdé ak boutik ek restoran." },
+  "Gustavia": { en:"Historic port with bars and restaurants that come alive at night.", es:"Puerto histórico con bares y restaurantes animados por la noche.", cr:"Pò istorik ak ba ek restoran ki anniman lasswè." },
+  "Musée Territorial de Saint-Barthélemy": { en:"Small museum tracing the island's history and traditions, in Gustavia.", es:"Pequeño museo que recorre la historia y las tradiciones de la isla, en Gustavia.", cr:"Ti mizé ki rakonté istwa ek tradisyon lil-la, Gustavia." },
+  "Shell Beach": { en:"Small shell beach just steps from Gustavia.", es:"Pequeña playa de conchas a pocos pasos de Gustavia.", cr:"Ti plaj kokiy toupré Gustavia." },
+  "Colombier": { en:"Secluded hiking trail with views over the Caribbean Sea.", es:"Sendero de senderismo aislado con vistas al mar Caribe.", cr:"Chimen rando izolé ak vi asou lanmè karayib-la." },
+  "Anse du Gouverneur": { en:"Secluded beach at the foot of a cliff, very popular with couples.", es:"Playa aislada al pie de un acantilado, muy popular entre las parejas.", cr:"Plaj izolé o pyé an falèz, koup ka renmen'y anpil." },
+};
+function placeDesc(p) {
+  if (lang && lang !== 'fr' && DESC_I18N[p.nom] && DESC_I18N[p.nom][lang]) return DESC_I18N[p.nom][lang];
+  return p.desc;
+}
 
 // Lien Google Maps pour lancer un itinéraire vers un lieu (aucune clé API
 // nécessaire — c'est un simple lien universel reconnu par l'appli Maps).
@@ -601,7 +680,7 @@ function openFavsModal() {
           <span class="tab">${TERRITOIRES.find(t=>t.key===p.t).label} · ${p.z}</span>
           <button class="fav-btn active" data-nom="${p.nom.replace(/"/g,'&quot;')}">❤️</button>
           <p class="nom">${p.nom}</p>
-          <p class="desc">${p.desc}</p>
+          <p class="desc">${placeDesc(p)}</p>
           <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener">🧭 ${t('itineraire')}</a>
         </div>`).join('')}</div>
   </div>`;
@@ -848,20 +927,47 @@ function renderResults() {
   document.getElementById('resultsList').innerHTML = results.length === 0
     ? `<div class="empty"><span class="e">🌴</span>${sortBy==='favoris' ? t('emptyFavoris') : t('emptyResults')}</div>`
     : results.map(p => `
-      <div class="place">
+      <div class="place" data-open="${p.nom.replace(/"/g,'&quot;')}" style="cursor:pointer;">
         <span class="tab">${p.z}</span>
         <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${p.nom.replace(/"/g,'&quot;')}">${isFav(p.nom)?'❤️':'🤍'}</button>
         <p class="nom">${p.nom}</p>
-        <p class="desc">${p.desc}</p>
         <div class="vibes">
           ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
           <span class="chip-meta">${budgetLabel(p.budget)}</span>
           <span class="chip-meta">${dureeLabel(p.duree)}</span>
-          ${p.tarif ? `<span class="chip-meta">💶 ${p.tarif}</span>` : ''}
         </div>
-        <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener">🧭 ${t('itineraire')}</a>
       </div>`).join('');
-  document.querySelectorAll('.fav-btn').forEach(el => { el.onclick = () => toggleFav(el.dataset.nom); });
+  document.querySelectorAll('.fav-btn').forEach(el => { el.onclick = (e) => { e.stopPropagation(); toggleFav(el.dataset.nom); }; });
+  document.querySelectorAll('.place[data-open]').forEach(el => {
+    el.onclick = () => { const p = PLACES.find(x => x.nom === el.dataset.open); if (p) openPlaceDetail(p); };
+  });
+}
+
+// ---- Fiche détail d'un lieu ----
+function openPlaceDetail(p) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'placeOverlay';
+  document.body.appendChild(overlay);
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>${p.nom}</h3><button class="modal-close" id="closePlace">✕</button></div>
+    <p class="loc" style="margin-bottom:10px;">${TERRITOIRES.find(x=>x.key===p.t).label} · ${p.z}</p>
+    <p class="desc" style="margin-bottom:14px;">${placeDesc(p)}</p>
+    <div class="vibes" style="margin-bottom:14px;">
+      ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
+      <span class="chip-meta">${t('budget_'+p.budget)}</span>
+      <span class="chip-meta">${t('duree_'+p.duree)}</span>
+    </div>
+    <div class="day-card">
+      <p class="adv-label" style="margin-bottom:6px;">${t('detailTarif')}</p>
+      <p style="margin:0 0 14px; font-size:13.5px;">${p.tarif ? p.tarif : t('detailTarifUnknown')}</p>
+      ${p.conseils ? `<p class="adv-label" style="margin-bottom:6px;">${t('detailConseil')}</p><p style="margin:0; font-size:13.5px;">💡 ${p.conseils}</p>` : ''}
+    </div>
+    <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener" style="display:flex; justify-content:center; margin-bottom:10px;">🧭 ${t('itineraire')}</a>
+    ${p.site ? `<a class="btn btn-ghost" href="${p.site}" target="_blank" rel="noopener" style="display:block; text-align:center; text-decoration:none;">🔗 ${t('detailSite')}</a>` : ''}
+  </div>`;
+  document.getElementById('closePlace').onclick = () => overlay.remove();
 }
 
 render();
