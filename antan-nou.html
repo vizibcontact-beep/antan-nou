@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Antan Nou — Trouve ta sortie</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2E2A5C">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Antan Nou">
+<style>
+  :root {
+    --ink:#1B1A2E; --indigo:#2E2A5C; --indigo-soft:#EDEBF7;
+    --coral:#F0654A; --coral-soft:#FDE4DE;
+    --sand:#FBF8F2; --card:#FFFFFF; --line:#E7E3F0; --muted:#736F8C;
+    --gold:#D9A441; --gold-soft:#FBF0DA;
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { margin:0; padding:0; background:var(--sand); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  #app { max-width:480px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column; }
+
+  header { padding:20px 20px 14px; }
+  header .brand-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  header .brand { display:flex; align-items:center; gap:8px; }
+  header .brand .mark { width:30px; height:30px; border-radius:9px; background:var(--indigo); display:flex; align-items:center; justify-content:center; font-size:15px; }
+  header .brand .name { font-weight:800; font-size:15px; letter-spacing:-.01em; }
+  header .icon-row { display:flex; gap:8px; }
+  .icon-btn { position:relative; width:38px; height:38px; border-radius:12px; background:var(--card); border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:17px; cursor:pointer; }
+  .icon-btn .badge { position:absolute; top:-5px; right:-5px; background:var(--coral); color:white; font-size:10px; font-weight:800; min-width:16px; height:16px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 3px; }
+
+  .modal-overlay { position:fixed; inset:0; background:rgba(27,26,46,.55); display:flex; align-items:flex-end; z-index:1000; }
+  .modal { background:var(--sand); width:100%; max-width:480px; margin:0 auto; border-radius:22px 22px 0 0; padding:20px; max-height:88vh; overflow-y:auto; }
+  .modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .modal-head h3 { margin:0; font-size:17px; font-weight:800; }
+  .modal-close { width:30px; height:30px; border-radius:50%; background:var(--card); border:1px solid var(--line); font-size:14px; cursor:pointer; }
+  .day-card { background:var(--card); border-radius:16px; border:1px solid var(--line); padding:14px; margin-bottom:12px; }
+  .day-card h4 { margin:0 0 10px; font-size:14px; font-weight:800; color:var(--indigo); }
+  .slot { display:flex; gap:10px; padding:8px 0; border-top:1px solid var(--line); }
+  .slot:first-of-type { border-top:none; }
+  .slot .when { flex:0 0 76px; font-size:11px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; padding-top:2px; }
+  .slot .what .nom { font-size:13.5px; font-weight:700; margin:0; }
+  .slot .what .z { font-size:11.5px; color:var(--muted); margin:1px 0 0; }
+  .prog-form .adv-group { margin-bottom:16px; }
+  .num-row { display:flex; gap:8px; }
+  .num-opt { flex:1; text-align:center; padding:10px; border-radius:12px; background:var(--card); border:1.5px solid var(--line); font-weight:700; font-size:14px; cursor:pointer; }
+  .num-opt.sel { background:var(--indigo); border-color:var(--indigo); color:white; }
+  .stepper { display:flex; gap:6px; }
+  .stepper .dot { flex:1; height:4px; border-radius:2px; background:var(--line); }
+  .stepper .dot.done { background:var(--coral); }
+  .step-title { font-size:20px; font-weight:800; margin:14px 0 4px; letter-spacing:-.01em; }
+  .step-sub { font-size:13px; color:var(--muted); margin:0; }
+
+  main { flex:1; padding:6px 20px 100px; overflow-y:auto; }
+
+  .postcard-grid { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+  .postcard { border-radius:18px; padding:16px; display:flex; align-items:center; gap:14px; cursor:pointer; border:2px solid transparent; color:white; position:relative; }
+  .postcard .stamp { font-size:26px; }
+  .postcard .name { font-weight:800; font-size:15px; }
+  .postcard.sel { border-color:var(--ink); }
+  .postcard.sel::after { content:"✓"; position:absolute; right:14px; top:50%; transform:translateY(-50%); width:22px; height:22px; background:white; color:var(--ink); border-radius:50%; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; }
+
+  .pill-wrap { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+  .pill { font-size:13px; font-weight:600; padding:9px 16px; border-radius:999px; background:var(--card); border:1.5px solid var(--line); cursor:pointer; }
+  .pill.sel { background:var(--ink); border-color:var(--ink); color:white; }
+
+  .vibe-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:16px; }
+  .vibe { aspect-ratio:1; border-radius:16px; background:var(--card); border:1.5px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; cursor:pointer; font-size:11px; font-weight:700; color:var(--muted); text-align:center; padding:4px; }
+  .vibe .e { font-size:22px; }
+  .vibe.sel { background:var(--coral-soft); border-color:var(--coral); color:var(--coral); }
+
+  .advanced-toggle { display:flex; align-items:center; justify-content:center; gap:6px; margin:20px 0 4px; padding:10px; border-radius:12px; border:1.5px dashed var(--line); color:var(--muted); font-size:12.5px; font-weight:700; cursor:pointer; }
+  .advanced-panel { display:none; margin-top:14px; }
+  .advanced-panel.open { display:block; }
+  .adv-group { margin-bottom:16px; }
+  .adv-label { font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:800; color:var(--muted); margin:0 0 8px; }
+  .adv-row { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip-opt { font-size:12px; font-weight:600; padding:7px 13px; border-radius:999px; background:var(--card); border:1.5px solid var(--line); cursor:pointer; }
+  .chip-opt.sel { background:var(--gold-soft); border-color:var(--gold); color:#8A6110; }
+
+  .search-bar { display:flex; align-items:center; gap:8px; background:var(--card); border:1.5px solid var(--line); border-radius:14px; padding:10px 14px; margin:14px 0 10px; }
+  .search-bar input { border:none; outline:none; flex:1; font-size:14px; background:none; color:var(--ink); }
+  .sort-row { display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; }
+  .sort-chip { flex:0 0 auto; font-size:11.5px; font-weight:700; padding:6px 12px; border-radius:999px; background:var(--card); border:1.5px solid var(--line); color:var(--muted); cursor:pointer; white-space:nowrap; }
+  .sort-chip.sel { background:var(--indigo); border-color:var(--indigo); color:white; }
+
+  .results-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:4px; }
+  .results-head h2 { font-size:14px; margin:0; font-weight:800; }
+  .results-head span { font-size:12px; color:var(--muted); }
+
+  .place { background:var(--card); border-radius:18px; border:1px solid var(--line); padding:16px; margin-bottom:12px; position:relative; }
+  .place .tab { position:absolute; top:-1px; left:16px; background:var(--indigo); color:white; font-size:10px; font-weight:800; padding:4px 10px; border-radius:0 0 8px 8px; letter-spacing:.03em; }
+  .fav-btn { position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:50%; background:var(--sand); display:flex; align-items:center; justify-content:center; font-size:15px; cursor:pointer; border:none; }
+  .fav-btn.active { background:var(--coral-soft); }
+  .place .nom { font-size:15.5px; font-weight:800; margin:14px 40px 2px 0; }
+  .place .loc { font-size:12px; color:var(--muted); margin:0 0 8px; }
+  .place .desc { font-size:13px; line-height:1.45; margin:0 0 10px; color:#403C55; }
+  .place .vibes { display:flex; gap:6px; flex-wrap:wrap; }
+  .chip-vibe { font-size:10.5px; font-weight:700; background:var(--indigo-soft); color:var(--indigo); padding:3px 9px; border-radius:999px; }
+  .chip-meta { font-size:10.5px; font-weight:700; background:var(--gold-soft); color:#8A6110; padding:3px 9px; border-radius:999px; }
+
+  .empty { text-align:center; padding:40px 20px; color:var(--muted); font-size:13.5px; }
+  .empty .e { font-size:34px; display:block; margin-bottom:10px; }
+
+  nav.bottom-nav { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:var(--card); border-top:1px solid var(--line); padding:12px 16px; display:flex; gap:10px; }
+  .btn { flex:1; padding:13px; border-radius:12px; border:none; font-size:15px; font-weight:700; cursor:pointer; text-align:center; }
+  .btn-primary { background:var(--ink); color:white; }
+  .btn-primary:disabled { background:var(--line); color:var(--muted); }
+  .btn-ghost { background:var(--sand); color:var(--ink); border:1px solid var(--line); flex:0 0 90px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="brand-row">
+      <div class="brand"><div class="mark">🧭</div><div class="name">Antan Nou</div></div>
+      <div class="icon-row">
+        <button class="icon-btn" id="openProgram" aria-label="Programme automatique">✨</button>
+        <button class="icon-btn" id="openFavs" aria-label="Mes favoris">❤️<span class="badge" id="favBadge" style="display:none;">0</span></button>
+      </div>
+    </div>
+    <div class="stepper"><div class="dot" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
+    <p class="step-title" id="stepTitle"></p>
+    <p class="step-sub" id="stepSub"></p>
+  </header>
+  <main id="main"></main>
+  <nav class="bottom-nav" id="bottomNav"></nav>
+</div>
+
+<script>
+/* =========================================================================
+   ANTAN NOU — version "améliorée" façon KwaFaire, étendue à toute la zone
+   Antilles-Guyane, avec des filtres supplémentaires (budget, durée, moment,
+   accessibilité), une recherche libre, un tri des résultats et des favoris
+   persistés en local. Identité visuelle et nom propres au projet.
+   ========================================================================= */
+
+const TERRITOIRES = [
+  { key:"martinique", label:"Martinique", stamp:"🌺", grad:"linear-gradient(135deg,#2E2A5C,#4A3F8C)" },
+  { key:"guadeloupe", label:"Guadeloupe", stamp:"🦋", grad:"linear-gradient(135deg,#1B6E63,#2E9C7F)" },
+  { key:"guyane", label:"Guyane", stamp:"🌳", grad:"linear-gradient(135deg,#2F5233,#4C7A44)" },
+  { key:"saint-martin", label:"Saint-Martin", stamp:"🏝️", grad:"linear-gradient(135deg,#1E6091,#2E8FBD)" },
+  { key:"saint-barthelemy", label:"Saint-Barthélemy", stamp:"⛵", grad:"linear-gradient(135deg,#8A4B6B,#BD6E92)" },
+];
+
+const ZONES = {
+  martinique: ["Nord Caraïbe","Nord Atlantique","Centre","Sud"],
+  guadeloupe: ["Sud Grande-Terre","Nord Grande-Terre","Sud Basse-Terre","Nord Basse-Terre","Région Pointoise","Les Saintes","Marie-Galante","La Désirade"],
+  guyane: ["Cayenne & littoral","Kourou","Saint-Laurent-du-Maroni","Intérieur & fleuves"],
+  "saint-martin": ["Toute l'île"],
+  "saint-barthelemy": ["Toute l'île"],
+};
+
+const VIBES = [
+  { key:"manger", label:"Manger", e:"🍽️" },
+  { key:"plage", label:"Plage", e:"🏖️" },
+  { key:"nature", label:"Nature", e:"🌿" },
+  { key:"activites", label:"Activités", e:"🎉" },
+  { key:"famille", label:"Famille", e:"👶" },
+  { key:"couple", label:"Couple", e:"💕" },
+  { key:"boire", label:"Verre", e:"🍹" },
+  { key:"culture", label:"Culture", e:"🗿" },
+];
+
+const BUDGETS = [ ["gratuit","Gratuit"], ["petit-budget","Petit budget"], ["premium","Premium"] ];
+const DUREES = [ ["rapide","< 1h"], ["demi-journee","Demi-journée"], ["journee","Journée entière"] ];
+const MOMENTS = [ ["jour","En journée"], ["soir","En soirée"] ];
+const ACCES = [ ["poussette","Poussette-friendly"], ["pmr","Accès PMR"], ["interieur","À l'abri (si pluie)"] ];
+
+const PLACES = [
+  { t:"martinique", z:"Sud", nom:"Grande Anse des Salines", v:["plage","famille"], desc:"La plage la plus réputée du sud, sable fin et cocotiers.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+  { t:"martinique", z:"Sud", nom:"Rocher du Diamant", v:["plage","activites"], desc:"Îlot emblématique face à une longue plage de sable.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[] },
+  { t:"martinique", z:"Sud", nom:"Les Anses-d'Arlet", v:["plage","couple"], desc:"Village de pêcheurs et petites plages tranquilles.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+  { t:"martinique", z:"Sud", nom:"Bars de plage de Sainte-Anne", v:["boire","couple"], desc:"Ambiance festive en bord de mer, surtout en soirée.", budget:"petit-budget", duree:"rapide", moment:"soir", acces:[] },
+  { t:"martinique", z:"Centre", nom:"Fort Saint-Louis", v:["culture"], desc:"Fortification historique dominant la baie de Fort-de-France.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"] },
+  { t:"martinique", z:"Centre", nom:"Marché couvert de Fort-de-France", v:["manger","culture"], desc:"Épices, fruits et artisanat local en plein centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["poussette","interieur"] },
+  { t:"martinique", z:"Centre", nom:"Habitation Clément", v:["culture","couple"], desc:"Domaine historique et distillerie de rhum vieux, avec jardins.", budget:"premium", duree:"demi-journee", moment:"jour", acces:["pmr"] },
+  { t:"martinique", z:"Nord Caraïbe", nom:"Gorges de la Falaise", v:["nature","activites"], desc:"Randonnée aquatique dans un canyon encaissé.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[] },
+  { t:"martinique", z:"Nord Caraïbe", nom:"Montagne Pelée", v:["nature","activites"], desc:"Ascension du volcan emblématique du nord.", budget:"gratuit", duree:"journee", moment:"jour", acces:[] },
+  { t:"martinique", z:"Nord Atlantique", nom:"Réserve naturelle de la Caravelle", v:["nature","famille"], desc:"Presqu'île protégée, sentiers côtiers et ruines historiques.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+
+  { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Plage de Bois Jolan", v:["plage","famille"], desc:"Longue plage familiale bordée de filaos.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+  { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Pointe des Châteaux", v:["plage","nature"], desc:"Point de vue spectaculaire à la pointe est de l'île.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[] },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Chutes du Carbet", v:["nature","activites"], desc:"Cascades majestueuses au cœur du parc national.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[] },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"La Soufrière", v:["nature","activites"], desc:"Volcan actif, randonnée vers le sommet.", budget:"gratuit", duree:"journee", moment:"jour", acces:[] },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Plage de Grande Anse (Deshaies)", v:["plage","couple"], desc:"Une des plus belles plages de l'île, ambiance paisible.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Jardin botanique de Deshaies", v:["nature","famille"], desc:"Jardin tropical avec perroquets et bassins de koïs.", budget:"premium", duree:"demi-journee", moment:"jour", acces:["poussette","pmr"] },
+  { t:"guadeloupe", z:"Région Pointoise", nom:"Fort Fleur d'Épée", v:["culture"], desc:"Fortification du XVIIIe siècle avec vue sur la baie.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[] },
+  { t:"guadeloupe", z:"Région Pointoise", nom:"Marché de Pointe-à-Pitre", v:["manger","culture"], desc:"Marché aux épices et fruits en centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"] },
+  { t:"guadeloupe", z:"Les Saintes", nom:"Terre-de-Haut", v:["plage","couple"], desc:"Îlot pittoresque aux criques et maisons colorées.", budget:"petit-budget", duree:"journee", moment:"jour", acces:[] },
+  { t:"guadeloupe", z:"Marie-Galante", nom:"Distilleries de Marie-Galante", v:["culture","manger"], desc:"Île aux nombreuses distilleries de rhum agricole.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["interieur"] },
+  { t:"guadeloupe", z:"La Désirade", nom:"Plages de La Désirade", v:["nature","plage"], desc:"Île préservée aux paysages arides et plages désertes.", budget:"gratuit", duree:"journee", moment:"jour", acces:[] },
+
+  { t:"guyane", z:"Kourou", nom:"Centre Spatial Guyanais", v:["culture","activites"], desc:"Base de lancement spatiale européenne, visites guidées.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["pmr","interieur"] },
+  { t:"guyane", z:"Kourou", nom:"Îles du Salut", v:["culture","nature"], desc:"Anciennes îles du bagne, accessibles en bateau depuis Kourou.", budget:"premium", duree:"journee", moment:"jour", acces:[] },
+  { t:"guyane", z:"Cayenne & littoral", nom:"Marché de Cayenne", v:["manger","culture"], desc:"Marché coloré mêlant influences créole, hmong et brésilienne.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"] },
+  { t:"guyane", z:"Cayenne & littoral", nom:"Place des Palmistes", v:["culture","famille"], desc:"Cœur historique de Cayenne, bordé de bâtiments coloniaux.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["poussette"] },
+  { t:"guyane", z:"Cayenne & littoral", nom:"Plage de Montjoly", v:["plage","famille"], desc:"Plage proche de Cayenne, prisée le week-end.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+  { t:"guyane", z:"Saint-Laurent-du-Maroni", nom:"Camp de la Transportation", v:["culture"], desc:"Ancien bagne, vestige majeur de l'histoire pénitentiaire.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["pmr"] },
+  { t:"guyane", z:"Intérieur & fleuves", nom:"Fleuve Maroni", v:["nature","activites"], desc:"Remontée en pirogue vers les villages amérindiens et bushinengué.", budget:"premium", duree:"journee", moment:"jour", acces:[] },
+
+  { t:"saint-martin", z:"Toute l'île", nom:"Plage de l'Orient", v:["plage","famille"], desc:"Grande plage bordée de restaurants et activités nautiques.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+  { t:"saint-martin", z:"Toute l'île", nom:"Marché de Marigot", v:["manger","culture"], desc:"Marché animé en bord de mer, spécialités créoles.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[] },
+  { t:"saint-martin", z:"Toute l'île", nom:"Pic Paradis", v:["nature","activites"], desc:"Point culminant de l'île, vue à 360° et tyrolienne.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[] },
+  { t:"saint-martin", z:"Toute l'île", nom:"Restaurants de Grand Case", v:["manger","couple"], desc:"Rue gastronomique réputée en bord de mer.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"] },
+
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Plage de Saint-Jean", v:["plage","couple"], desc:"Plage principale bordée de boutiques et restaurants.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"] },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Gustavia", v:["culture","boire"], desc:"Port historique et ses bars/restaurants en soirée.", budget:"premium", duree:"rapide", moment:"soir", acces:["interieur"] },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Shell Beach", v:["plage","couple"], desc:"Petite plage de coquillages à deux pas de Gustavia.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[] },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Colombier", v:["nature","activites"], desc:"Sentier de randonnée isolé avec vue sur la mer des Caraïbes.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[] },
+];
+
+// ---- État ----
+let step = 0;
+let selT = null, selZ = null, selV = [];
+let advOpen = false;
+let selBudget = [], selDuree = [], selMoment = [], selAcces = [];
+let searchQ = "";
+let sortBy = "pertinence";
+
+const FAV_KEY = "antan_nou_favoris_v1";
+function loadFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch(e){ return []; } }
+function saveFavs(f) { localStorage.setItem(FAV_KEY, JSON.stringify(f)); }
+let favoris = loadFavs();
+function isFav(nom) { return favoris.includes(nom); }
+function toggleFav(nom) {
+  if (isFav(nom)) favoris = favoris.filter(n => n !== nom);
+  else favoris.push(nom);
+  saveFavs(favoris);
+  renderResults();
+  updateFavBadge();
+}
+function updateFavBadge() {
+  const b = document.getElementById('favBadge');
+  if (favoris.length > 0) { b.style.display = 'flex'; b.textContent = favoris.length; }
+  else { b.style.display = 'none'; }
+}
+
+// ---- Fenêtre Favoris ----
+function openFavsModal() {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'favsOverlay';
+  const items = PLACES.filter(p => favoris.includes(p.nom));
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>Mes favoris</h3><button class="modal-close" id="closeFavs">✕</button></div>
+    <div id="favsList">${items.length === 0
+      ? `<div class="empty"><span class="e">🤍</span>Aucun favori pour l'instant. Touche le cœur sur une sortie pour l'ajouter ici.</div>`
+      : items.map(p => `
+        <div class="place">
+          <span class="tab">${TERRITOIRES.find(t=>t.key===p.t).label} · ${p.z}</span>
+          <button class="fav-btn active" data-nom="${p.nom.replace(/"/g,'&quot;')}">❤️</button>
+          <p class="nom">${p.nom}</p>
+          <p class="desc">${p.desc}</p>
+        </div>`).join('')}</div>
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  document.getElementById('closeFavs').onclick = () => overlay.remove();
+  overlay.querySelectorAll('.fav-btn').forEach(el => {
+    el.onclick = () => { toggleFav(el.dataset.nom); openFavsModal(); overlay.remove(); };
+  });
+}
+document.getElementById('openFavs').onclick = openFavsModal;
+
+// ---- Fenêtre Programme automatique ----
+let progT = null, progDays = 2, progV = [], progBudget = [];
+
+function openProgramModal() {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'progOverlay';
+  renderProgramForm(overlay);
+  document.body.appendChild(overlay);
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+}
+document.getElementById('openProgram').onclick = openProgramModal;
+
+function renderProgramForm(overlay) {
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>Composer un programme</h3><button class="modal-close" id="closeProg">✕</button></div>
+    <p class="step-sub" style="margin-bottom:16px;">Choisis tes critères, l'algorithme assemble un programme jour par jour à partir des lieux disponibles.</p>
+    <div class="prog-form">
+      <div class="adv-group"><p class="adv-label">Territoire</p><div class="adv-row">
+        ${TERRITOIRES.map(t => `<div class="chip-opt ${progT===t.key?'sel':''}" data-pt="${t.key}">${t.stamp} ${t.label}</div>`).join('')}
+      </div></div>
+      <div class="adv-group"><p class="adv-label">Durée du séjour</p><div class="num-row">
+        ${[1,2,3,5].map(n => `<div class="num-opt ${progDays===n?'sel':''}" data-pd="${n}">${n}j</div>`).join('')}
+      </div></div>
+      <div class="adv-group"><p class="adv-label">Envies (optionnel, sinon toutes)</p><div class="adv-row">
+        ${VIBES.map(v => `<div class="chip-opt ${progV.includes(v.key)?'sel':''}" data-pv="${v.key}">${v.e} ${v.label}</div>`).join('')}
+      </div></div>
+      <div class="adv-group"><p class="adv-label">Budget (optionnel)</p><div class="adv-row">
+        ${BUDGETS.map(([k,l]) => `<div class="chip-opt ${progBudget.includes(k)?'sel':''}" data-pb="${k}">${l}</div>`).join('')}
+      </div></div>
+    </div>
+    <button class="btn btn-primary" id="genProg" style="width:100%;" ${progT?'':'disabled'}>Générer mon programme</button>
+  </div>`;
+  document.getElementById('closeProg').onclick = () => overlay.remove();
+  overlay.querySelectorAll('[data-pt]').forEach(el => { el.onclick = () => { progT = el.dataset.pt; renderProgramForm(overlay); }; });
+  overlay.querySelectorAll('[data-pd]').forEach(el => { el.onclick = () => { progDays = parseInt(el.dataset.pd); renderProgramForm(overlay); }; });
+  overlay.querySelectorAll('[data-pv]').forEach(el => {
+    el.onclick = () => { const k = el.dataset.pv; progV = progV.includes(k) ? progV.filter(x=>x!==k) : [...progV,k]; renderProgramForm(overlay); };
+  });
+  overlay.querySelectorAll('[data-pb]').forEach(el => {
+    el.onclick = () => { const k = el.dataset.pb; progBudget = progBudget.includes(k) ? progBudget.filter(x=>x!==k) : [...progBudget,k]; renderProgramForm(overlay); };
+  });
+  const genBtn = document.getElementById('genProg');
+  if (genBtn) genBtn.onclick = () => renderProgramResult(overlay);
+}
+
+// Algorithme de composition : répartit les lieux filtrés sur des créneaux
+// Matin / Après-midi / Soir par jour, selon la durée de chaque lieu.
+function generateProgram() {
+  let pool = PLACES.filter(p => {
+    if (p.t !== progT) return false;
+    if (progV.length && !p.v.some(v => progV.includes(v))) return false;
+    if (progBudget.length && !progBudget.includes(p.budget)) return false;
+    return true;
+  });
+  // mélange légèrement pour varier les propositions d'une génération à l'autre
+  pool = pool.map(p => ({p, r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.p);
+
+  const days = [];
+  for (let d = 0; d < progDays; d++) days.push({ matin:null, apresmidi:null, soir:null });
+
+  const used = new Set();
+  for (const day of days) {
+    for (const slot of ['matin','apresmidi','soir']) {
+      if (day[slot]) continue;
+      const candidate = pool.find(p => !used.has(p.nom) && (
+        (slot === 'soir' && (p.moment === 'soir' || p.duree === 'rapide')) ||
+        (slot !== 'soir' && p.moment !== 'soir')
+      ) && p.duree !== 'journee');
+      if (candidate) {
+        day[slot] = candidate;
+        used.add(candidate.nom);
+        if (candidate.duree === 'demi-journee') {
+          // occupe le créneau suivant du même jour si dispo
+          const order = ['matin','apresmidi','soir'];
+          const idx = order.indexOf(slot);
+          const next = order[idx+1];
+          if (next && !day[next]) day[next] = { ...candidate, linked:true };
+        }
+      }
+    }
+    // une sortie "journée entière" prend toute la journée si rien n'est encore casé
+    if (!day.matin && !day.apresmidi && !day.soir) {
+      const full = pool.find(p => !used.has(p.nom) && p.duree === 'journee');
+      if (full) { day.matin = full; day.apresmidi = { ...full, linked:true }; used.add(full.nom); }
+    }
+  }
+  return days;
+}
+
+function renderProgramResult(overlay) {
+  const days = generateProgram();
+  const labels = { matin:'Matin', apresmidi:'Après-midi', soir:'Soir' };
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>Ton programme</h3><button class="modal-close" id="closeProg2">✕</button></div>
+    <p class="step-sub" style="margin-bottom:16px;">${TERRITOIRES.find(t=>t.key===progT).label} · ${progDays} jour${progDays>1?'s':''} — composé automatiquement à partir de la base actuelle.</p>
+    ${days.map((day, i) => `
+      <div class="day-card">
+        <h4>Jour ${i+1}</h4>
+        ${['matin','apresmidi','soir'].map(slot => day[slot] ? `
+          <div class="slot"><div class="when">${labels[slot]}</div><div class="what"><p class="nom">${day[slot].nom}${day[slot].linked ? ' (suite)' : ''}</p><p class="z">${day[slot].z}</p></div></div>
+        ` : `<div class="slot"><div class="when">${labels[slot]}</div><div class="what"><p class="z">Libre — rien de disponible pour ce créneau dans la base actuelle</p></div></div>`).join('')}
+      </div>`).join('')}
+    <button class="btn btn-ghost" id="regenProg" style="width:100%; margin-top:4px;">Régénérer</button>
+  </div>`;
+  document.getElementById('closeProg2').onclick = () => overlay.remove();
+  document.getElementById('regenProg').onclick = () => renderProgramResult(overlay);
+}
+
+
+function setStep(n) { step = n; render(); }
+
+function render() {
+  ['d0','d1','d2','d3'].forEach((id,i) => {
+    document.getElementById(id).className = 'dot' + (step > i ? ' done' : '');
+  });
+  const main = document.getElementById('main');
+  const nav = document.getElementById('bottomNav');
+  const title = document.getElementById('stepTitle');
+  const sub = document.getElementById('stepSub');
+
+  if (step === 0) {
+    title.textContent = "Où as-tu envie d'aller ?";
+    sub.textContent = "Choisis un territoire pour commencer.";
+    main.innerHTML = `<div class="postcard-grid">${TERRITOIRES.map(t => `
+      <div class="postcard ${selT===t.key?'sel':''}" data-t="${t.key}" style="background:${t.grad};">
+        <span class="stamp">${t.stamp}</span><span class="name">${t.label}</span>
+      </div>`).join('')}</div>`;
+    main.querySelectorAll('.postcard').forEach(el => {
+      el.onclick = () => { selT = el.dataset.t; selZ = null; setStep(1); };
+    });
+    nav.innerHTML = '';
+    return;
+  }
+
+  if (step === 1) {
+    title.textContent = "Dans quel coin ?";
+    sub.textContent = TERRITOIRES.find(x=>x.key===selT).label;
+    main.innerHTML = `<div class="pill-wrap">
+      <div class="pill ${selZ===null?'sel':''}" data-z="">Toute l'île</div>
+      ${ZONES[selT].map(z => `<div class="pill ${selZ===z?'sel':''}" data-z="${z}">${z}</div>`).join('')}
+    </div>`;
+    main.querySelectorAll('.pill').forEach(el => {
+      el.onclick = () => { selZ = el.dataset.z || null; setStep(2); };
+    });
+    nav.innerHTML = `<button class="btn btn-ghost" id="back">Retour</button><button class="btn btn-primary" disabled>Choisis une zone</button>`;
+    document.getElementById('back').onclick = () => setStep(0);
+    return;
+  }
+
+  if (step === 2) {
+    title.textContent = "Quelle envie ?";
+    sub.textContent = "Sélectionne une ou plusieurs ambiances.";
+    main.innerHTML = `
+      <div class="vibe-grid">${VIBES.map(v => `
+        <div class="vibe ${selV.includes(v.key)?'sel':''}" data-v="${v.key}"><span class="e">${v.e}</span><span>${v.label}</span></div>`).join('')}
+      </div>
+      <div class="advanced-toggle" id="advToggle">${advOpen?'▲':'▼'} Plus d'options (budget, durée, accessibilité...)</div>
+      <div class="advanced-panel ${advOpen?'open':''}" id="advPanel">
+        <div class="adv-group"><p class="adv-label">Budget</p><div class="adv-row">${BUDGETS.map(([k,l]) => `<div class="chip-opt ${selBudget.includes(k)?'sel':''}" data-group="budget" data-k="${k}">${l}</div>`).join('')}</div></div>
+        <div class="adv-group"><p class="adv-label">Durée</p><div class="adv-row">${DUREES.map(([k,l]) => `<div class="chip-opt ${selDuree.includes(k)?'sel':''}" data-group="duree" data-k="${k}">${l}</div>`).join('')}</div></div>
+        <div class="adv-group"><p class="adv-label">Moment</p><div class="adv-row">${MOMENTS.map(([k,l]) => `<div class="chip-opt ${selMoment.includes(k)?'sel':''}" data-group="moment" data-k="${k}">${l}</div>`).join('')}</div></div>
+        <div class="adv-group"><p class="adv-label">Accessibilité</p><div class="adv-row">${ACCES.map(([k,l]) => `<div class="chip-opt ${selAcces.includes(k)?'sel':''}" data-group="acces" data-k="${k}">${l}</div>`).join('')}</div></div>
+      </div>`;
+    main.querySelectorAll('.vibe').forEach(el => {
+      el.onclick = () => {
+        const k = el.dataset.v;
+        if (selV.includes(k)) selV = selV.filter(x => x !== k); else selV.push(k);
+        render();
+      };
+    });
+    document.getElementById('advToggle').onclick = () => { advOpen = !advOpen; render(); };
+    main.querySelectorAll('.chip-opt').forEach(el => {
+      el.onclick = () => {
+        const k = el.dataset.k, g = el.dataset.group;
+        const map = { budget:'selBudget', duree:'selDuree', moment:'selMoment', acces:'selAcces' };
+        const arrName = map[g];
+        window[arrName]; // no-op reference guard
+        if (g==='budget') selBudget = selBudget.includes(k) ? selBudget.filter(x=>x!==k) : [...selBudget,k];
+        if (g==='duree') selDuree = selDuree.includes(k) ? selDuree.filter(x=>x!==k) : [...selDuree,k];
+        if (g==='moment') selMoment = selMoment.includes(k) ? selMoment.filter(x=>x!==k) : [...selMoment,k];
+        if (g==='acces') selAcces = selAcces.includes(k) ? selAcces.filter(x=>x!==k) : [...selAcces,k];
+        render();
+      };
+    });
+    nav.innerHTML = `<button class="btn btn-ghost" id="back">Retour</button><button class="btn btn-primary" id="go">Voir les sorties</button>`;
+    document.getElementById('back').onclick = () => setStep(1);
+    document.getElementById('go').onclick = () => setStep(3);
+    return;
+  }
+
+  if (step === 3) {
+    title.textContent = "Tes sorties";
+    sub.textContent = TERRITOIRES.find(x=>x.key===selT).label + (selZ ? ' · ' + selZ : '');
+    main.innerHTML = `
+      <div class="search-bar">🔎 <input type="text" id="searchInput" placeholder="Chercher par nom..." value="${searchQ}"></div>
+      <div class="sort-row">
+        <div class="sort-chip ${sortBy==='pertinence'?'sel':''}" data-s="pertinence">Pertinence</div>
+        <div class="sort-chip ${sortBy==='alpha'?'sel':''}" data-s="alpha">A → Z</div>
+        <div class="sort-chip ${sortBy==='favoris'?'sel':''}" data-s="favoris">Mes favoris ❤️</div>
+      </div>
+      <div class="results-head"><h2>Résultats</h2><span id="resCount"></span></div>
+      <div id="resultsList"></div>`;
+    document.getElementById('searchInput').oninput = (e) => { searchQ = e.target.value; renderResults(); };
+    main.querySelectorAll('.sort-chip').forEach(el => { el.onclick = () => { sortBy = el.dataset.s; render(); }; });
+    nav.innerHTML = `<button class="btn btn-ghost" id="back">Retour</button><button class="btn btn-primary" id="restart">Nouvelle recherche</button>`;
+    document.getElementById('back').onclick = () => setStep(2);
+    document.getElementById('restart').onclick = () => { selT=null; selZ=null; selV=[]; selBudget=[]; selDuree=[]; selMoment=[]; selAcces=[]; searchQ=''; sortBy='pertinence'; setStep(0); };
+    renderResults();
+    return;
+  }
+}
+
+function renderResults() {
+  let results = PLACES.filter(p => {
+    if (p.t !== selT) return false;
+    if (selZ && p.z !== selZ) return false;
+    if (selV.length && !p.v.some(v => selV.includes(v))) return false;
+    if (selBudget.length && !selBudget.includes(p.budget)) return false;
+    if (selDuree.length && !selDuree.includes(p.duree)) return false;
+    if (selMoment.length && !selMoment.includes(p.moment)) return false;
+    if (selAcces.length && !selAcces.every(a => p.acces.includes(a))) return false;
+    if (searchQ.trim() && !p.nom.toLowerCase().includes(searchQ.trim().toLowerCase())) return false;
+    return true;
+  });
+  if (sortBy === 'alpha') results = results.slice().sort((a,b) => a.nom.localeCompare(b.nom));
+  if (sortBy === 'favoris') results = results.filter(p => isFav(p.nom));
+
+  document.getElementById('resCount').textContent = results.length + ' résultat' + (results.length>1?'s':'');
+  const budgetLabel = k => BUDGETS.find(b=>b[0]===k)[1];
+  const dureeLabel = k => DUREES.find(d=>d[0]===k)[1];
+  document.getElementById('resultsList').innerHTML = results.length === 0
+    ? `<div class="empty"><span class="e">🌴</span>${sortBy==='favoris' ? "Aucun favori pour l'instant — touche le cœur sur une sortie pour l'ajouter." : "Rien ne correspond à ces critères — élargis ta recherche ou retire un filtre."}</div>`
+    : results.map(p => `
+      <div class="place">
+        <span class="tab">${p.z}</span>
+        <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${p.nom.replace(/"/g,'&quot;')}">${isFav(p.nom)?'❤️':'🤍'}</button>
+        <p class="nom">${p.nom}</p>
+        <p class="desc">${p.desc}</p>
+        <div class="vibes">
+          ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${VIBES.find(x=>x.key===v).label}</span>`).join('')}
+          <span class="chip-meta">${budgetLabel(p.budget)}</span>
+          <span class="chip-meta">${dureeLabel(p.duree)}</span>
+        </div>
+      </div>`).join('');
+  document.querySelectorAll('.fav-btn').forEach(el => { el.onclick = () => toggleFav(el.dataset.nom); });
+}
+
+render();
+updateFavBadge();
+
+// Enregistrement du service worker : rend l'appli installable et utilisable
+// hors-ligne UNE FOIS hébergée en ligne (https ou localhost). Ne fonctionne
+// pas si le fichier est ouvert directement depuis le téléphone (file://).
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
