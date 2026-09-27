@@ -40,6 +40,13 @@
   .modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
   .modal-head h3 { margin:0; font-size:17px; font-weight:800; }
   .modal-close { width:30px; height:30px; border-radius:50%; background:var(--card); border:1px solid var(--line); font-size:14px; cursor:pointer; }
+  .photo-carousel { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; border-radius:14px; background:var(--line); aspect-ratio:16/9; margin-bottom:6px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .photo-carousel::-webkit-scrollbar { display:none; }
+  .photo-carousel .photo-slide { flex:0 0 100%; scroll-snap-align:center; display:flex; align-items:center; justify-content:center; }
+  .photo-carousel .photo-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-dots { display:flex; justify-content:center; gap:5px; margin:8px 0 2px; }
+  .photo-dots span { width:6px; height:6px; border-radius:50%; background:var(--line); }
+  .photo-dots span.active { background:var(--indigo); }
   .day-card { background:var(--card); border-radius:16px; border:1px solid var(--line); padding:14px; margin-bottom:12px; }
   .day-card h4 { margin:0 0 10px; font-size:14px; font-weight:800; color:var(--indigo); }
   .slot { display:flex; gap:10px; padding:8px 0; border-top:1px solid var(--line); }
@@ -1037,25 +1044,27 @@ const TERRITOIRE_SEARCH_TERM = {
   "saint-martin": "Saint Martin Caribbean", "saint-barthelemy": "Saint Barthélemy",
 };
 const photoCache = {};
-async function fetchPlacePhoto(p) {
+async function fetchPlacePhotos(p) {
   if (photoCache[p.nom] !== undefined) return photoCache[p.nom];
   try {
     const term = `${p.nom} ${TERRITOIRE_SEARCH_TERM[p.t] || ''}`;
-    const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=700&format=json&origin=*`;
+    const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
     const res = await fetch(url);
     const json = await res.json();
     const pages = json.query && json.query.pages;
-    let result = null;
+    let results = [];
     if (pages) {
-      const first = Object.values(pages)[0];
-      const info = first && first.imageinfo && first.imageinfo[0];
-      if (info) result = { url: info.thumburl || info.url, page: info.descriptionurl || info.url };
+      results = Object.values(pages)
+        .map(pg => pg.imageinfo && pg.imageinfo[0])
+        .filter(Boolean)
+        .filter(info => /\.(jpe?g|png|webp)$/i.test(info.url || ''))
+        .map(info => ({ url: info.thumburl || info.url, page: info.descriptionurl || info.url }));
     }
-    photoCache[p.nom] = result;
-    return result;
+    photoCache[p.nom] = results;
+    return results;
   } catch (e) {
-    photoCache[p.nom] = null;
-    return null;
+    photoCache[p.nom] = [];
+    return [];
   }
 }
 
@@ -1147,9 +1156,10 @@ function openPlaceDetail(p) {
   overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
   overlay.innerHTML = `<div class="modal">
     <div class="modal-head"><h3>${p.nom}</h3><button class="modal-close" id="closePlace">✕</button></div>
-    <div id="placePhotoWrap" style="margin-bottom:6px; border-radius:14px; overflow:hidden; background:var(--line); aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;">
-      <span style="font-size:32px;">🌴</span>
+    <div id="placePhotoWrap" class="photo-carousel">
+      <div class="photo-slide"><span style="font-size:32px;">🌴</span></div>
     </div>
+    <div id="placePhotoDots" class="photo-dots"></div>
     <p id="placePhotoCredit" style="font-size:10px; color:var(--muted); text-align:right; margin:2px 0 12px;"></p>
     <p class="loc" style="margin-bottom:10px;">${TERRITOIRES.find(x=>x.key===p.t).label} · ${p.z}</p>
     <p class="desc" style="margin-bottom:14px;">${placeDesc(p)}</p>
@@ -1158,11 +1168,11 @@ function openPlaceDetail(p) {
       <span class="chip-meta">${t('budget_'+p.budget)}</span>
       <span class="chip-meta">${t('duree_'+p.duree)}</span>
     </div>
-    <div class="day-card">
-      <p class="adv-label" style="margin-bottom:6px;">${t('detailTarif')}</p>
-      <p style="margin:0 0 14px; font-size:13.5px;">${p.tarif ? p.tarif : t('detailTarifUnknown')}</p>
+    ${(p.tarif || p.budget !== 'gratuit' || p.conseils) ? `<div class="day-card">
+      ${(p.tarif || p.budget !== 'gratuit') ? `<p class="adv-label" style="margin-bottom:6px;">${t('detailTarif')}</p>
+      <p style="margin:0 0 ${p.conseils ? '14px' : '0'}; font-size:13.5px;">${p.tarif ? p.tarif : t('detailTarifUnknown')}</p>` : ''}
       ${p.conseils ? `<p class="adv-label" style="margin-bottom:6px;">${t('detailConseil')}</p><p style="margin:0; font-size:13.5px;">💡 ${p.conseils}</p>` : ''}
-    </div>
+    </div>` : ''}
     <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener" style="display:flex; justify-content:center; margin-bottom:10px;">🧭 ${t('itineraire')}</a>
     ${p.site ? `<a class="btn btn-ghost" href="${p.site}" target="_blank" rel="noopener" style="display:block; text-align:center; text-decoration:none; margin-bottom:10px;">🔗 ${t('detailSite')}</a>` : ''}
     <div class="day-card" style="margin-top:4px;">
@@ -1174,15 +1184,23 @@ function openPlaceDetail(p) {
     </div>
   </div>`;
   document.getElementById('closePlace').onclick = () => overlay.remove();
-  fetchPlacePhoto(p).then(res => {
+  fetchPlacePhotos(p).then(photos => {
     const wrap = document.getElementById('placePhotoWrap');
+    const dotsEl = document.getElementById('placePhotoDots');
     const credit = document.getElementById('placePhotoCredit');
-    if (wrap && res && res.url) {
-      wrap.innerHTML = `<img src="${res.url}" alt="${p.nom.replace(/"/g,'&quot;')}" style="width:100%; height:100%; object-fit:cover; display:block;" loading="lazy">`;
-      if (credit) credit.innerHTML = `<a href="${res.page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 Wikimedia Commons</a>`;
+    if (wrap && photos && photos.length) {
+      wrap.innerHTML = photos.map(ph => `<div class="photo-slide"><img src="${ph.url}" alt="${p.nom.replace(/"/g,'&quot;')}" loading="lazy"></div>`).join('');
+      if (credit) credit.innerHTML = `<a href="${photos[0].page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 Wikimedia Commons</a>`;
+      if (photos.length > 1 && dotsEl) {
+        dotsEl.innerHTML = photos.map((_, i) => `<span class="${i===0?'active':''}"></span>`).join('');
+        wrap.onscroll = () => {
+          const idx = Math.round(wrap.scrollLeft / wrap.clientWidth);
+          dotsEl.querySelectorAll('span').forEach((d, i) => d.classList.toggle('active', i === idx));
+        };
+      }
     } else if (wrap) {
       const vibeEmoji = p.v[0] ? (VIBES.find(x => x.key === p.v[0]) || {}).e : '🌴';
-      wrap.innerHTML = `<span style="font-size:32px;">${vibeEmoji || '🌴'}</span>`;
+      wrap.innerHTML = `<div class="photo-slide"><span style="font-size:32px;">${vibeEmoji || '🌴'}</span></div>`;
     }
   });
   loadAvis(p);
