@@ -438,6 +438,9 @@ const PLACES = [
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Shell Beach", v:["plage","couple"], desc:"Petite plage de coquillages à deux pas de Gustavia.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:17.8970, lng:-62.8480 },
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Colombier", v:["nature","activites","sport"], desc:"Sentier de randonnée isolé avec vue sur la mer des Caraïbes.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:17.9200, lng:-62.8600 },
   { t:"saint-barthelemy", z:"Toute l'île", nom:"Anse du Gouverneur", v:["plage","couple"], desc:"Plage isolée au pied d'une falaise, très prisée en couple.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:17.8850, lng:-62.8460 },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Anse de Grande Saline", v:["plage","nature","couple"], desc:"L'une des plus belles plages de l'île, sauvage et non aménagée, accessible à pied depuis un ancien marais salant.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:17.8890, lng:-62.8420, conseils:"Pas d'ombre ni de commerces sur place : viens avec eau, parasol et crème solaire." },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Plage de Flamands", v:["plage","famille","couple"], desc:"Large plage de sable blanc sous le vent, bordée d'hôtels, réputée pour ses couchers de soleil.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:17.9110, lng:-62.8570 },
+  { t:"saint-barthelemy", z:"Toute l'île", nom:"Corossol", v:["culture","plage"], desc:"Authentique village de pêcheurs où se perpétue la tradition du tressage du latanier, petit musée du coquillage.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:17.9040, lng:-62.8590 },
 ];
 
 // Traductions des descriptions de lieux (anglais/espagnol/créole). Clé =
@@ -514,6 +517,9 @@ const DESC_I18N = {
   "Shell Beach": { en:"Small shell beach just steps from Gustavia.", es:"Pequeña playa de conchas a pocos pasos de Gustavia.", cr:"Ti plaj kokiy toupré Gustavia." },
   "Colombier": { en:"Secluded hiking trail with views over the Caribbean Sea.", es:"Sendero de senderismo aislado con vistas al mar Caribe.", cr:"Chimen rando izolé ak vi asou lanmè karayib-la." },
   "Anse du Gouverneur": { en:"Secluded beach at the foot of a cliff, very popular with couples.", es:"Playa aislada al pie de un acantilado, muy popular entre las parejas.", cr:"Plaj izolé o pyé an falèz, koup ka renmen'y anpil." },
+  "Anse de Grande Saline": { en:"One of the island's most beautiful beaches, wild and undeveloped, reached on foot past a former salt pond.", es:"Una de las playas más bellas de la isla, salvaje y sin urbanizar, se llega a pie pasando por un antiguo salar.", cr:"Yonn adan pli bel plaj lil-la, sovaj é pa aménajé, ou pé rivé apyé pasé an ansyen sali." },
+  "Plage de Flamands": { en:"Wide white sand leeward beach lined with hotels, known for its sunsets.", es:"Amplia playa de arena blanca a sotavento bordeada de hoteles, conocida por sus atardeceres.", cr:"Gran plaj sab blan anba divan, bòdé ak lotèl, koni pou koushé solèy li." },
+  "Corossol": { en:"Authentic fishing village where the tradition of latania-leaf weaving lives on, small shell museum.", es:"Auténtico pueblo de pescadores donde perdura la tradición del tejido de hojas de latanier, pequeño museo de conchas.", cr:"Vré vilaj péchè kot tradisyon tresaj fèy latanyé la ka kontinyé, ti mizé kokiyaj." },
 };
 function placeDesc(p) {
   if (lang && lang !== 'fr' && DESC_I18N[p.nom] && DESC_I18N[p.nom][lang]) return DESC_I18N[p.nom][lang];
