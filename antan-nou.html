@@ -46,12 +46,16 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<!-- Leaflet (carte des résultats) : gratuit, fonds de carte OpenStreetMap, aucune clé API requise -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root {
     --ink:#1B1A2E; --indigo:#2E2A5C; --indigo-soft:#EDEBF7;
     --coral:#F0654A; --coral-soft:#FDE4DE;
     --sand:#FBF8F2; --card:#FFFFFF; --line:#E7E3F0; --muted:#736F8C;
     --gold:#D9A441; --gold-soft:#FBF0DA;
+    --accent:#2E2A5C; --accent-soft:#EDEBF7;
   }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html, body { margin:0; padding:0; background:var(--sand); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
@@ -91,7 +95,7 @@
   .num-opt.sel { background:var(--indigo); border-color:var(--indigo); color:white; }
   .stepper { display:flex; gap:6px; }
   .stepper .dot { flex:1; height:4px; border-radius:2px; background:var(--line); }
-  .stepper .dot.done { background:var(--coral); }
+  .stepper .dot.done { background:var(--accent); }
   .step-title { font-size:20px; font-weight:800; margin:14px 0 4px; letter-spacing:-.01em; }
   .step-sub { font-size:13px; color:var(--muted); margin:0; }
 
@@ -106,12 +110,12 @@
 
   .pill-wrap { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
   .pill { font-size:13px; font-weight:600; padding:9px 16px; border-radius:999px; background:var(--card); border:1.5px solid var(--line); cursor:pointer; }
-  .pill.sel { background:var(--ink); border-color:var(--ink); color:white; }
+  .pill.sel { background:var(--accent); border-color:var(--accent); color:white; }
 
   .vibe-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:16px; }
   .vibe { aspect-ratio:1; border-radius:16px; background:var(--card); border:1.5px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; cursor:pointer; font-size:11px; font-weight:700; color:var(--muted); text-align:center; padding:4px; }
   .vibe .e { font-size:22px; }
-  .vibe.sel { background:var(--coral-soft); border-color:var(--coral); color:var(--coral); }
+  .vibe.sel { background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
 
   .advanced-toggle { display:flex; align-items:center; justify-content:center; gap:6px; margin:20px 0 4px; padding:10px; border-radius:12px; border:1.5px dashed var(--line); color:var(--muted); font-size:12.5px; font-weight:700; cursor:pointer; }
   .advanced-panel { display:none; margin-top:14px; }
@@ -132,8 +136,16 @@
   .results-head h2 { font-size:14px; margin:0; font-weight:800; }
   .results-head span { font-size:12px; color:var(--muted); }
 
+  .view-toggle { display:flex; gap:6px; background:var(--card); border:1.5px solid var(--line); border-radius:12px; padding:4px; margin-bottom:12px; }
+  .view-toggle button { flex:1; border:none; background:none; padding:8px; border-radius:9px; font-size:12.5px; font-weight:700; color:var(--muted); cursor:pointer; }
+  .view-toggle button.sel { background:var(--accent); color:white; }
+  #mapView { border-radius:16px; overflow:hidden; border:1px solid var(--line); height:420px; margin-bottom:12px; background:var(--card); }
+  .leaflet-popup-content { font-size:13px; }
+  .map-popup .nom { font-weight:800; margin:0 0 4px; }
+  .map-popup .open-btn { display:inline-block; margin-top:6px; font-size:11.5px; font-weight:800; color:white; background:var(--accent); padding:5px 10px; border-radius:999px; cursor:pointer; border:none; }
+
   .place { background:var(--card); border-radius:18px; border:1px solid var(--line); padding:16px; margin-bottom:12px; position:relative; }
-  .place .tab { position:absolute; top:-1px; left:16px; background:var(--indigo); color:white; font-size:10px; font-weight:800; padding:4px 10px; border-radius:0 0 8px 8px; letter-spacing:.03em; }
+  .place .tab { position:absolute; top:-1px; left:16px; background:var(--accent); color:white; font-size:10px; font-weight:800; padding:4px 10px; border-radius:0 0 8px 8px; letter-spacing:.03em; }
   .fav-btn { position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:50%; background:var(--sand); display:flex; align-items:center; justify-content:center; font-size:15px; cursor:pointer; border:none; }
   .fav-btn.active { background:var(--coral-soft); }
   .place .nom { font-size:15.5px; font-weight:800; margin:14px 40px 2px 0; }
@@ -150,7 +162,7 @@
   nav.bottom-nav { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:var(--card); border-top:1px solid var(--line); padding:12px 16px; display:flex; gap:10px; }
   .legal-footer { text-align:center; font-size:11.5px; color:var(--muted); margin:28px 0 8px; padding-bottom:4px; text-decoration:underline; cursor:pointer; }
   .btn { flex:1; padding:13px; border-radius:12px; border:none; font-size:15px; font-weight:700; cursor:pointer; text-align:center; }
-  .btn-primary { background:var(--ink); color:white; }
+  .btn-primary { background:var(--accent); color:white; }
   .btn-primary:disabled { background:var(--line); color:var(--muted); }
   .btn-ghost { background:var(--sand); color:var(--ink); border:1px solid var(--line); flex:0 0 90px; }
 </style>
@@ -163,7 +175,7 @@
       <div class="icon-row">
         <button class="icon-btn" id="openLang" aria-label="Langue">🌐</button>
         <button class="icon-btn" id="openAccount" aria-label="Se connecter">👤</button>
-        <button class="icon-btn" id="openProgram" aria-label="Programme automatique">✨</button>
+        <button class="icon-btn" id="openProgram" aria-label="Programme automatique">🗺️</button>
         <button class="icon-btn" id="openFavs" aria-label="Mes favoris">❤️<span class="badge" id="favBadge" style="display:none;">0</span></button>
       </div>
     </div>
@@ -184,12 +196,19 @@
    ========================================================================= */
 
 const TERRITOIRES = [
-  { key:"martinique", label:"Martinique", stamp:"🌺", grad:"linear-gradient(135deg,#2E2A5C,#4A3F8C)" },
-  { key:"guadeloupe", label:"Guadeloupe", stamp:"🦋", grad:"linear-gradient(135deg,#1B6E63,#2E9C7F)" },
-  { key:"guyane", label:"Guyane", stamp:"🌳", grad:"linear-gradient(135deg,#2F5233,#4C7A44)" },
-  { key:"saint-martin", label:"Saint-Martin", stamp:"🏝️", grad:"linear-gradient(135deg,#1E6091,#2E8FBD)" },
-  { key:"saint-barthelemy", label:"Saint-Barthélemy", stamp:"⛵", grad:"linear-gradient(135deg,#8A4B6B,#BD6E92)" },
+  { key:"martinique", label:"Martinique", stamp:"🌺", grad:"linear-gradient(135deg,#2E2A5C,#4A3F8C)", color:"#2E2A5C", colorSoft:"#EDEBF7" },
+  { key:"guadeloupe", label:"Guadeloupe", stamp:"🦋", grad:"linear-gradient(135deg,#1B6E63,#2E9C7F)", color:"#1B6E63", colorSoft:"#E3F2EE" },
+  { key:"guyane", label:"Guyane", stamp:"🌳", grad:"linear-gradient(135deg,#2F5233,#4C7A44)", color:"#2F5233", colorSoft:"#E7EEE5" },
+  { key:"saint-martin", label:"Saint-Martin", stamp:"🏝️", grad:"linear-gradient(135deg,#1E6091,#2E8FBD)", color:"#1E6091", colorSoft:"#E5EFF6" },
+  { key:"saint-barthelemy", label:"Saint-Barthélemy", stamp:"⛵", grad:"linear-gradient(135deg,#8A4B6B,#BD6E92)", color:"#8A4B6B", colorSoft:"#F3E9EE" },
 ];
+
+// ---- Thème dynamique selon le territoire sélectionné ----
+function applyTerritoryTheme() {
+  const terr = TERRITOIRES.find(t => t.key === selT);
+  document.documentElement.style.setProperty('--accent', terr ? terr.color : '#2E2A5C');
+  document.documentElement.style.setProperty('--accent-soft', terr ? terr.colorSoft : '#EDEBF7');
+}
 
 const ZONES = {
   martinique: ["Nord Caraïbe","Nord Atlantique","Centre","Sud"],
@@ -241,6 +260,7 @@ const TRANSLATIONS = {
     back:"Retour", seeOutings:"Voir les sorties", step3Title:"Tes sorties",
     searchPlaceholder:"Chercher un lieu, une ambiance...", sortPertinence:"Pertinence", sortAlpha:"A → Z", sortFavoris:"Mes favoris ❤️",
     resultsTitle:"Résultats", resultSingular:"résultat", resultPlural:"résultats",
+    viewListe:"Liste", viewCarte:"Carte", mapUnavailable:"La carte n'a pas pu se charger.", detailVoir:"Voir la fiche",
     emptyFavoris:"Aucun favori pour l'instant — touche le cœur sur une sortie pour l'ajouter.",
     emptyResults:"Rien ne correspond à ces critères — élargis ta recherche ou retire un filtre.",
     itineraire:"Itinéraire", newSearch:"Nouvelle recherche",
@@ -283,6 +303,7 @@ const TRANSLATIONS = {
     back:"Back", seeOutings:"See outings", step3Title:"Your outings",
     searchPlaceholder:"Search a place, a vibe...", sortPertinence:"Relevance", sortAlpha:"A → Z", sortFavoris:"My favorites ❤️",
     resultsTitle:"Results", resultSingular:"result", resultPlural:"results",
+    viewListe:"List", viewCarte:"Map", mapUnavailable:"The map could not load.", detailVoir:"View details",
     emptyFavoris:"No favorites yet — tap the heart on an outing to add it.",
     emptyResults:"Nothing matches these filters — widen your search or remove a filter.",
     itineraire:"Directions", newSearch:"New search",
@@ -325,6 +346,7 @@ const TRANSLATIONS = {
     back:"Atrás", seeOutings:"Ver salidas", step3Title:"Tus salidas",
     searchPlaceholder:"Busca un lugar, un ambiente...", sortPertinence:"Relevancia", sortAlpha:"A → Z", sortFavoris:"Mis favoritos ❤️",
     resultsTitle:"Resultados", resultSingular:"resultado", resultPlural:"resultados",
+    viewListe:"Lista", viewCarte:"Mapa", mapUnavailable:"No se pudo cargar el mapa.", detailVoir:"Ver la ficha",
     emptyFavoris:"Todavía no tienes favoritos — toca el corazón en una salida para añadirla.",
     emptyResults:"Nada coincide con estos filtros — amplía tu búsqueda o quita un filtro.",
     itineraire:"Cómo llegar", newSearch:"Nueva búsqueda",
@@ -367,6 +389,7 @@ const TRANSLATIONS = {
     back:"Rétou", seeOutings:"Wè sòti-a", step3Title:"Sòti pa'w",
     searchPlaceholder:"Chèché an lyé, an anbyans...", sortPertinence:"Pli enpòtan", sortAlpha:"A → Z", sortFavoris:"Favori mwen ❤️",
     resultsTitle:"Rézilta", resultSingular:"rézilta", resultPlural:"rézilta",
+    viewListe:"Lis", viewCarte:"Kat", mapUnavailable:"Kat-la pa rivé chajé.", detailVoir:"Wè fich-la",
     emptyFavoris:"Pa ni favori ankò — touché kè-a asou an sòti pou ajouté-y.",
     emptyResults:"Pa ni anyen ki matché ba kritè-a — laji rechèch ou oben wété an fiwt.",
     itineraire:"Chimen", newSearch:"Nouvo rechèch",
@@ -677,6 +700,7 @@ let advOpen = false;
 let selBudget = [], selDuree = [], selMoment = [], selAcces = [];
 let searchQ = "";
 let sortBy = "pertinence";
+let viewMode = "liste";
 
 const FAV_KEY = "antan_nou_favoris_v1";
 function loadFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch(e){ return []; } }
@@ -1086,6 +1110,7 @@ function renderProgramResult(overlay) {
 function setStep(n) { step = n; render(); }
 
 function render() {
+  applyTerritoryTheme();
   ['d0','d1','d2','d3'].forEach((id,i) => {
     document.getElementById(id).className = 'dot' + (step > i ? ' done' : '');
   });
@@ -1177,13 +1202,20 @@ function render() {
         <div class="sort-chip ${sortBy==='alpha'?'sel':''}" data-s="alpha">${t('sortAlpha')}</div>
         <div class="sort-chip ${sortBy==='favoris'?'sel':''}" data-s="favoris">${t('sortFavoris')}</div>
       </div>
+      <div class="view-toggle">
+        <button class="${viewMode==='liste'?'sel':''}" id="viewListeBtn">📋 ${t('viewListe')}</button>
+        <button class="${viewMode==='carte'?'sel':''}" id="viewCarteBtn">🗺️ ${t('viewCarte')}</button>
+      </div>
       <div class="results-head"><h2>${t('resultsTitle')}</h2><span id="resCount"></span></div>
-      <div id="resultsList"></div>`;
+      <div id="resultsList"></div>
+      <div id="mapView" style="display:none;"></div>`;
     document.getElementById('searchInput').oninput = (e) => { searchQ = e.target.value; renderResults(); };
     main.querySelectorAll('.sort-chip').forEach(el => { el.onclick = () => { sortBy = el.dataset.s; render(); }; });
+    document.getElementById('viewListeBtn').onclick = () => { viewMode = 'liste'; render(); };
+    document.getElementById('viewCarteBtn').onclick = () => { viewMode = 'carte'; render(); };
     nav.innerHTML = `<button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" id="restart">${t('newSearch')}</button>`;
     document.getElementById('back').onclick = () => setStep(2);
-    document.getElementById('restart').onclick = () => { selT=null; selZ=null; selV=[]; selBudget=[]; selDuree=[]; selMoment=[]; selAcces=[]; searchQ=''; sortBy='pertinence'; setStep(0); };
+    document.getElementById('restart').onclick = () => { selT=null; selZ=null; selV=[]; selBudget=[]; selDuree=[]; selMoment=[]; selAcces=[]; searchQ=''; sortBy='pertinence'; viewMode='liste'; setStep(0); };
     renderResults();
     appendLegalFooter();
     return;
@@ -1212,7 +1244,20 @@ function renderResults() {
   document.getElementById('resCount').textContent = results.length + ' ' + (results.length>1?t('resultPlural'):t('resultSingular'));
   const budgetLabel = k => t('budget_'+k);
   const dureeLabel = k => t('duree_'+k);
-  document.getElementById('resultsList').innerHTML = results.length === 0
+
+  const listEl = document.getElementById('resultsList');
+  const mapEl = document.getElementById('mapView');
+  if (viewMode === 'carte') {
+    listEl.style.display = 'none';
+    mapEl.style.display = 'block';
+    renderMapView(results);
+    return;
+  }
+  listEl.style.display = '';
+  mapEl.style.display = 'none';
+  if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+
+  listEl.innerHTML = results.length === 0
     ? `<div class="empty"><span class="e">🌴</span>${sortBy==='favoris' ? t('emptyFavoris') : t('emptyResults')}</div>`
     : results.map(p => `
       <div class="place" data-open="${p.nom.replace(/"/g,'&quot;')}" style="cursor:pointer;">
@@ -1229,6 +1274,46 @@ function renderResults() {
   document.querySelectorAll('.place[data-open]').forEach(el => {
     el.onclick = () => { const p = PLACES.find(x => x.nom === el.dataset.open); if (p) openPlaceDetail(p); };
   });
+}
+
+// ---- Vue carte des résultats (Leaflet + OpenStreetMap) ----
+let mapInstance = null;
+function renderMapView(results) {
+  const mapEl = document.getElementById('mapView');
+  if (typeof L === 'undefined') {
+    mapEl.innerHTML = `<div class="empty"><span class="e">🗺️</span>${t('mapUnavailable')}</div>`;
+    return;
+  }
+  const withCoords = results.filter(p => typeof p.lat === 'number' && typeof p.lng === 'number');
+  if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+  mapEl.innerHTML = '';
+  if (withCoords.length === 0) {
+    mapEl.innerHTML = `<div class="empty"><span class="e">🌴</span>${t('emptyResults')}</div>`;
+    return;
+  }
+  mapInstance = L.map(mapEl, { scrollWheelZoom: true });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+    maxZoom: 19,
+  }).addTo(mapInstance);
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2E2A5C';
+  const markers = withCoords.map(p => {
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:28px;height:28px;border-radius:50% 50% 50% 0;background:${accent};transform:rotate(-45deg);border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
+      iconSize: [28, 28], iconAnchor: [14, 28],
+    });
+    const marker = L.marker([p.lat, p.lng], { icon }).addTo(mapInstance);
+    const popupDiv = document.createElement('div');
+    popupDiv.className = 'map-popup';
+    popupDiv.innerHTML = `<p class="nom">${p.nom}</p><p style="margin:0;font-size:11.5px;color:var(--muted);">${p.z}</p><button class="open-btn">${t('detailVoir') || 'Voir la fiche'}</button>`;
+    popupDiv.querySelector('.open-btn').onclick = () => openPlaceDetail(p);
+    marker.bindPopup(popupDiv);
+    return marker;
+  });
+  const group = L.featureGroup(markers);
+  mapInstance.fitBounds(group.getBounds().pad(0.2));
+  if (withCoords.length === 1) mapInstance.setZoom(12);
 }
 
 // ---- Photos libres de droit (Wikimedia Commons) ----
