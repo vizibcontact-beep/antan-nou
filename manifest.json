@@ -5,8 +5,8 @@
   "start_url": "./antan-nou.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#FBF8F2",
-  "theme_color": "#2E2A5C",
+  "background_color": "#F8F6ED",
+  "theme_color": "#093B36",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
