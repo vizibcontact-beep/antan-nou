@@ -207,16 +207,15 @@
   .tab-btn.sel { color:var(--brand-green); }
   .tab-btn.sel .tab-icon { transform:translateY(-1px); }
 
-  .home-hero { position:relative; margin:4px -20px 0; padding:34px 24px 30px; border-radius:0 0 28px 28px; overflow:hidden; text-align:center; color:white;
+  .home-hero { position:relative; margin:4px -20px 0; padding:18px 24px 20px; border-radius:0 0 28px 28px; overflow:hidden; text-align:center; color:white;
+    display:flex; flex-direction:column; align-items:center;
     background:
       radial-gradient(circle at 15% 20%, rgba(248,158,27,.5), transparent 45%),
       radial-gradient(circle at 85% 15%, rgba(29,127,166,.45), transparent 50%),
       radial-gradient(circle at 50% 100%, rgba(232,93,38,.45), transparent 55%),
       linear-gradient(160deg, var(--forest-teal) 0%, #071F1A 100%); }
   .home-hero::after { content:""; position:absolute; inset:0; background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 2px, transparent 2px 26px); pointer-events:none; }
-  .home-wordmark { position:relative; margin:0 auto 2px; display:inline-flex; justify-content:center; background:var(--cream-bg); padding:14px 22px; border-radius:20px; box-shadow:0 4px 16px rgba(0,0,0,.22); }
-  .home-hero { display:flex; flex-direction:column; align-items:center; }
-  .home-brand-tagline { position:relative; margin:2px 0 0; font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--brand-sun); }
+  .home-brand-tagline { position:relative; margin:0; font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--brand-sun); }
   .home-hero-sub { position:relative; margin:10px 0 0; font-size:14px; font-weight:600; opacity:.95; }
 
   .home-search-block { margin:18px 0 4px; }
@@ -2132,7 +2131,6 @@ function renderHome() {
   main.innerHTML = `
     ${renderTodayAlerts()}
     <div class="home-hero">
-      <div class="home-wordmark">${wordmarkSVG({width:230, variant:'onDark'})}</div>
       <p class="home-brand-tagline">${t('brandTagline')}</p>
       <p class="home-hero-sub">${t('homeHeroSub')}</p>
     </div>
