@@ -363,40 +363,14 @@
    ========================================================================= */
 
 // ==================== Wordmark "Antan Nou" (charte graphique officielle) ====================
-// SVG recréé au plus près de la maquette finale du logo : "ANTAN" en vert forêt, légèrement
-// dynamique/penché, avec un petit soleil rayonnant jaune soleil en haut à droite ; "NOU" en
-// orange chaud juste en dessous, décalé vers la droite, avec une rose des vents crème dans le
-// "O" et un trait pinceau jaune soleil, tracé à la main, qui souligne "NOU". Police Baloo 2
-// (arrondie et grasse) pour retrouver le rendu "lettrage" du logo réel. viewBox fixe : la
-// taille d'affichage se règle via width/height.
-// EN ATTENTE du bon export final du logo (voir échanges du 29/09/2026) — version provisoire.
+// Logo final fourni par Maureen (assets/logo-antan-nou.svg, généré via Recraft AI) : vrai
+// vecteur, net à n'importe quelle taille. Fond crème intégré à l'image (pas de transparence),
+// ce qui se fond naturellement avec le fond crème (--cream-bg) utilisé partout dans l'app.
 function wordmarkSVG(opts) {
   opts = opts || {};
   const w = opts.width || 220;
-  const h = Math.round(w * 200 / 300);
-  // Sur fond sombre (hero), "ANTAN" passe en crème pour rester lisible ; sur fond clair, vert forêt (couleur officielle).
-  const antanFill = opts.variant === 'onDark' ? '#F9F6EE' : '#0D3B31';
-  const wmFont = "font-family:'Baloo 2','Montserrat',sans-serif;";
-  return `<svg class="wordmark-svg" viewBox="0 0 300 200" width="${w}" height="${h}" role="img" aria-label="Antan Nou" xmlns="http://www.w3.org/2000/svg">
-    <g transform="skewX(-7)">
-      <text x="10" y="62" font-size="54" font-weight="800" letter-spacing="-1" fill="${antanFill}" style="${wmFont}" textLength="196" lengthAdjust="spacingAndGlyphs">ANTAN</text>
-    </g>
-    <g transform="translate(240,30)">
-      <circle r="11" fill="#F89E1B"/>
-      ${[0,45,90,135,180,225,270,315].map(a => `<line x1="0" y1="-15" x2="0" y2="-23" stroke="#F89E1B" stroke-width="3.5" stroke-linecap="round" transform="rotate(${a})"/>`).join('')}
-    </g>
-    <g transform="skewX(-7)">
-      <text x="58" y="140" font-size="58" font-weight="800" letter-spacing="-1" fill="#E85D26" style="${wmFont}" textLength="46" lengthAdjust="spacingAndGlyphs">N</text>
-      <text x="164" y="140" font-size="58" font-weight="800" letter-spacing="-1" fill="#E85D26" style="${wmFont}" textLength="46" lengthAdjust="spacingAndGlyphs">U</text>
-    </g>
-    <circle cx="134" cy="116" r="27" fill="#E85D26"/>
-    <g transform="translate(134,116) skewX(-7)">
-      <circle r="18" fill="none" stroke="#F9F6EE" stroke-width="1.4" opacity=".85"/>
-      <path d="M0,-13 L3,-3 L13,0 L3,3 L0,13 L-3,3 L-13,0 L-3,-3 Z" fill="#F9F6EE"/>
-      <circle r="2" fill="#E85D26"/>
-    </g>
-    <path d="M46,165 Q135,182 226,161" fill="none" stroke="#F89E1B" stroke-width="8" stroke-linecap="round"/>
-  </svg>`;
+  const h = Math.round(w * 627 / 960);
+  return `<img class="wordmark-img" src="assets/logo-antan-nou.svg" alt="Antan Nou" width="${w}" height="${h}" style="width:${w}px;height:${h}px;object-fit:contain;display:block;">`;
 }
 
 const TERRITOIRES = [
