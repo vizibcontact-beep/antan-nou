@@ -302,6 +302,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Ton commentaire (optionnel)...", avisSubmit:"Publier mon avis",
     avisSuccess:"Merci, ton avis a été publié !", avisError:"Impossible d'enregistrer ton avis pour le moment.",
     avisNoteRequired:"Choisis une note avant de publier.", avisFirebaseOff:"Les avis ne sont pas disponibles sur cette version de l'appli.",
+    pointsLabel:"points de contribution", pointsExplainer:"Gagne des points en laissant des avis (5 pts, 10 avec photo) — ils reflètent ta contribution à la communauté.",
+    tierDecouvreur:"Découvreur", tierHabitue:"Habitué", tierAmbassadeur:"Ambassadeur", tierGardien:"Gardien du patrimoine",
     offlineBanner:"Tu es hors connexion. Les lieux et listes déjà consultés restent consultables, mais la carte (tuiles), les avis et la connexion à ton compte ont besoin d'internet.",
     alertsTitle:"🔔 À ne pas manquer aujourd'hui", alertFullMoon:"Pleine lune ce soir — idéal pour une balade ou une baignade nocturne.",
     evtToussaint:"Illumination de la Toussaint", evtMarcheCacao:"Marché dominical de Cacao", evtPonteTortues:"Période de ponte des tortues luths",
@@ -349,6 +351,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Your comment (optional)...", avisSubmit:"Post my review",
     avisSuccess:"Thanks, your review was posted!", avisError:"Couldn't save your review right now.",
     avisNoteRequired:"Pick a rating before posting.", avisFirebaseOff:"Reviews aren't available in this version of the app.",
+    pointsLabel:"contribution points", pointsExplainer:"Earn points by leaving reviews (5 pts, 10 with a photo) — they reflect your contribution to the community.",
+    tierDecouvreur:"Discoverer", tierHabitue:"Regular", tierAmbassadeur:"Ambassador", tierGardien:"Heritage Guardian",
     offlineBanner:"You're offline. Places and lists you've already viewed stay browsable, but the map (tiles), reviews and your account need an internet connection.",
     alertsTitle:"🔔 Don't miss today", alertFullMoon:"Full moon tonight — perfect for a night walk or a swim.",
     evtToussaint:"All Saints' Day illumination", evtMarcheCacao:"Cacao Sunday market", evtPonteTortues:"Leatherback turtle nesting season",
@@ -396,6 +400,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Tu comentario (opcional)...", avisSubmit:"Publicar mi opinión",
     avisSuccess:"¡Gracias, tu opinión fue publicada!", avisError:"No se pudo guardar tu opinión ahora mismo.",
     avisNoteRequired:"Elige una puntuación antes de publicar.", avisFirebaseOff:"Las opiniones no están disponibles en esta versión de la app.",
+    pointsLabel:"puntos de contribución", pointsExplainer:"Gana puntos dejando opiniones (5 pts, 10 con foto) — reflejan tu contribución a la comunidad.",
+    tierDecouvreur:"Descubridor", tierHabitue:"Habitual", tierAmbassadeur:"Embajador", tierGardien:"Guardián del patrimonio",
     offlineBanner:"Estás sin conexión. Los lugares y listas que ya consultaste siguen disponibles, pero el mapa (mosaicos), las opiniones y tu cuenta necesitan conexión a internet.",
     alertsTitle:"🔔 No te lo pierdas hoy", alertFullMoon:"Luna llena esta noche — ideal para un paseo o un baño nocturno.",
     evtToussaint:"Iluminación de Todos los Santos", evtMarcheCacao:"Mercado dominical de Cacao", evtPonteTortues:"Temporada de anidación de tortugas laúd",
@@ -443,6 +449,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Kòmantè'w (pa obligatwa)...", avisSubmit:"Pibliyé avi mwen",
     avisSuccess:"Mèsi, avi'w pibliyé !", avisError:"Nou pa rivé anrejistré avi'w kounyé-a.",
     avisNoteRequired:"Chwazi an nòt avan ou pibliyé.", avisFirebaseOff:"Avi pa disponib asou vèsyon aplikasyon-tala.",
+    pointsLabel:"pwen kontribisyon", pointsExplainer:"Genyen pwen lè ou kité avi (5 pwen, 10 èvè an foto) — yo montré kontribisyon'w bay kominoté-a.",
+    tierDecouvreur:"Dékouvrè", tierHabitue:"Abityé", tierAmbassadeur:"Anbasadè", tierGardien:"Gadyen patrimwàn-nou",
     offlineBanner:"Ou pa konekté. Lyé ek lis ou déja gadé ka toujou disponib, mé kat-la, avi ek kont ou ni bézwen entènèt.",
     alertsTitle:"🔔 Pa manké sa jodi-a", alertFullMoon:"Lalin plen aswè-a — bon moman pou an pwomnad oben an benyen anba lalin.",
     evtToussaint:"Limiè-a pou Latousen", evtMarcheCacao:"Mawché dimanch Cacao", evtPonteTortues:"Sézon tòti-a ka fè zé",
@@ -925,12 +933,23 @@ function openAccountModal() {
     overlay.innerHTML = `<div class="modal">
       <div class="modal-head"><h3>${t('accountMyAccount')}</h3><button class="modal-close" id="closeAccount">✕</button></div>
       <p class="step-sub" style="margin-bottom:16px;">${currentUser.email} — ${t('accountSyncedNote')}</p>
+      <div id="accountPointsBox" class="adv-group" style="margin-bottom:16px;">
+        <p class="adv-label" style="margin-bottom:4px;">…</p>
+      </div>
       <button class="btn btn-ghost" id="logoutBtn" style="width:100%;">${t('accountLogout')}</button>
     </div>`;
     document.body.appendChild(overlay);
     overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
     document.getElementById('closeAccount').onclick = () => overlay.remove();
     document.getElementById('logoutBtn').onclick = () => { auth.signOut(); overlay.remove(); };
+    getUserPoints(currentUser.uid).then(pts => {
+      const box = document.getElementById('accountPointsBox');
+      if (!box) return;
+      const tier = tierForPoints(pts);
+      box.innerHTML = `
+        <p class="adv-label" style="margin-bottom:4px;">⭐ ${pts} ${t('pointsLabel')} — ${tier.label}</p>
+        <p class="step-sub" style="margin:0;">${t('pointsExplainer')}</p>`;
+    });
     return;
   }
 
@@ -1555,6 +1574,36 @@ async function fetchPlacePhotos(p) {
 function slugId(nom) {
   return nom.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').toLowerCase();
 }
+
+// ---- Points de contribution (privés, non affichés publiquement) ----
+async function getUserPoints(uid) {
+  if (!FIREBASE_ENABLED || !db || !uid) return 0;
+  try {
+    const doc = await db.collection('utilisateurs').doc(uid).get();
+    const pts = doc.exists && typeof doc.data().points === 'number' ? doc.data().points : 0;
+    return pts;
+  } catch (e) {
+    console.warn('Lecture des points échouée :', e);
+    return 0;
+  }
+}
+async function awardPoints(uid, delta) {
+  if (!FIREBASE_ENABLED || !db || !uid || !delta) return;
+  try {
+    await db.collection('utilisateurs').doc(uid).set(
+      { points: firebase.firestore.FieldValue.increment(delta) },
+      { merge: true }
+    );
+  } catch (e) {
+    console.warn('Attribution des points échouée :', e);
+  }
+}
+function tierForPoints(pts) {
+  if (pts >= 150) return { key: 'tierGardien', label: t('tierGardien') };
+  if (pts >= 50) return { key: 'tierAmbassadeur', label: t('tierAmbassadeur') };
+  if (pts >= 15) return { key: 'tierHabitue', label: t('tierHabitue') };
+  return { key: 'tierDecouvreur', label: t('tierDecouvreur') };
+}
 let selectedNote = 0;
 async function loadAvis(p) {
   const box = document.getElementById('avisList');
@@ -1620,11 +1669,18 @@ async function submitAvis(p) {
   try {
     const doc = await ref.get();
     const entries = (doc.exists && doc.data().entries) || [];
+    const isNewReview = !entries.some(e => e.uid === currentUser.uid);
+    const isFirstOnPlace = entries.length === 0;
     const filtered = entries.filter(e => e.uid !== currentUser.uid);
     filtered.push({ uid: currentUser.uid, pseudo, note: selectedNote, commentaire, date: Date.now() });
     await ref.set({ entries: filtered });
     document.getElementById('avisFormBox').innerHTML = `<p class="step-sub">${t('avisSuccess')}</p>`;
     loadAvis(p);
+    // Points de contribution : uniquement sur un nouvel avis (pas une modification), jamais bloquant.
+    if (isNewReview) {
+      const delta = 5 + (isFirstOnPlace ? 5 : 0);
+      awardPoints(currentUser.uid, delta);
+    }
   } catch (e) {
     alert(t('avisError'));
   }
