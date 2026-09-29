@@ -272,8 +272,8 @@
   .dh-link { background:none; border:none; cursor:pointer; padding:9px 16px; border-radius:999px; font-family:var(--font-display); font-size:14px; font-weight:700; color:var(--ink); }
   .dh-link:hover { background:var(--accent-soft); color:var(--accent); }
   .dh-link.sel { background:var(--accent); color:white; }
-  .dh-actions { display:flex; align-items:center; gap:10px; flex:0 0 auto; }
-  .dh-action { display:inline-flex; align-items:center; gap:6px; background:none; border:1.5px solid var(--line); cursor:pointer; padding:9px 16px; border-radius:999px; font-family:var(--font-display); font-size:13.5px; font-weight:700; color:var(--ink); }
+  .dh-actions { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+  .dh-action { display:inline-flex; align-items:center; gap:6px; background:none; border:1.5px solid var(--line); cursor:pointer; padding:9px 14px; border-radius:999px; font-family:var(--font-display); font-size:13px; font-weight:700; color:var(--ink); white-space:nowrap; }
   .dh-action:hover { border-color:var(--accent); color:var(--accent); }
 
   /* ==================== Tablette (≥768px) ==================== */
@@ -314,11 +314,20 @@
     nav.bottom-nav { display:none; }
     main { order:3; }
     .desktop-header { order:0; }
+    /* Le bloc logo + icônes seules du header mobile fait doublon avec l'entête
+       desktop (logo + actions en toutes lettres) : on le masque ici, tout en
+       gardant le stepper/titre/sous-titre du header qui restent utiles. */
+    header:not(.desktop-header) .brand-row { display:none; }
 
     .postcard-grid, #resultsList { grid-template-columns:repeat(3,1fr); }
   }
   @media (min-width: 1024px) and (max-width: 1199px) {
     #app { max-width:960px; }
+    .desktop-header-inner { gap:14px; padding:12px 24px; }
+    .dh-nav { gap:2px; }
+    .dh-link { padding:8px 10px; font-size:13px; }
+    .dh-actions { gap:6px; }
+    .dh-action { padding:8px 10px; font-size:12px; }
   }
 </style>
 </head>
@@ -520,6 +529,7 @@ const TRANSLATIONS = {
     surpriseSeeDetails:"Voir la fiche", surpriseNoMatch:"Aucun lieu ne correspond à ces critères — essaie d'élargir tes choix.",
     surpriseApproxNote:"« Avec qui » est déduit des ambiances du lieu, ce n'est pas une donnée exacte.",
     navAccueil:"Accueil", navExplorer:"Explorer", navCarte:"Carte", navFavoris:"Favoris", navProfil:"Profil", navAgenda:"Agenda",
+    navLangue:"Langue", navProgramme:"Programme", navConnecte:"Connecté",
     agendaEmpty:"Rien de particulier signalé aujourd'hui — reviens bientôt !",
     accountOptionalNote:"Pas besoin de compte pour utiliser Antan Nou — connecte-toi juste pour sauvegarder tes découvertes ❤️ sur tous tes appareils.",
     pourquoiYAller:"Pourquoi y aller ?", infosPratiquesTitle:"Infos pratiques", infosTarif:"💰 Tarif", infosDifficulte:"🥾 Difficulté",
@@ -600,6 +610,7 @@ const TRANSLATIONS = {
     surpriseSeeDetails:"View details", surpriseNoMatch:"Nothing matches these criteria — try widening your choices.",
     surpriseApproxNote:"\"With whom\" is inferred from the place's vibes, it isn't exact data.",
     navAccueil:"Home", navExplorer:"Explore", navCarte:"Map", navFavoris:"Favorites", navProfil:"Profile", navAgenda:"Events",
+    navLangue:"Language", navProgramme:"Itinerary", navConnecte:"Signed in",
     agendaEmpty:"Nothing special to report today — check back soon!",
     accountOptionalNote:"No account needed to use Antan Nou — sign in just to save your finds ❤️ across all your devices.",
     pourquoiYAller:"Why go there?", infosPratiquesTitle:"Practical info", infosTarif:"💰 Price", infosDifficulte:"🥾 Difficulty",
@@ -680,6 +691,7 @@ const TRANSLATIONS = {
     surpriseSeeDetails:"Ver la ficha", surpriseNoMatch:"Ningún lugar coincide con estos criterios — intenta ampliar tus opciones.",
     surpriseApproxNote:"«Con quién» se deduce de los ambientes del lugar, no es un dato exacto.",
     navAccueil:"Inicio", navExplorer:"Explorar", navCarte:"Mapa", navFavoris:"Favoritos", navProfil:"Perfil", navAgenda:"Agenda",
+    navLangue:"Idioma", navProgramme:"Itinerario", navConnecte:"Conectado",
     agendaEmpty:"Nada especial que señalar hoy — ¡vuelve pronto!",
     accountOptionalNote:"No necesitas una cuenta para usar Antan Nou — inicia sesión solo para guardar tus descubrimientos ❤️ en todos tus dispositivos.",
     pourquoiYAller:"¿Por qué ir?", infosPratiquesTitle:"Información práctica", infosTarif:"💰 Precio", infosDifficulte:"🥾 Dificultad",
@@ -760,6 +772,7 @@ const TRANSLATIONS = {
     surpriseSeeDetails:"Wè fich-la", surpriseNoMatch:"Pa ni lyé ki matché ak kritè-tala — laji chwa ou.",
     surpriseApproxNote:"« Épi ki moun » sòti an anbyans lyé-a, se pa an done égzak.",
     navAccueil:"Akèy", navExplorer:"Eksploré", navCarte:"Kat", navFavoris:"Favori", navProfil:"Pwofil", navAgenda:"Ajannda",
+    navLangue:"Lang", navProgramme:"Pwogram", navConnecte:"Konekté",
     agendaEmpty:"Pa ni anyen spésyal jodi-a — vini gadé ankò talè.",
     accountOptionalNote:"Ou pa bézwen kont pou sèvi ak Antan Nou — konèkté sèlman pou sové dékouvèt ou ❤️ asou tout aparèy ou.",
     pourquoiYAller:"Poutji pou ale ?", infosPratiquesTitle:"Enfo pratik", infosTarif:"💰 Pri", infosDifficulte:"🥾 Difikilté",
@@ -1265,9 +1278,12 @@ function updateFavBadge() {
 // ---- Comptes (connexion / inscription / déconnexion) + synchronisation ----
 function updateAccountIcon() {
   const btn = document.getElementById('openAccount');
-  if (!btn) return;
-  btn.textContent = currentUser ? '🟢' : '👤';
-  btn.setAttribute('aria-label', currentUser ? 'Mon compte (connecté)' : 'Se connecter');
+  if (btn) {
+    btn.textContent = currentUser ? '🟢' : '👤';
+    btn.setAttribute('aria-label', currentUser ? 'Mon compte (connecté)' : 'Se connecter');
+  }
+  const dhBtn = document.getElementById('dhProfil');
+  if (dhBtn) dhBtn.textContent = (currentUser ? '🟢' : '👤') + ' ' + (currentUser ? t('navConnecte') : t('navProfil'));
 }
 
 async function syncFavorisToCloud() {
@@ -1767,14 +1783,19 @@ function renderDesktopHeader(active) {
     { key:'carte', label:t('navCarte') },
     { key:'agenda', label:t('navAgenda') },
   ];
+  const curLang = LANGS.find(l => l.key === lang);
+  const profilIcon = currentUser ? '🟢' : '👤';
+  const profilLabel = currentUser ? t('navConnecte') : t('navProfil');
   el.innerHTML = `<div class="desktop-header-inner">
     <div class="dh-brand">${wordmarkSVG({width:126})}</div>
     <nav class="dh-nav">
       ${links.map(l => `<button class="dh-link ${active===l.key?'sel':''}" data-dh="${l.key}">${l.label}</button>`).join('')}
     </nav>
     <div class="dh-actions">
+      <button class="dh-action" id="dhLang">🌐 ${curLang ? curLang.label : t('navLangue')}</button>
+      <button class="dh-action" id="dhProgram">🗺️ ${t('navProgramme')}</button>
       <button class="dh-action" id="dhFavs">❤️ ${t('navFavoris')}</button>
-      <button class="dh-action" id="dhProfil">👤 ${t('navProfil')}</button>
+      <button class="dh-action" id="dhProfil">${profilIcon} ${profilLabel}</button>
     </div>
   </div>`;
   el.querySelectorAll('.dh-link[data-dh]').forEach(btn => {
@@ -1785,6 +1806,8 @@ function renderDesktopHeader(active) {
       else if (k === 'agenda') { openAgendaModal(); }
     };
   });
+  const langBtn = document.getElementById('dhLang'); if (langBtn) langBtn.onclick = () => openLangModal(false);
+  const progBtn = document.getElementById('dhProgram'); if (progBtn) progBtn.onclick = openProgramModal;
   const favBtn = document.getElementById('dhFavs'); if (favBtn) favBtn.onclick = openFavsModal;
   const profBtn = document.getElementById('dhProfil'); if (profBtn) profBtn.onclick = openAccountModal;
 }
