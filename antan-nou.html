@@ -70,6 +70,13 @@
   .icon-btn { position:relative; width:38px; height:38px; border-radius:12px; background:var(--card); border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:17px; cursor:pointer; }
   .icon-btn .badge { position:absolute; top:-5px; right:-5px; background:var(--coral); color:white; font-size:10px; font-weight:800; min-width:16px; height:16px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 3px; }
   .offline-banner { background:#3a3a3a; color:white; font-size:12.5px; font-weight:600; text-align:center; padding:8px 16px; line-height:1.4; }
+  .today-alerts { margin:0 20px 14px; padding:12px 14px; border-radius:16px; background:var(--gold-soft); border:1.5px solid var(--gold); }
+  .today-alerts .alerts-title { margin:0 0 8px; font-size:12.5px; font-weight:800; color:var(--ink); }
+  .today-alerts .alert-chip { display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:6px 12px; margin:0 0 6px; cursor:default; }
+  .today-alerts .alert-chip:last-child { margin-bottom:0; }
+  .today-alerts .alert-chip.clickable { cursor:pointer; }
+  .today-alerts .alert-chip.clickable:active { background:var(--accent-soft); }
+  .today-alerts .alert-chip span { flex:1; }
 
   .modal-overlay { position:fixed; inset:0; background:rgba(27,26,46,.55); display:flex; align-items:flex-end; z-index:1000; }
   .modal { background:var(--sand); width:100%; max-width:480px; margin:0 auto; border-radius:22px 22px 0 0; padding:20px; max-height:88vh; overflow-y:auto; }
@@ -295,7 +302,10 @@ const TRANSLATIONS = {
     avisPlaceholder:"Ton commentaire (optionnel)...", avisSubmit:"Publier mon avis",
     avisSuccess:"Merci, ton avis a été publié !", avisError:"Impossible d'enregistrer ton avis pour le moment.",
     avisNoteRequired:"Choisis une note avant de publier.", avisFirebaseOff:"Les avis ne sont pas disponibles sur cette version de l'appli.",
-    offlineBanner:"Tu es hors connexion. Les lieux déjà consultés restent disponibles, mais la carte, les avis et la connexion à ton compte peuvent ne pas fonctionner.",
+    offlineBanner:"Tu es hors connexion. Les lieux et listes déjà consultés restent consultables, mais la carte (tuiles), les avis et la connexion à ton compte ont besoin d'internet.",
+    alertsTitle:"🔔 À ne pas manquer aujourd'hui", alertFullMoon:"Pleine lune ce soir — idéal pour une balade ou une baignade nocturne.",
+    evtToussaint:"Illumination de la Toussaint", evtMarcheCacao:"Marché dominical de Cacao", evtPonteTortues:"Période de ponte des tortues luths",
+    evtCarnaval:"Saison du Carnaval", evtYoles:"Tour des Yoles Rondes", evtCuisinieres:"Fête des Cuisinières", evtChanteNwel:"Période des chanté Nwel",
   },
   en: {
     langPickerTitle:"Choose your language", langPickerSub:"You can change this anytime from the 🌐 icon.",
@@ -339,7 +349,10 @@ const TRANSLATIONS = {
     avisPlaceholder:"Your comment (optional)...", avisSubmit:"Post my review",
     avisSuccess:"Thanks, your review was posted!", avisError:"Couldn't save your review right now.",
     avisNoteRequired:"Pick a rating before posting.", avisFirebaseOff:"Reviews aren't available in this version of the app.",
-    offlineBanner:"You're offline. Places you've already viewed stay available, but the map, reviews and your account may not work.",
+    offlineBanner:"You're offline. Places and lists you've already viewed stay browsable, but the map (tiles), reviews and your account need an internet connection.",
+    alertsTitle:"🔔 Don't miss today", alertFullMoon:"Full moon tonight — perfect for a night walk or a swim.",
+    evtToussaint:"All Saints' Day illumination", evtMarcheCacao:"Cacao Sunday market", evtPonteTortues:"Leatherback turtle nesting season",
+    evtCarnaval:"Carnival season", evtYoles:"Tour des Yoles Rondes (traditional boat race)", evtCuisinieres:"Fête des Cuisinières (Cooks' Festival)", evtChanteNwel:"Chanté Nwel (Creole Christmas carols) season",
   },
   es: {
     langPickerTitle:"Elige tu idioma", langPickerSub:"Puedes cambiarlo en cualquier momento desde el icono 🌐.",
@@ -383,7 +396,10 @@ const TRANSLATIONS = {
     avisPlaceholder:"Tu comentario (opcional)...", avisSubmit:"Publicar mi opinión",
     avisSuccess:"¡Gracias, tu opinión fue publicada!", avisError:"No se pudo guardar tu opinión ahora mismo.",
     avisNoteRequired:"Elige una puntuación antes de publicar.", avisFirebaseOff:"Las opiniones no están disponibles en esta versión de la app.",
-    offlineBanner:"Estás sin conexión. Los lugares que ya consultaste siguen disponibles, pero el mapa, las opiniones y tu cuenta pueden no funcionar.",
+    offlineBanner:"Estás sin conexión. Los lugares y listas que ya consultaste siguen disponibles, pero el mapa (mosaicos), las opiniones y tu cuenta necesitan conexión a internet.",
+    alertsTitle:"🔔 No te lo pierdas hoy", alertFullMoon:"Luna llena esta noche — ideal para un paseo o un baño nocturno.",
+    evtToussaint:"Iluminación de Todos los Santos", evtMarcheCacao:"Mercado dominical de Cacao", evtPonteTortues:"Temporada de anidación de tortugas laúd",
+    evtCarnaval:"Temporada de Carnaval", evtYoles:"Tour des Yoles Rondes (regata tradicional)", evtCuisinieres:"Fiesta de las Cocineras (Fête des Cuisinières)", evtChanteNwel:"Temporada de chanté Nwel (villancicos criollos)",
   },
   cr: {
     langPickerTitle:"Chwazi lang ou", langPickerSub:"Ou ka chanjé-y an nenpòt moman ak zikon 🌐.",
@@ -427,7 +443,10 @@ const TRANSLATIONS = {
     avisPlaceholder:"Kòmantè'w (pa obligatwa)...", avisSubmit:"Pibliyé avi mwen",
     avisSuccess:"Mèsi, avi'w pibliyé !", avisError:"Nou pa rivé anrejistré avi'w kounyé-a.",
     avisNoteRequired:"Chwazi an nòt avan ou pibliyé.", avisFirebaseOff:"Avi pa disponib asou vèsyon aplikasyon-tala.",
-    offlineBanner:"Ou pa konekté. Lyé ou déja gadé ka toujou disponib, mé kat-la, avi ek kont ou pé pa maché.",
+    offlineBanner:"Ou pa konekté. Lyé ek lis ou déja gadé ka toujou disponib, mé kat-la, avi ek kont ou ni bézwen entènèt.",
+    alertsTitle:"🔔 Pa manké sa jodi-a", alertFullMoon:"Lalin plen aswè-a — bon moman pou an pwomnad oben an benyen anba lalin.",
+    evtToussaint:"Limiè-a pou Latousen", evtMarcheCacao:"Mawché dimanch Cacao", evtPonteTortues:"Sézon tòti-a ka fè zé",
+    evtCarnaval:"Sézon Kannaval", evtYoles:"Tour a Yòl Won", evtCuisinieres:"Fèt Kizinyè-a", evtChanteNwel:"Sézon chanté Nwèl",
   },
 };
 
@@ -460,10 +479,10 @@ function openLangModal(forced) {
 const PLACES = [
   { t:"martinique", z:"Sud", nom:"Grande Anse des Salines", v:["plage","famille"], desc:"La plage la plus réputée du sud, sable fin et cocotiers.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.4041908, lng:-60.8803816 },
   { t:"martinique", z:"Sud", nom:"Rocher du Diamant", v:["plage","activites","photo"], desc:"Îlot emblématique face à une longue plage de sable.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.4433823, lng:-61.0388904 },
-  { t:"martinique", z:"Sud", nom:"Les Anses-d'Arlet", v:["plage"], desc:"Village de pêcheurs et petites plages tranquilles.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.4909814, lng:-61.0804091 },
+  { t:"martinique", z:"Sud", nom:"Les Anses-d'Arlet", v:["plage"], desc:"Village de pêcheurs et petites plages tranquilles.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.4909814, lng:-61.0804091, evenement:{ debutMois:7, debutJour:28, finMois:8, finJour:4, labelKey:"evtYoles" } },
   { t:"martinique", z:"Sud", nom:"Bars de plage de Sainte-Anne", v:["boire","nightlife"], desc:"Ambiance festive en bord de mer, surtout en soirée.", budget:"petit-budget", duree:"rapide", moment:"soir", acces:[], lat:14.4384, lng:-60.8807 },
   { t:"martinique", z:"Centre", nom:"Fort Saint-Louis", v:["culture"], desc:"Fortification historique dominant la baie de Fort-de-France.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:14.5996794, lng:-61.0664229 },
-  { t:"martinique", z:"Centre", nom:"Marché couvert de Fort-de-France", v:["manger","culture","shopping"], desc:"Épices, fruits et artisanat local en plein centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["poussette","interieur"], lat:14.6052728, lng:-61.0719252 },
+  { t:"martinique", z:"Centre", nom:"Marché couvert de Fort-de-France", v:["manger","culture","shopping"], desc:"Épices, fruits et artisanat local en plein centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["poussette","interieur"], lat:14.6052728, lng:-61.0719252, evenement:{ debutMois:1, debutJour:6, finMois:3, finJour:10, labelKey:"evtCarnaval" } },
   { t:"martinique", z:"Centre", nom:"Habitation Clément", v:["culture"], desc:"Domaine historique et distillerie de rhum vieux, avec jardins.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["pmr"], lat:14.6043859, lng:-60.909005, tarif:"13€ adulte · 8€ (15-17 ans) · gratuit -15 ans, dégustation incluse", conseils:"Réserve la visite tôt le matin pour profiter des jardins avant la chaleur." },
   { t:"martinique", z:"Nord Caraïbe", nom:"Gorges de la Falaise", v:["riviere","nature","activites","sport"], desc:"Randonnée aquatique dans un canyon encaissé.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:14.8202618, lng:-61.1295836, conseils:"Prévois des chaussures fermées et un maillot — une partie du parcours se fait dans l'eau." },
   { t:"martinique", z:"Nord Caraïbe", nom:"Montagne Pelée", v:["nature","activites","sport"], desc:"Ascension du volcan emblématique du nord.", budget:"gratuit", duree:"journee", moment:"jour", acces:[], lat:14.8093677, lng:-61.1664179, conseils:"Pars tôt le matin : le sommet se couvre souvent de nuages en cours de journée." },
@@ -499,7 +518,7 @@ const PLACES = [
   { t:"martinique", z:"Centre", nom:"Domaine d'Émeraude", v:["nature","famille","bienetre"], desc:"Parc naturel sur la route de la Trace, sentiers ombragés en forêt tropicale humide au pied de la Montagne Pelée.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.7493646, lng:-61.1016226 },
   { t:"martinique", z:"Nord Atlantique", nom:"Château Dubuc", v:["culture","photo"], desc:"Ruines d'une habitation du XVIIIe siècle au cœur de la Réserve naturelle de la Caravelle, avec vue sur l'océan.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:14.7684837, lng:-60.8902548 },
   { t:"martinique", z:"Centre", nom:"Fort Desaix", v:["culture"], desc:"Fortification du début du XIXe siècle dominant Fort-de-France, toujours occupée par l'armée, ouverte au public lors des Journées du Patrimoine.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.6163313, lng:-61.0657389 },
-  { t:"martinique", z:"Centre", nom:"Cathédrale Saint-Louis", v:["culture"], desc:"Cathédrale à l'architecture métallique unique en son genre, en plein centre de Fort-de-France.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["interieur"], lat:14.604148, lng:-61.0697439 },
+  { t:"martinique", z:"Centre", nom:"Cathédrale Saint-Louis", v:["culture"], desc:"Cathédrale à l'architecture métallique unique en son genre, en plein centre de Fort-de-France.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["interieur"], lat:14.604148, lng:-61.0697439, evenement:{ debutMois:12, debutJour:1, finMois:12, finJour:24, labelKey:"evtChanteNwel" } },
   { t:"martinique", z:"Nord Atlantique", nom:"Phare de la Caravelle", v:["culture","nature","photo"], desc:"Phare du XIXe siècle au bout de la presqu'île de la Caravelle, accessible par un sentier de randonnée avec vue à 360°.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.7723175, lng:-60.8818206 },
   { t:"martinique", z:"Nord Atlantique", nom:"Instapoint Ailes (Tartane)", v:["photo","culture","nature"], desc:"Installation en forme d'ailes à l'entrée de Tartane, imaginée par l'association Valorisation Martinique pour sensibiliser à la protection du trembleur, oiseau endémique de la Caravelle.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.7720, lng:-60.9200 },
   { t:"martinique", z:"Nord Caraïbe", nom:"Pont suspendu de Grand'Rivière", v:["photo","nature","sport"], desc:"Passerelle suspendue en bois et métal enjambant la forêt tropicale, sur le sentier entre Grand'Rivière et Anse Couleuvre, l'un des spots photo de l'association Valorisation Martinique.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.8702966, lng:-61.1658591 },
@@ -517,7 +536,7 @@ const PLACES = [
   { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Cascade aux Écrevisses", v:["riviere","nature"], desc:"Petite cascade très accessible en forêt tropicale.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["poussette"], lat:16.1789129, lng:-61.6808536 },
   { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Réserve Cousteau (îlet Pigeon)", v:["nature","activites","sport"], desc:"Snorkeling et plongée dans une réserve marine réputée.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.168403, lng:-61.7896438, tarif:"à partir de 29€ (excursion snorkeling encadrée)" },
   { t:"guadeloupe", z:"Région Pointoise", nom:"Fort Fleur d'Épée", v:["culture"], desc:"Fortification du XVIIIe siècle avec vue sur la baie.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.2169304, lng:-61.5129364 },
-  { t:"guadeloupe", z:"Région Pointoise", nom:"Marché de Pointe-à-Pitre", v:["manger","culture","shopping"], desc:"Marché aux épices et fruits en centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:16.2373069, lng:-61.5366393 },
+  { t:"guadeloupe", z:"Région Pointoise", nom:"Marché de Pointe-à-Pitre", v:["manger","culture","shopping"], desc:"Marché aux épices et fruits en centre-ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:16.2373069, lng:-61.5366393, evenement:{ debutMois:8, debutJour:1, finMois:8, finJour:10, labelKey:"evtCuisinieres" } },
   { t:"guadeloupe", z:"Région Pointoise", nom:"Aquarium de Guadeloupe", v:["famille","culture"], desc:"Aquarium tropical avec requins et tortues, au Gosier.", budget:"premium", duree:"rapide", moment:"jour", acces:["poussette","pmr","interieur"], lat:16.2206519, lng:-61.5230288, tarif:"14,90€ adulte (13 ans+) · 9,90€ enfant (3-12 ans) · gratuit -3 ans", site:"http://www.aquariumdelaguadeloupe.com/" },
   { t:"guadeloupe", z:"Région Pointoise", nom:"Mémorial ACTe", v:["culture"], desc:"Centre caribéen d'expressions et de mémoire de la traite et de l'esclavage, à Pointe-à-Pitre.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["pmr","interieur"], lat:16.2314505, lng:-61.5339823, tarif:"15€ plein tarif · 8€ tarif réduit (étudiants/seniors) · gratuit -12 ans", site:"https://memorial-acte.fr/" },
   { t:"guadeloupe", z:"Les Saintes", nom:"Terre-de-Haut", v:["plage"], desc:"Îlot pittoresque aux criques et maisons colorées.", budget:"petit-budget", duree:"journee", moment:"jour", acces:[], lat:15.8667, lng:-61.5833 },
@@ -1281,8 +1300,16 @@ function renderTodayAlerts() {
   if (!alerts.length) return '';
   return `<div class="today-alerts">
     <p class="alerts-title">${t('alertsTitle')}</p>
-    ${alerts.map((a,i) => `<div class="alert-chip" data-alert="${i}">${a.icon} <span>${a.text}</span></div>`).join('')}
+    ${alerts.map((a,i) => `<div class="alert-chip${a.place ? ' clickable' : ''}" data-alert="${i}">${a.icon} <span>${a.text}</span></div>`).join('')}
   </div>`;
+}
+function wireTodayAlerts(container) {
+  container.querySelectorAll('.alert-chip.clickable[data-alert]').forEach(el => {
+    el.onclick = () => {
+      const a = todayAlerts[+el.dataset.alert];
+      if (a && a.place) openPlaceDetail(a.place);
+    };
+  });
 }
 
 function render() {
@@ -1299,10 +1326,11 @@ function render() {
   if (step === 0) {
     title.textContent = t('step0Title');
     sub.textContent = t('step0Sub');
-    main.innerHTML = `<div class="postcard-grid">${TERRITOIRES.map(t => `
+    main.innerHTML = `${renderTodayAlerts()}<div class="postcard-grid">${TERRITOIRES.map(t => `
       <div class="postcard ${selT===t.key?'sel':''}" data-t="${t.key}" style="background:${t.grad};">
         <span class="stamp">${t.stamp}</span><span class="name">${t.label}</span>
       </div>`).join('')}</div>`;
+    wireTodayAlerts(main);
     main.querySelectorAll('.postcard').forEach(el => {
       el.onclick = () => { selT = el.dataset.t; selZ = null; setStep(1); };
     });
