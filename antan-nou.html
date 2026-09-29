@@ -52,7 +52,7 @@
 <!-- Polices de la charte graphique officielle Antan Nou : Montserrat (titres/wordmark) + Nunito (texte courant) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Nunito:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Nunito:wght@300;400&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     /* ---- Charte graphique officielle Antan Nou ---- */
@@ -262,10 +262,69 @@
   .infos-row .ic { flex:0 0 20px; }
   .account-optional-note { font-size:12px; color:var(--muted); text-align:center; margin:14px 0 0; line-height:1.4; }
   .btn-ghost { background:var(--sand); color:var(--ink); border:1px solid var(--line); flex:0 0 90px; }
+
+  /* ==================== Entête desktop (≥1024px), caché par défaut ==================== */
+  .desktop-header { display:none; }
+  .desktop-header-inner { display:flex; align-items:center; gap:28px; padding:12px 40px; }
+  .desktop-header .dh-brand { display:flex; align-items:center; flex:0 0 auto; }
+  .desktop-header .dh-brand .wordmark-svg { display:block; }
+  .dh-nav { display:flex; align-items:center; gap:8px; flex:1; }
+  .dh-link { background:none; border:none; cursor:pointer; padding:9px 16px; border-radius:999px; font-family:var(--font-display); font-size:14px; font-weight:700; color:var(--ink); }
+  .dh-link:hover { background:var(--accent-soft); color:var(--accent); }
+  .dh-link.sel { background:var(--accent); color:white; }
+  .dh-actions { display:flex; align-items:center; gap:10px; flex:0 0 auto; }
+  .dh-action { display:inline-flex; align-items:center; gap:6px; background:none; border:1.5px solid var(--line); cursor:pointer; padding:9px 16px; border-radius:999px; font-family:var(--font-display); font-size:13.5px; font-weight:700; color:var(--ink); }
+  .dh-action:hover { border-color:var(--accent); color:var(--accent); }
+
+  /* ==================== Tablette (≥768px) ==================== */
+  @media (min-width: 768px) {
+    #app { max-width:900px; }
+    main { padding-left:32px; padding-right:32px; padding-bottom:48px; }
+    header:not(.desktop-header) { padding-left:32px; padding-right:32px; }
+
+    /* La nav basse mobile devient une barre du haut, sous l'entête existant. */
+    header:not(.desktop-header) { order:0; }
+    .offline-banner { order:1; }
+    nav.bottom-nav { order:2; position:static; max-width:none; margin:0; bottom:auto; left:auto; right:auto;
+      border-top:none; border-bottom:1.5px solid var(--line); border-radius:0; padding:8px 32px; justify-content:center; gap:22px; }
+    main { order:3; padding-bottom:48px; }
+    .tab-btn { flex:0 0 auto; flex-direction:row; gap:7px; padding:9px 16px; border-radius:999px; }
+    .tab-btn:hover { background:var(--accent-soft); }
+    .tab-btn.sel { background:var(--accent-soft); }
+    .tab-btn .tab-icon { font-size:16px; }
+    .tab-btn .tab-label { font-size:12.5px; }
+
+    /* Grilles de cartes à 2 colonnes */
+    .postcard-grid, #resultsList { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .postcard-grid .postcard, #resultsList .place { margin-bottom:0; }
+    .vibe-grid { grid-template-columns:repeat(4,1fr); }
+  }
+
+  /* ==================== Desktop (≥1024px) ==================== */
+  @media (min-width: 1024px) {
+    #app { max-width:1140px; }
+    main { padding-left:40px; padding-right:40px; }
+
+    /* Entête desktop riche, sticky : remplace la barre du haut de la tablette. */
+    .desktop-header { display:block; position:sticky; top:0; z-index:60; background:var(--cream-bg);
+      border-bottom:1px solid var(--line); }
+    .desktop-header.scrolled, .desktop-header { box-shadow:0 1px 0 rgba(13,59,49,.03); }
+    header:not(.desktop-header) { order:1; }
+    .offline-banner { order:2; }
+    nav.bottom-nav { display:none; }
+    main { order:3; }
+    .desktop-header { order:0; }
+
+    .postcard-grid, #resultsList { grid-template-columns:repeat(3,1fr); }
+  }
+  @media (min-width: 1024px) and (max-width: 1199px) {
+    #app { max-width:960px; }
+  }
 </style>
 </head>
 <body>
 <div id="app">
+  <header class="desktop-header" id="desktopHeader"></header>
   <header>
     <div class="brand-row">
       <div class="brand" id="headerBrand"></div>
@@ -294,30 +353,38 @@
    ========================================================================= */
 
 // ==================== Wordmark "Antan Nou" (charte graphique officielle) ====================
-// SVG recréé à partir du logo réel : "ANTAN" en vert forêt, "NOU" en orange chaud avec une
-// rose des vents dans le O, un soleil rayonnant en vert-teal du "ANTAN" et un trait pinceau
-// jaune soleil sous "NOU". viewBox fixe : la taille d'affichage se règle via width/height.
+// SVG recréé au plus près de la maquette finale du logo : "ANTAN" en vert forêt, légèrement
+// dynamique/penché, avec un petit soleil rayonnant jaune soleil en haut à droite ; "NOU" en
+// orange chaud juste en dessous, décalé vers la droite, avec une rose des vents crème dans le
+// "O" et un trait pinceau jaune soleil, tracé à la main, qui souligne "NOU". Police Baloo 2
+// (arrondie et grasse) pour retrouver le rendu "lettrage" du logo réel. viewBox fixe : la
+// taille d'affichage se règle via width/height.
 function wordmarkSVG(opts) {
   opts = opts || {};
   const w = opts.width || 220;
-  const h = Math.round(w * 135 / 320);
+  const h = Math.round(w * 200 / 300);
   // Sur fond sombre (hero), "ANTAN" passe en crème pour rester lisible ; sur fond clair, vert forêt (couleur officielle).
   const antanFill = opts.variant === 'onDark' ? '#F9F6EE' : '#0D3B31';
-  return `<svg class="wordmark-svg" viewBox="0 0 320 135" width="${w}" height="${h}" role="img" aria-label="Antan Nou" xmlns="http://www.w3.org/2000/svg">
-    <text x="6" y="46" font-size="40" font-weight="900" fill="${antanFill}" style="font-family:'Montserrat',sans-serif;">ANTAN</text>
-    <g transform="translate(296,16)">
-      <circle r="8" fill="#F89E1B"/>
-      ${[0,45,90,135,180,225,270,315].map(a => `<line x1="0" y1="-10" x2="0" y2="-16" stroke="#F89E1B" stroke-width="2.5" stroke-linecap="round" transform="rotate(${a})"/>`).join('')}
+  const wmFont = "font-family:'Baloo 2','Montserrat',sans-serif;";
+  return `<svg class="wordmark-svg" viewBox="0 0 300 200" width="${w}" height="${h}" role="img" aria-label="Antan Nou" xmlns="http://www.w3.org/2000/svg">
+    <g transform="skewX(-7)">
+      <text x="10" y="62" font-size="54" font-weight="800" letter-spacing="-1" fill="${antanFill}" style="${wmFont}" textLength="196" lengthAdjust="spacingAndGlyphs">ANTAN</text>
     </g>
-    <text x="6" y="102" font-size="44" font-weight="900" fill="#E85D26" style="font-family:'Montserrat',sans-serif;" textLength="38" lengthAdjust="spacingAndGlyphs">N</text>
-    <circle cx="66" cy="86" r="20" fill="#E85D26"/>
-    <g transform="translate(66,86)">
-      <circle r="14" fill="none" stroke="#F9F6EE" stroke-width="1.2" opacity=".85"/>
-      <path d="M0,-10 L2.4,-2.4 L10,0 L2.4,2.4 L0,10 L-2.4,2.4 L-10,0 L-2.4,-2.4 Z" fill="#F9F6EE"/>
-      <circle r="1.6" fill="#E85D26"/>
+    <g transform="translate(240,30)">
+      <circle r="11" fill="#F89E1B"/>
+      ${[0,45,90,135,180,225,270,315].map(a => `<line x1="0" y1="-15" x2="0" y2="-23" stroke="#F89E1B" stroke-width="3.5" stroke-linecap="round" transform="rotate(${a})"/>`).join('')}
     </g>
-    <text x="96" y="102" font-size="44" font-weight="900" fill="#E85D26" style="font-family:'Montserrat',sans-serif;" textLength="38" lengthAdjust="spacingAndGlyphs">U</text>
-    <path d="M4,120 Q72,132 140,119" fill="none" stroke="#F89E1B" stroke-width="6" stroke-linecap="round"/>
+    <g transform="skewX(-7)">
+      <text x="58" y="140" font-size="58" font-weight="800" letter-spacing="-1" fill="#E85D26" style="${wmFont}" textLength="46" lengthAdjust="spacingAndGlyphs">N</text>
+      <text x="164" y="140" font-size="58" font-weight="800" letter-spacing="-1" fill="#E85D26" style="${wmFont}" textLength="46" lengthAdjust="spacingAndGlyphs">U</text>
+    </g>
+    <circle cx="134" cy="116" r="27" fill="#E85D26"/>
+    <g transform="translate(134,116) skewX(-7)">
+      <circle r="18" fill="none" stroke="#F9F6EE" stroke-width="1.4" opacity=".85"/>
+      <path d="M0,-13 L3,-3 L13,0 L3,3 L0,13 L-3,3 L-13,0 L-3,-3 Z" fill="#F9F6EE"/>
+      <circle r="2" fill="#E85D26"/>
+    </g>
+    <path d="M46,165 Q135,182 226,161" fill="none" stroke="#F89E1B" stroke-width="8" stroke-linecap="round"/>
   </svg>`;
 }
 
@@ -452,7 +519,8 @@ const TRANSLATIONS = {
     surpriseGo:"🎲 Surprends-moi", surpriseRevealTitle:"Aujourd'hui, Antan Nou te propose...", surpriseReroll:"🎲 Relancer",
     surpriseSeeDetails:"Voir la fiche", surpriseNoMatch:"Aucun lieu ne correspond à ces critères — essaie d'élargir tes choix.",
     surpriseApproxNote:"« Avec qui » est déduit des ambiances du lieu, ce n'est pas une donnée exacte.",
-    navAccueil:"Accueil", navExplorer:"Explorer", navCarte:"Carte", navFavoris:"Favoris", navProfil:"Profil",
+    navAccueil:"Accueil", navExplorer:"Explorer", navCarte:"Carte", navFavoris:"Favoris", navProfil:"Profil", navAgenda:"Agenda",
+    agendaEmpty:"Rien de particulier signalé aujourd'hui — reviens bientôt !",
     accountOptionalNote:"Pas besoin de compte pour utiliser Antan Nou — connecte-toi juste pour sauvegarder tes découvertes ❤️ sur tous tes appareils.",
     pourquoiYAller:"Pourquoi y aller ?", infosPratiquesTitle:"Infos pratiques", infosTarif:"💰 Tarif", infosDifficulte:"🥾 Difficulté",
     infosContact:"📱 Plus d'infos", infosConseil:"💡 Conseil", yAllerCta:"📍 Y aller",
@@ -531,7 +599,8 @@ const TRANSLATIONS = {
     surpriseGo:"🎲 Surprise me", surpriseRevealTitle:"Today, Antan Nou suggests...", surpriseReroll:"🎲 Reroll",
     surpriseSeeDetails:"View details", surpriseNoMatch:"Nothing matches these criteria — try widening your choices.",
     surpriseApproxNote:"\"With whom\" is inferred from the place's vibes, it isn't exact data.",
-    navAccueil:"Home", navExplorer:"Explore", navCarte:"Map", navFavoris:"Favorites", navProfil:"Profile",
+    navAccueil:"Home", navExplorer:"Explore", navCarte:"Map", navFavoris:"Favorites", navProfil:"Profile", navAgenda:"Events",
+    agendaEmpty:"Nothing special to report today — check back soon!",
     accountOptionalNote:"No account needed to use Antan Nou — sign in just to save your finds ❤️ across all your devices.",
     pourquoiYAller:"Why go there?", infosPratiquesTitle:"Practical info", infosTarif:"💰 Price", infosDifficulte:"🥾 Difficulty",
     infosContact:"📱 More info", infosConseil:"💡 Tip", yAllerCta:"📍 Get directions",
@@ -610,7 +679,8 @@ const TRANSLATIONS = {
     surpriseGo:"🎲 Sorpréndeme", surpriseRevealTitle:"Hoy, Antan Nou te propone...", surpriseReroll:"🎲 Relanzar",
     surpriseSeeDetails:"Ver la ficha", surpriseNoMatch:"Ningún lugar coincide con estos criterios — intenta ampliar tus opciones.",
     surpriseApproxNote:"«Con quién» se deduce de los ambientes del lugar, no es un dato exacto.",
-    navAccueil:"Inicio", navExplorer:"Explorar", navCarte:"Mapa", navFavoris:"Favoritos", navProfil:"Perfil",
+    navAccueil:"Inicio", navExplorer:"Explorar", navCarte:"Mapa", navFavoris:"Favoritos", navProfil:"Perfil", navAgenda:"Agenda",
+    agendaEmpty:"Nada especial que señalar hoy — ¡vuelve pronto!",
     accountOptionalNote:"No necesitas una cuenta para usar Antan Nou — inicia sesión solo para guardar tus descubrimientos ❤️ en todos tus dispositivos.",
     pourquoiYAller:"¿Por qué ir?", infosPratiquesTitle:"Información práctica", infosTarif:"💰 Precio", infosDifficulte:"🥾 Dificultad",
     infosContact:"📱 Más información", infosConseil:"💡 Consejo", yAllerCta:"📍 Cómo llegar",
@@ -689,7 +759,8 @@ const TRANSLATIONS = {
     surpriseGo:"🎲 Sipwiz mwen", surpriseRevealTitle:"Jodi-a, Antan Nou ka pwopozé'w...", surpriseReroll:"🎲 Rilansé",
     surpriseSeeDetails:"Wè fich-la", surpriseNoMatch:"Pa ni lyé ki matché ak kritè-tala — laji chwa ou.",
     surpriseApproxNote:"« Épi ki moun » sòti an anbyans lyé-a, se pa an done égzak.",
-    navAccueil:"Akèy", navExplorer:"Eksploré", navCarte:"Kat", navFavoris:"Favori", navProfil:"Pwofil",
+    navAccueil:"Akèy", navExplorer:"Eksploré", navCarte:"Kat", navFavoris:"Favori", navProfil:"Pwofil", navAgenda:"Ajannda",
+    agendaEmpty:"Pa ni anyen spésyal jodi-a — vini gadé ankò talè.",
     accountOptionalNote:"Ou pa bézwen kont pou sèvi ak Antan Nou — konèkté sèlman pou sové dékouvèt ou ❤️ asou tout aparèy ou.",
     pourquoiYAller:"Poutji pou ale ?", infosPratiquesTitle:"Enfo pratik", infosTarif:"💰 Pri", infosDifficulte:"🥾 Difikilté",
     infosContact:"📱 Plis enfo", infosConseil:"💡 Konsèy", yAllerCta:"📍 Ale",
@@ -1680,6 +1751,66 @@ function renderBottomNav(active) {
       else if (k === 'profil') { openAccountModal(); }
     };
   });
+  renderDesktopHeader(active);
+}
+
+// ==================== Entête desktop (≥1024px) ====================
+// Reprend le wordmark, les mêmes actions que la nav basse (Explorer/Carte,
+// Favoris, Profil), et ajoute "Agenda" qui ouvre le panneau des alertes du
+// moment déjà calculé par computeTodayAlerts() (pas d'agenda d'événements
+// inventé, faute de source de données réelle).
+function renderDesktopHeader(active) {
+  const el = document.getElementById('desktopHeader');
+  if (!el) return;
+  const links = [
+    { key:'explorer', label:t('navExplorer') },
+    { key:'carte', label:t('navCarte') },
+    { key:'agenda', label:t('navAgenda') },
+  ];
+  el.innerHTML = `<div class="desktop-header-inner">
+    <div class="dh-brand">${wordmarkSVG({width:126})}</div>
+    <nav class="dh-nav">
+      ${links.map(l => `<button class="dh-link ${active===l.key?'sel':''}" data-dh="${l.key}">${l.label}</button>`).join('')}
+    </nav>
+    <div class="dh-actions">
+      <button class="dh-action" id="dhFavs">❤️ ${t('navFavoris')}</button>
+      <button class="dh-action" id="dhProfil">👤 ${t('navProfil')}</button>
+    </div>
+  </div>`;
+  el.querySelectorAll('.dh-link[data-dh]').forEach(btn => {
+    btn.onclick = () => {
+      const k = btn.dataset.dh;
+      if (k === 'explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
+      else if (k === 'carte') { collectionOverride = null; if (!selT) selT = TERRITOIRES[0].key; viewMode = 'carte'; step = 3; render(); }
+      else if (k === 'agenda') { openAgendaModal(); }
+    };
+  });
+  const favBtn = document.getElementById('dhFavs'); if (favBtn) favBtn.onclick = openFavsModal;
+  const profBtn = document.getElementById('dhProfil'); if (profBtn) profBtn.onclick = openAccountModal;
+}
+// Panneau "Agenda" (desktop) : réutilise exactement les alertes du moment
+// (pleine lune + événements culturels récurrents déjà tagués sur PLACES) —
+// aucune date/heure fictive n'est ajoutée.
+function openAgendaModal() {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'agendaOverlay';
+  const alerts = computeTodayAlerts();
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>${t('navAgenda')}</h3><button class="modal-close" id="closeAgenda">✕</button></div>
+    ${alerts.length === 0
+      ? `<div class="empty"><span class="e">🔔</span>${t('agendaEmpty')}</div>`
+      : `<div class="today-alerts" style="margin:0;">
+          <p class="alerts-title">${t('alertsTitle')}</p>
+          ${alerts.map((a,i) => `<div class="alert-chip${a.place ? ' clickable' : ''}" data-agenda-alert="${i}">${a.icon} <span>${a.text}</span></div>`).join('')}
+        </div>`}
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  document.getElementById('closeAgenda').onclick = () => overlay.remove();
+  overlay.querySelectorAll('.alert-chip.clickable[data-agenda-alert]').forEach(el => {
+    el.onclick = () => { const a = alerts[+el.dataset.agendaAlert]; if (a && a.place) { overlay.remove(); openPlaceDetail(a.place); } };
+  });
 }
 
 // ==================== Carte de lieu réutilisable (liste, recherche accueil, collections) ====================
@@ -2182,6 +2313,13 @@ function renderResults() {
 
 // ---- Vue carte des résultats (Leaflet + OpenStreetMap) ----
 let mapInstance = null;
+// La largeur du conteneur change aux points de rupture tablette/desktop :
+// Leaflet doit recalculer sa taille sinon la carte reste coupée/décalée.
+let mapResizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(mapResizeTimer);
+  mapResizeTimer = setTimeout(() => { if (mapInstance) mapInstance.invalidateSize(); }, 200);
+});
 function renderMapView(results) {
   const mapEl = document.getElementById('mapView');
   if (typeof L === 'undefined') {
