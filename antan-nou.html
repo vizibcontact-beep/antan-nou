@@ -373,35 +373,59 @@
 function wordmarkSVG(opts) {
   opts = opts || {};
   const w = opts.width || 220;
-  const h = Math.round(w * 260 / 400);
-  const wmFont = "font-family:'Baloo 2','Montserrat',sans-serif;";
-  const letterStroke = 'paint-order:stroke fill; stroke:#F9F6EE; stroke-width:7; stroke-linejoin:round;';
-  const antanLetters = [
-    { ch:'A', x:8,   y:118, rot:-9, fs:92 },
-    { ch:'N', x:62,  y:110, rot:-3, fs:92 },
-    { ch:'T', x:124, y:104, rot:1,  fs:92 },
-    { ch:'A', x:182, y:107, rot:-2, fs:92 },
-    { ch:'N', x:242, y:117, rot:6,  fs:92 },
-  ];
-  const nouLetters = [
-    { ch:'N', x:52,  y:238, rot:-4, fs:98 },
-    { ch:'U', x:212, y:238, rot:4,  fs:98 },
-  ];
-  return `<svg class="wordmark-svg" viewBox="0 0 400 260" width="${w}" height="${h}" role="img" aria-label="Antan Nou" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(330,48)">
-      <circle r="21" fill="#F89E1B"/>
-      ${[0,45,90,135,180,225,270,315].map(a => `<rect x="-3.5" y="-40" width="7" height="16" rx="3.5" fill="#F89E1B" transform="rotate(${a})"/>`).join('')}
+  const h = Math.round(w * 300 / 410);
+  return `<svg class="wordmark-svg" viewBox="0 0 410 300" width="${w}" height="${h}" role="img" aria-label="Antan Nou" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .font-bold { font-family:'Baloo 2','Montserrat',sans-serif; font-weight:800; }
+      .text-antan { font-size:88px; fill:#0D3B31; }
+      .text-nou { font-size:96px; fill:#E85D26; }
+    </style>
+    <!-- SOLEIL STYLISÉ (Haut Droite au-dessus de N) -->
+    <g id="sun-element" transform="translate(370, 45)">
+      <!-- Arc du soleil -->
+      <path d="M -22,25 A 32 32 0 0 1 22,25" fill="none" stroke="#F89E1B" stroke-width="8" stroke-linecap="round" />
+
+      <!-- Rayons du soleil -->
+      <line x1="0" y1="-18" x2="0" y2="-5" stroke="#F89E1B" stroke-width="6" stroke-linecap="round" />
+      <line x1="18" y1="-12" x2="10" y2="-2" stroke="#F89E1B" stroke-width="6" stroke-linecap="round" />
+      <line x1="28" y1="5" x2="16" y2="10" stroke="#F89E1B" stroke-width="6" stroke-linecap="round" />
+      <line x1="32" y1="28" x2="20" y2="24" stroke="#F89E1B" stroke-width="6" stroke-linecap="round" />
+      <line x1="-18" y1="-12" x2="-10" y2="-2" stroke="#F89E1B" stroke-width="6" stroke-linecap="round" />
+      <line x1="-28" y1="5" x2="-16" y2="10" stroke="#F89E1B" stroke-width="6" stroke-linecap="round" />
     </g>
-    ${antanLetters.map(l => `<text x="${l.x}" y="${l.y}" font-size="${l.fs}" font-weight="800" fill="#0D3B31" style="${wmFont}${letterStroke}" transform="rotate(${l.rot} ${l.x+26} ${l.y-26})">${l.ch}</text>`).join('')}
-    ${nouLetters.map(l => `<text x="${l.x}" y="${l.y}" font-size="${l.fs}" font-weight="800" fill="#E85D26" style="${wmFont}${letterStroke}" transform="rotate(${l.rot} ${l.x+26} ${l.y-26})">${l.ch}</text>`).join('')}
-    <g transform="translate(160,196)">
-      <circle r="42" fill="#E85D26" stroke="#F9F6EE" stroke-width="7"/>
-      <g transform="rotate(-10)">
-        <path d="M0,-28 L7,-6 L28,0 L7,6 L0,28 L-7,6 L-28,0 L-7,-6 Z" fill="#F9F6EE"/>
-        <circle r="4.5" fill="#E85D26"/>
+
+    <!-- MOT "ANTAN" (Vert Forêt, légèrement penché à gauche) -->
+    <g transform="rotate(-5 220 120)">
+      <text x="35" y="130" class="font-bold text-antan">ANTAN</text>
+    </g>
+
+    <!-- MOT "NOU" (Orange, avec boussole intégrée dans le O) -->
+    <g transform="rotate(-2 240 220)">
+      <!-- Lettre N -->
+      <text x="85" y="240" class="font-bold text-nou">N</text>
+
+      <!-- Lettre O avec BOUSSOLE à l'intérieur -->
+      <g id="letter-O-compass" transform="translate(195, 155)">
+        <!-- Silhouette extérieure du O -->
+        <path d="M 45,12 C 72,12 85,30 85,54 C 85,78 72,96 45,96 C 18,96 5,78 5,54 C 5,30 18,12 45,12 Z M 45,30 C 33,30 27,40 27,54 C 27,68 33,78 45,78 C 57,78 63,68 63,54 C 63,40 57,30 45,30 Z" fill="#E85D26" />
+
+        <!-- Aiguille de la boussole au centre -->
+        <g transform="translate(45, 54) rotate(-28)">
+          <!-- Côté droit / supérieur blanc -->
+          <path d="M 0,-22 Q 4,-5 11,0 Q 4,5 0,22 Z" fill="#FFFFFF" />
+          <!-- Côté gauche / inférieur blanc/crème -->
+          <path d="M 0,-22 Q -4,-5 -11,0 Q -4,5 0,22 Z" fill="#F9F6EE" />
+          <!-- Point/Rond orange central -->
+          <circle cx="0" cy="0" r="3.5" fill="#E85D26" />
+        </g>
       </g>
+
+      <!-- Lettre U -->
+      <text x="295" y="240" class="font-bold text-nou">U</text>
+
+      <!-- TRAIT DE PINCEAU / SOULIGNEMENT JAUNE -->
+      <path d="M 110,265 C 190,282 290,282 365,265 C 290,273 190,273 110,265 Z" fill="#F89E1B" stroke="#F89E1B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
     </g>
-    <path d="M46,250 Q195,270 345,244" fill="none" stroke="#F89E1B" stroke-width="13" stroke-linecap="round"/>
   </svg>`;
 }
 
