@@ -1283,7 +1283,7 @@ function updateAccountIcon() {
     btn.setAttribute('aria-label', currentUser ? 'Mon compte (connecté)' : 'Se connecter');
   }
   const dhBtn = document.getElementById('dhProfil');
-  if (dhBtn) dhBtn.textContent = (currentUser ? '🟢' : '👤') + ' ' + (currentUser ? t('navConnecte') : t('navProfil'));
+  if (dhBtn) dhBtn.textContent = '👤 ' + t('navProfil');
 }
 
 async function syncFavorisToCloud() {
@@ -1784,8 +1784,8 @@ function renderDesktopHeader(active) {
     { key:'agenda', label:t('navAgenda') },
   ];
   const curLang = LANGS.find(l => l.key === lang);
-  const profilIcon = currentUser ? '🟢' : '👤';
-  const profilLabel = currentUser ? t('navConnecte') : t('navProfil');
+  const profilIcon = '👤';
+  const profilLabel = t('navProfil');
   el.innerHTML = `<div class="desktop-header-inner">
     <div class="dh-brand">${wordmarkSVG({width:126})}</div>
     <nav class="dh-nav">
