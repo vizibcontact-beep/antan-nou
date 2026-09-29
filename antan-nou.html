@@ -49,6 +49,10 @@
 <!-- Leaflet (carte des résultats) : gratuit, fonds de carte OpenStreetMap, aucune clé API requise -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Police d'affichage pour le wordmark "ANTAN NOU" — test de direction de marque -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink:#1B1A2E; --indigo:#2E2A5C; --indigo-soft:#EDEBF7;
@@ -56,6 +60,13 @@
     --sand:#FBF8F2; --card:#FFFFFF; --line:#E7E3F0; --muted:#736F8C;
     --gold:#D9A441; --gold-soft:#FBF0DA;
     --accent:#2E2A5C; --accent-soft:#EDEBF7;
+    /* ---- Palette de marque "Antan Nou" (test de direction) ---- */
+    --brand-green:#1F6E4A; --brand-green-soft:#E3F0E8;
+    --brand-sun:#F5B324; --brand-sun-soft:#FDF0D6;
+    --brand-terracotta:#C1602E; --brand-terracotta-soft:#F7E4D8;
+    --brand-blue:#1D7FA6; --brand-blue-soft:#E1EFF4;
+    --brand-cream:#FBF6EC; --brand-ink:#1B1A2E;
+    --font-display:'Baloo 2', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html, body { margin:0; padding:0; background:var(--sand); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
@@ -167,11 +178,76 @@
   .empty { text-align:center; padding:40px 20px; color:var(--muted); font-size:13.5px; }
   .empty .e { font-size:34px; display:block; margin-bottom:10px; }
 
-  nav.bottom-nav { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:var(--card); border-top:1px solid var(--line); padding:12px 16px; display:flex; gap:10px; }
+  nav.bottom-nav { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:var(--card); border-top:1px solid var(--line); padding:12px 16px; display:flex; gap:10px; z-index:50; }
   .legal-footer { text-align:center; font-size:11.5px; color:var(--muted); margin:28px 0 8px; padding-bottom:4px; text-decoration:underline; cursor:pointer; }
   .btn { flex:1; padding:13px; border-radius:12px; border:none; font-size:15px; font-weight:700; cursor:pointer; text-align:center; }
   .btn-primary { background:var(--accent); color:white; }
   .btn-primary:disabled { background:var(--line); color:var(--muted); }
+
+  /* ==================== Direction "test" : accueil éditoriale ==================== */
+  .wizard-nav-row { display:flex; gap:10px; margin-top:22px; }
+
+  nav.bottom-nav.tab-bar { padding:6px 4px; }
+  .tab-btn { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; background:none; border:none; padding:6px 2px; border-radius:12px; cursor:pointer; color:var(--muted); font-family:inherit; }
+  .tab-btn .tab-icon { font-size:19px; line-height:1; }
+  .tab-btn .tab-label { font-size:10px; font-weight:700; }
+  .tab-btn.sel { color:var(--brand-green); }
+  .tab-btn.sel .tab-icon { transform:translateY(-1px); }
+
+  .home-hero { position:relative; margin:4px -20px 0; padding:34px 24px 30px; border-radius:0 0 28px 28px; overflow:hidden; text-align:center; color:white;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(245,179,36,.55), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(29,127,166,.55), transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(193,96,46,.5), transparent 55%),
+      linear-gradient(160deg, var(--brand-green) 0%, #16523A 100%); }
+  .home-hero::after { content:""; position:absolute; inset:0; background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 2px, transparent 2px 26px); pointer-events:none; }
+  .home-wordmark { position:relative; font-family:var(--font-display); font-weight:800; font-size:38px; letter-spacing:.02em; margin:0; text-shadow:0 2px 10px rgba(0,0,0,.18); }
+  .home-brand-tagline { position:relative; margin:2px 0 0; font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--brand-sun); }
+  .home-hero-sub { position:relative; margin:10px 0 0; font-size:14px; font-weight:600; opacity:.95; }
+
+  .home-search-block { margin:18px 0 4px; }
+  .home-search-label { font-size:14.5px; font-weight:800; margin:0 0 8px; }
+  .home-search-block .search-bar { margin:0; }
+
+  .territory-chip-row { display:flex; flex-wrap:wrap; gap:7px; margin:14px 0 18px; }
+  .territory-chip { font-size:12px; font-weight:700; padding:7px 12px; border-radius:999px; background:var(--card); border:1.5px solid var(--line); cursor:pointer; white-space:nowrap; }
+  .territory-chip:active { background:var(--brand-green-soft); border-color:var(--brand-green); }
+
+  .home-section { margin:22px 0; }
+  .home-section-title { font-size:15px; font-weight:800; margin:0 0 4px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .home-section-title .see-all { font-size:11.5px; font-weight:700; color:var(--brand-blue); cursor:pointer; text-decoration:underline; white-space:nowrap; }
+  .home-section-sub { font-size:12px; color:var(--muted); margin:0 0 10px; }
+
+  .geo-btn { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:white; background:var(--brand-blue); padding:10px 16px; border-radius:999px; border:none; cursor:pointer; }
+  .geo-chip-row { display:flex; flex-wrap:wrap; gap:7px; margin:12px 0 12px; }
+  .geo-chip { font-size:12px; font-weight:700; padding:7px 13px; border-radius:999px; background:var(--card); border:1.5px solid var(--line); cursor:pointer; }
+  .geo-chip.sel { background:var(--brand-blue-soft); border-color:var(--brand-blue); color:var(--brand-blue); }
+  .geo-count { font-size:12px; color:var(--muted); margin:0 0 10px; font-weight:600; }
+  .geo-note { font-size:12.5px; color:var(--muted); margin:8px 0 0; }
+
+  .h-scroll { display:flex; gap:10px; overflow-x:auto; padding:2px 2px 8px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  .h-scroll::-webkit-scrollbar { display:none; }
+  .mini-card { flex:0 0 148px; border-radius:16px; overflow:hidden; cursor:pointer; background:var(--card); border:1px solid var(--line); }
+  .mini-card .visual { height:88px; display:flex; align-items:center; justify-content:center; font-size:32px; color:white; }
+  .mini-card .info { padding:9px 10px 11px; }
+  .mini-card .info .nom { font-size:12.5px; font-weight:800; margin:0 0 2px; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .mini-card .info .loc { font-size:10.5px; color:var(--muted); margin:0; }
+
+  .surprise-btn { display:block; width:100%; margin:26px 0 6px; padding:16px; border:none; border-radius:16px; cursor:pointer;
+    background:linear-gradient(120deg, var(--brand-terracotta), var(--brand-sun)); color:white; font-size:15px; font-weight:800; letter-spacing:.03em;
+    box-shadow:0 8px 18px -6px rgba(193,96,46,.55); }
+  .surprise-form-row { margin-bottom:16px; }
+  .surprise-reveal { text-align:center; padding:6px 0 4px; }
+  .surprise-reveal .visual { height:130px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:46px; color:white; margin-bottom:14px; }
+  .surprise-reveal .nom { font-size:17px; font-weight:800; margin:0 0 2px; }
+  .surprise-reveal .loc { font-size:12.5px; color:var(--muted); margin:0 0 16px; }
+
+  .infos-pratiques { background:var(--card); border-radius:16px; border:1px solid var(--line); padding:14px; margin-bottom:14px; }
+  .infos-pratiques h4 { margin:0 0 10px; font-size:12.5px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .infos-row { display:flex; gap:10px; padding:8px 0; border-top:1px solid var(--line); font-size:13px; }
+  .infos-row:first-of-type { border-top:none; padding-top:0; }
+  .infos-row .ic { flex:0 0 20px; }
+  .account-optional-note { font-size:12px; color:var(--muted); text-align:center; margin:14px 0 0; line-height:1.4; }
   .btn-ghost { background:var(--sand); color:var(--ink); border:1px solid var(--line); flex:0 0 90px; }
 </style>
 </head>
@@ -298,7 +374,7 @@ const TRANSLATIONS = {
     type_site_archeologique:"Site archéologique", type_bar_rooftop:"Bar / rooftop", type_spot_photo:"Spot photo aménagé", type_mangrove:"Mangrove",
     type_spa_bien_etre:"Spa / bien-être", type_galerie_commerciale:"Galerie / centre commercial", type_installation_culturelle:"Centre culturel",
     type_quartier_urbain:"Quartier / place urbaine", type_site_historique:"Site historique", type_site_technique:"Site technique", type_restauration:"Restaurants / lolos",
-    type_volcan:"Volcan", type_ile:"Île", type_source_chaude:"Source chaude", type_pont_suspendu:"Pont suspendu", type_atelier_artisanal:"Atelier artisanal", type_quartier_anime:"Quartier animé (vie nocturne)",
+    type_volcan:"Volcan", type_ile:"Île", type_source_chaude:"Source chaude", type_pont_suspendu:"Pont suspendu", type_atelier_artisanal:"Atelier artisanal", type_quartier_anime:"Quartier animé (vie nocturne)", type_parc_aventure:"Parc aventure",
     difficulteLabel:"Difficulté", difficulte1:"Très facile", difficulte2:"Facile", difficulte3:"Modéré", difficulte4:"Difficile", difficulte5:"Très difficile",
     "budget_gratuit":"Gratuit", "budget_petit-budget":"Petit budget", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Demi-journée", "duree_journee":"Journée entière",
@@ -356,7 +432,7 @@ const TRANSLATIONS = {
     type_site_archeologique:"Archaeological site", type_bar_rooftop:"Bar / rooftop", type_spot_photo:"Photo spot", type_mangrove:"Mangrove",
     type_spa_bien_etre:"Spa / wellness", type_galerie_commerciale:"Mall / shopping center", type_installation_culturelle:"Cultural center",
     type_quartier_urbain:"District / urban square", type_site_historique:"Historic site", type_site_technique:"Technical site", type_restauration:"Restaurants / food shacks",
-    type_volcan:"Volcano", type_ile:"Island", type_source_chaude:"Hot spring", type_pont_suspendu:"Suspension bridge", type_atelier_artisanal:"Craft workshop", type_quartier_anime:"Lively district (nightlife)",
+    type_volcan:"Volcano", type_ile:"Island", type_source_chaude:"Hot spring", type_pont_suspendu:"Suspension bridge", type_atelier_artisanal:"Craft workshop", type_quartier_anime:"Lively district (nightlife)", type_parc_aventure:"Adventure park",
     difficulteLabel:"Difficulty", difficulte1:"Very easy", difficulte2:"Easy", difficulte3:"Moderate", difficulte4:"Hard", difficulte5:"Very hard",
     "budget_gratuit":"Free", "budget_petit-budget":"Low budget", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Half day", "duree_journee":"Full day",
@@ -414,7 +490,7 @@ const TRANSLATIONS = {
     type_site_archeologique:"Sitio arqueológico", type_bar_rooftop:"Bar / azotea", type_spot_photo:"Lugar para fotos", type_mangrove:"Manglar",
     type_spa_bien_etre:"Spa / bienestar", type_galerie_commerciale:"Centro comercial", type_installation_culturelle:"Centro cultural",
     type_quartier_urbain:"Barrio / plaza urbana", type_site_historique:"Sitio histórico", type_site_technique:"Sitio técnico", type_restauration:"Restaurantes / puestos de comida",
-    type_volcan:"Volcán", type_ile:"Isla", type_source_chaude:"Fuente termal", type_pont_suspendu:"Puente colgante", type_atelier_artisanal:"Taller artesanal", type_quartier_anime:"Barrio animado (vida nocturna)",
+    type_volcan:"Volcán", type_ile:"Isla", type_source_chaude:"Fuente termal", type_pont_suspendu:"Puente colgante", type_atelier_artisanal:"Taller artesanal", type_quartier_anime:"Barrio animado (vida nocturna)", type_parc_aventure:"Parque de aventura",
     difficulteLabel:"Dificultad", difficulte1:"Muy fácil", difficulte2:"Fácil", difficulte3:"Moderado", difficulte4:"Difícil", difficulte5:"Muy difícil",
     "budget_gratuit":"Gratis", "budget_petit-budget":"Presupuesto bajo", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Media jornada", "duree_journee":"Día completo",
@@ -472,7 +548,7 @@ const TRANSLATIONS = {
     type_site_archeologique:"Sit arkeolojik", type_bar_rooftop:"Ba / rouftòp", type_spot_photo:"Spot foto", type_mangrove:"Mangwòv",
     type_spa_bien_etre:"Spa / byennèt", type_galerie_commerciale:"Sant komèsyal", type_installation_culturelle:"Sant kiltirèl",
     type_quartier_urbain:"Katyé / plas", type_site_historique:"Sit istorik", type_site_technique:"Sit teknik", type_restauration:"Restoran / lolo",
-    type_volcan:"Vòlkan", type_ile:"Zil", type_source_chaude:"Sous cho", type_pont_suspendu:"Pon sispann", type_atelier_artisanal:"Atelyé atizana", type_quartier_anime:"Katyé anniméyan (lavi lannwit)",
+    type_volcan:"Vòlkan", type_ile:"Zil", type_source_chaude:"Sous cho", type_pont_suspendu:"Pon sispann", type_atelier_artisanal:"Atelyé atizana", type_quartier_anime:"Katyé anniméyan (lavi lannwit)", type_parc_aventure:"Pak avanti",
     difficulteLabel:"Difikilté", difficulte1:"Trè fasil", difficulte2:"Fasil", difficulte3:"Modéré", difficulte4:"Difisil", difficulte5:"Trè difisil",
     "budget_gratuit":"Gratis", "budget_petit-budget":"Ti bidjé", "budget_premium":"Premium",
     "duree_rapide":"< 1è", "duree_demi-journee":"Dèmi-jounen", "duree_journee":"Tout jounen an",
@@ -627,6 +703,22 @@ const PLACES = [
   { t:"guadeloupe", z:"Les Saintes", nom:"Anse Crawen", v:["plage","nature"], typeKey:"plage", desc:"Petite plage isolée et naturiste de Terre-de-Haut, accessible par un sentier côtier.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:15.8568186, lng:-61.6030416 },
   { t:"guadeloupe", z:"Marie-Galante", nom:"Habitation Murat", v:["culture"], typeKey:"habitation", desc:"Ruines d'une ancienne sucrerie du XVIIIe siècle, aujourd'hui écomusée retraçant l'histoire de Marie-Galante et de la canne à sucre.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:15.8790875, lng:-61.2997656 },
   { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Plage de la Caravelle", v:["plage","famille","activites"], typeKey:"plage", desc:"Grande plage animée de Sainte-Anne, eaux calmes et peu profondes, point de départ pour rejoindre l'îlet Caret en bateau.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.2174262, lng:-61.3952819 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Jardin de la Rencontre", v:["nature","famille"], typeKey:"jardin", desc:"Jardin ensoleillé de Capesterre-Belle-Eau, mêlant plantes tropicales et espaces de détente.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.048613, lng:-61.614542 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Phare de Vieux-Fort", v:["culture","photo","nature"], typeKey:"phare", desc:"Phare situé à la pointe sud de Basse-Terre, face à la mer des Caraïbes.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:15.948235, lng:-61.707599 },
+  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Moulin de Beaufond", v:["culture"], typeKey:"site_technique", desc:"Ancien moulin à vent du patrimoine sucrier d'Anse-Bertrand, vestige de l'histoire agricole de Grande-Terre.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:16.464224, lng:-61.488837 },
+  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Habitation la Mahaudière", v:["culture"], typeKey:"habitation", desc:"Ruines d'une ancienne habitation sucrière du XVIIIe siècle à Anse-Bertrand, site patrimonial de 11 hectares.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:16.4333, lng:-61.4167 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Jardin Botanique de Basse-Terre", v:["nature","famille"], typeKey:"jardin", desc:"Le plus ancien jardin botanique de Guadeloupe, créé en 1820 sur l'ancienne propriété Trianon, riche d'une grande variété d'arbres et de plantes.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:15.997769, lng:-61.723938 },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Jardin Botanique de Valombreuse", v:["nature","famille","photo"], typeKey:"jardin", desc:"Le plus grand jardin botanique de Guadeloupe, à Petit-Bourg, avec bassins, cascades et une grande diversité de plantes tropicales.", budget:"premium", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.169225, lng:-61.630655 },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Musée du Rhum", v:["culture"], typeKey:"musee", desc:"Musée insolite de Sainte-Rose mêlant tradition du rhum et curiosités du monde : insectes rares, voiliers miniatures, sables exotiques.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:16.315276, lng:-61.689376 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Distillerie Bologne", v:["culture","manger"], typeKey:"distillerie", desc:"Distillerie de rhum agricole à Basse-Terre, visite immersive des procédés de production.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:16.00802, lng:-61.738758 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Maison du Patrimoine de Basse-Terre", v:["culture"], typeKey:"installation_culturelle", desc:"Maison du patrimoine installée dans l'ancienne maison Buffon à Basse-Terre, expositions, conférences et visites guidées de l'architecture et de l'histoire de la ville.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:15.997516, lng:-61.731353 },
+  { t:"guadeloupe", z:"Les Saintes", nom:"Poterie Fidelin", v:["culture"], typeKey:"site_historique", desc:"Ruines classées monument historique à Terre-de-Bas, témoins de l'histoire de la Guadeloupe et de l'esclavage.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:15.854764, lng:-61.621375 },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"La Souvenance - Maison Schwarz-Bart", v:["culture"], typeKey:"installation_culturelle", desc:"Lieu culturel de Goyave dédié à la mémoire des écrivains André et Simone Schwarz-Bart, événements artistiques et littéraires.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:16.120744, lng:-61.596044 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Zoo de Guadeloupe - Parc des Mamelles", v:["famille","nature","culture"], typeKey:"zoo_aquarium", desc:"Zoo botanique de Bouillante, immersion dans la biodiversité tropicale au cœur du massif des Mamelles.", budget:"premium", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.1807, lng:-61.751388 },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Parc Aquacole", v:["nature","famille"], typeKey:"site_technique", desc:"Ferme aquacole de Pointe-Noire proposant une découverte de l'aquaculture durable.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:16.223701, lng:-61.778791 },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Akropark", v:["sport","activites","famille"], typeKey:"parc_aventure", desc:"Parc accrobranche de Petit-Bourg, parcours pour grimper et se balancer d'arbre en arbre en pleine nature.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.169389, lng:-61.629866 },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Le Tapeur", v:["sport","activites","famille"], typeKey:"parc_aventure", desc:"Parc aventure accrobranche de Bouillante, parcours dans la canopée près de la plage de Malendure.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.179939, lng:-61.751511 },
+  { t:"guadeloupe", z:"Nord Basse-Terre", nom:"La Ferme Ti Bou", v:["famille","activites"], typeKey:"parc", desc:"Parc de loisirs familial de Petit-Bourg : piscine, jeux aquatiques, structures gonflables, karting à pédales et visite d'un parc animalier.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.214843, lng:-61.596261 },
 
   { t:"guyane", z:"Kourou", nom:"Centre Spatial Guyanais", v:["culture","activites"], typeKey:"site_technique", desc:"Base de lancement spatiale européenne, visites guidées.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["pmr","interieur"], lat:5.1693503, lng:-52.6840761, tarif:"Gratuit sur réservation obligatoire · pièce d'identité exigée · dès ~8 ans", site:"https://centrespatialguyanais.cnes.fr/en/rendez-nous-visite", conseils:"Réserve plusieurs semaines à l'avance, les places partent vite en haute saison." },
   { t:"guyane", z:"Kourou", nom:"Îles du Salut", v:["culture","nature"], typeKey:"ile", desc:"Anciennes îles du bagne, accessibles en bateau depuis Kourou.", budget:"premium", duree:"journee", moment:"jour", acces:[], lat:5.2833, lng:-52.5833, tarif:"Environ 30-50€ adulte l'aller-retour en bateau (inclut souvent l'accès aux îles), enfant tarif réduit" },
@@ -725,6 +817,22 @@ const DESC_I18N = {
   "Domaine d'Émeraude": { en:"Nature park on the Route de la Trace, shaded trails through humid tropical forest at the foot of Mount Pelée.", es:"Parque natural en la Route de la Trace, senderos sombreados por bosque tropical húmedo al pie de la Montaña Pelée.", cr:"Pak natirèl anlè Rout Tras-la, chimen lonbrajé an forè tropikal imid o pyé Montany Pelé." },
   "Habitation Murat": { en:"Ruins of an 18th-century sugar estate, now an ecomuseum tracing the history of Marie-Galante and sugar cane.", es:"Ruinas de una hacienda azucarera del siglo XVIII, hoy ecomuseo que recorre la historia de Marie-Galante y la caña de azúcar.", cr:"Ren an ansyen labitasyon sik dizuityèm syèk, jodijou an ékomizé ki rakonté istwa Marie-Galante ek kann sik." },
   "Plage de la Caravelle": { en:"Large lively beach in Sainte-Anne, calm shallow waters, starting point for boat trips to Îlet Caret.", es:"Gran playa animada en Sainte-Anne, aguas tranquilas y poco profundas, punto de partida para ir en barco al islote Caret.", cr:"Gran plaj anniméyé Sent-Àn, dlo trankil ek pa fon, kote ou ka pati an batiman pou Ilé Caret." },
+  "Jardin de la Rencontre": { en:"Sunny garden in Capesterre-Belle-Eau, mixing tropical plants and relaxation areas.", es:"Jardín soleado en Capesterre-Belle-Eau, con plantas tropicales y zonas de relax.", cr:"Jaden solèy Capesterre-Belle-Eau, ka mélanjé plant tropikal èk kwen pou rilaks." },
+  "Phare de Vieux-Fort": { en:"Lighthouse at the southern tip of Basse-Terre, facing the Caribbean Sea.", es:"Faro en la punta sur de Basse-Terre, frente al mar Caribe.", cr:"Fanal o bout sid Bastè, anfas lanmè Karayib." },
+  "Moulin de Beaufond": { en:"Old windmill from Anse-Bertrand's sugar heritage, a remnant of Grande-Terre's agricultural history.", es:"Antiguo molino de viento del patrimonio azucarero de Anse-Bertrand, vestigio de la historia agrícola de Grande-Terre.", cr:"Ansyen moulen a van patrimwàn sik Ans-Bètran, rès istwa agrikol Grann-Tè." },
+  "Habitation la Mahaudière": { en:"Ruins of an 18th-century sugar estate in Anse-Bertrand, an 11-hectare heritage site.", es:"Ruinas de una hacienda azucarera del siglo XVIII en Anse-Bertrand, un sitio patrimonial de 11 hectáreas.", cr:"Ren an labitasyon sik diztwityèm syèk Ans-Bètran, an sit patrimwàn 11 ekta." },
+  "Jardin Botanique de Basse-Terre": { en:"Guadeloupe's oldest botanical garden, created in 1820 on the former Trianon estate, with a wide variety of trees and plants.", es:"El jardín botánico más antiguo de Guadalupe, creado en 1820 sobre la antigua propiedad Trianon, con una gran variedad de árboles y plantas.", cr:"Jaden botanik pli ansyen Gwadloup, kréyé an 1820 asou ansyen pwopriyeté Trianon, ki ni an pakèt pyébwa èk plant." },
+  "Jardin Botanique de Valombreuse": { en:"Guadeloupe's largest botanical garden, in Petit-Bourg, with ponds, waterfalls and a wide variety of tropical plants.", es:"El mayor jardín botánico de Guadalupe, en Petit-Bourg, con estanques, cascadas y gran variedad de plantas tropicales.", cr:"Pi gran jaden botanik Gwadloup, Ti-Bou, ki ni basen, kaskad èk an pakèt plant tropikal." },
+  "Musée du Rhum": { en:"Unusual museum in Sainte-Rose blending rum tradition with curiosities from around the world: rare insects, miniature sailboats, exotic sands.", es:"Museo singular en Sainte-Rose que combina la tradición del ron con curiosidades del mundo: insectos raros, veleros en miniatura, arenas exóticas.", cr:"Mizé dwol Sent-Ròz ki ka mélanjé tradisyon wonm èk kirozité an mond-la : ti bèt ra, ti bato-vwal, sab egzotik." },
+  "Distillerie Bologne": { en:"Rum distillery in Basse-Terre, an immersive tour through agricultural rum production.", es:"Destilería de ron en Basse-Terre, una visita inmersiva por el proceso de producción del ron agrícola.", cr:"Distiléri wonm Bastè, an vizit ki ka montré-w kijan wonm agrikol fèt." },
+  "Maison du Patrimoine de Basse-Terre": { en:"Heritage house of Basse-Terre in the former Buffon mansion, with exhibitions, talks and guided tours of the town's architecture and history.", es:"Casa del patrimonio de Basse-Terre en la antigua mansión Buffon, con exposiciones, charlas y visitas guiadas sobre la arquitectura y la historia de la ciudad.", cr:"Kaz patrimwàn Bastè an ansyen kaz Buffon, ki ni ekspozisyon, konférans èk vizit gidé asou achitekti èk istwa lavil-la." },
+  "Poterie Fidelin": { en:"Ruins listed as a historic monument in Terre-de-Bas, a testimony to Guadeloupe's history and its enslaved past.", es:"Ruinas declaradas monumento histórico en Terre-de-Bas, testimonio de la historia de Guadalupe y su pasado esclavista.", cr:"Ren ki klasé monimen istorik Tè-Ba, temwayaj istwa Gwadloup èk pasé esklavaj-la." },
+  "La Souvenance - Maison Schwarz-Bart": { en:"Cultural venue in Goyave dedicated to the memory of writers André and Simone Schwarz-Bart, hosting artistic and literary events.", es:"Espacio cultural en Goyave dedicado a la memoria de los escritores André y Simone Schwarz-Bart, con eventos artísticos y literarios.", cr:"Espas kiltirèl Gwayav ki dédyé a mémwa ékriven André èk Simone Schwarz-Bart, ki ka òganizé évènman atistik èk litérè." },
+  "Zoo de Guadeloupe - Parc des Mamelles": { en:"Botanical zoo in Bouillante, an immersion in tropical biodiversity at the heart of the Mamelles massif.", es:"Zoo botánico en Bouillante, una inmersión en la biodiversidad tropical en pleno macizo de las Mamelles.", cr:"Zoo botanik Bouyant, kote ou ka plonjé an mitan bèl bèt èk plant tropikal Mamèl-la." },
+  "Parc Aquacole": { en:"Fish farm in Pointe-Noire offering a look into sustainable aquaculture.", es:"Granja acuícola en Pointe-Noire que ofrece una mirada a la acuicultura sostenible.", cr:"Fèm akwakilti Pwent-Nwè ki ka fè-w dékouvè akwakilti dirab." },
+  "Akropark": { en:"Treetop adventure park in Petit-Bourg, courses for climbing and swinging through the trees in a natural setting.", es:"Parque de aventura en los árboles en Petit-Bourg, recorridos para trepar y balancearse entre los árboles en plena naturaleza.", cr:"Pak avanti an tèt bwa Ti-Bou, sikwi pou grenpé èk balansé an mitan pyébwa." },
+  "Le Tapeur": { en:"Treetop adventure park in Bouillante, a canopy course near Malendure beach.", es:"Parque de aventura en los árboles en Bouillante, un recorrido en la copa de los árboles cerca de la playa de Malendure.", cr:"Pak avanti an tèt bwa Bouyant, sikwi an tèt bwa toupré plaj Malandi." },
+  "La Ferme Ti Bou": { en:"Family leisure park in Petit-Bourg: pool, water games, inflatables, pedal karting and a farm visit.", es:"Parque de ocio familiar en Petit-Bourg: piscina, juegos acuáticos, hinchables, karts a pedales y visita a la granja.", cr:"Pak lwazi fanmi Ti-Bou : pisin, jé dlo, gonfléyab, kart a pédal èk vizit an pak zannimo." },
   "Salines de Montjoly": { en:"Protected natural site in Rémire-Montjoly combining salt lagoons and a plateau, rich in birdlife and unusual for French Guiana's landscapes.", es:"Sitio natural protegido en Rémire-Montjoly que combina lagunas saladas y una meseta, rico en aves y atípico para los paisajes de la Guayana.", cr:"Plas natirèl pwotéjé Rémire-Montjoly ki mélanjé lagon sale ek an plato, plen zwézo ek diferan pou peyizaj Lagwiyàn." },
   "Baie de l'Embouchure": { en:"Shallow, windy lagoon near Orient Bay, a nature reserve popular with kitesurfers and windsurfers.", es:"Laguna poco profunda y ventosa cerca de Orient Bay, reserva natural popular entre los aficionados al kitesurf y windsurf.", cr:"Lagon pa fon ek plen van toupré Orient Bay, an rézèv natirèl kitesèf ek plans a vwal ka renmen." },
   "Cachot de Cyparis": { en:"Remains of the Saint-Pierre prison where one prisoner survived, almost alone, the 1902 eruption of Mount Pelée.", es:"Restos de la prisión de Saint-Pierre donde un prisionero sobrevivió, casi solo, a la erupción de la Montaña Pelée en 1902.", cr:"Ren prizon Sen-Pyè-a kote an prizonyé rété vivan, prèské tousèl, lè Montany Pelé pété an 1902." },
