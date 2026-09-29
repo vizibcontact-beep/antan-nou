@@ -69,6 +69,7 @@
   header .icon-row { display:flex; gap:8px; }
   .icon-btn { position:relative; width:38px; height:38px; border-radius:12px; background:var(--card); border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:17px; cursor:pointer; }
   .icon-btn .badge { position:absolute; top:-5px; right:-5px; background:var(--coral); color:white; font-size:10px; font-weight:800; min-width:16px; height:16px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 3px; }
+  .offline-banner { background:#3a3a3a; color:white; font-size:12.5px; font-weight:600; text-align:center; padding:8px 16px; line-height:1.4; }
 
   .modal-overlay { position:fixed; inset:0; background:rgba(27,26,46,.55); display:flex; align-items:flex-end; z-index:1000; }
   .modal { background:var(--sand); width:100%; max-width:480px; margin:0 auto; border-radius:22px 22px 0 0; padding:20px; max-height:88vh; overflow-y:auto; }
@@ -183,6 +184,7 @@
     <p class="step-title" id="stepTitle"></p>
     <p class="step-sub" id="stepSub"></p>
   </header>
+  <div class="offline-banner" id="offlineBanner" style="display:none;"></div>
   <main id="main"></main>
   <nav class="bottom-nav" id="bottomNav"></nav>
 </div>
@@ -231,6 +233,7 @@ const VIBES = [
   { key:"nightlife", label:"Vie nocturne", e:"🪩" },
   { key:"shopping", label:"Shopping & artisanat", e:"🛍️" },
   { key:"bienetre", label:"Bien-être & détente", e:"🧘" },
+  { key:"photo", label:"Spot photo", e:"📸" },
 ];
 
 const BUDGETS = [ ["gratuit","Gratuit"], ["petit-budget","Petit budget"], ["premium","Premium"] ];
@@ -279,7 +282,7 @@ const TRANSLATIONS = {
     errEmailInUse:"Un compte existe déjà avec cet email — essaie de te connecter.", errInvalidEmail:"Adresse email invalide.",
     errWeakPassword:"Mot de passe trop court (6 caractères minimum).", errWrongCreds:"Email ou mot de passe incorrect.", errGeneric:"Une erreur est survenue. Réessaie.",
     vibe_manger:"Manger", vibe_plage:"Plage", vibe_riviere:"Rivière", vibe_nature:"Nature", vibe_activites:"Activités", vibe_famille:"Famille", vibe_boire:"Verre", vibe_culture:"Culture",
-    vibe_sport:"Sport & aventure", vibe_nightlife:"Vie nocturne", vibe_shopping:"Shopping & artisanat", vibe_bienetre:"Bien-être & détente",
+    vibe_sport:"Sport & aventure", vibe_nightlife:"Vie nocturne", vibe_shopping:"Shopping & artisanat", vibe_bienetre:"Bien-être & détente", vibe_photo:"Spot photo",
     "budget_gratuit":"Gratuit", "budget_petit-budget":"Petit budget", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Demi-journée", "duree_journee":"Journée entière",
     "moment_jour":"En journée", "moment_soir":"En soirée",
@@ -292,6 +295,7 @@ const TRANSLATIONS = {
     avisPlaceholder:"Ton commentaire (optionnel)...", avisSubmit:"Publier mon avis",
     avisSuccess:"Merci, ton avis a été publié !", avisError:"Impossible d'enregistrer ton avis pour le moment.",
     avisNoteRequired:"Choisis une note avant de publier.", avisFirebaseOff:"Les avis ne sont pas disponibles sur cette version de l'appli.",
+    offlineBanner:"Tu es hors connexion. Les lieux déjà consultés restent disponibles, mais la carte, les avis et la connexion à ton compte peuvent ne pas fonctionner.",
   },
   en: {
     langPickerTitle:"Choose your language", langPickerSub:"You can change this anytime from the 🌐 icon.",
@@ -322,7 +326,7 @@ const TRANSLATIONS = {
     errEmailInUse:"An account already exists with this email — try logging in.", errInvalidEmail:"Invalid email address.",
     errWeakPassword:"Password too short (6 characters minimum).", errWrongCreds:"Incorrect email or password.", errGeneric:"Something went wrong. Try again.",
     vibe_manger:"Food", vibe_plage:"Beach", vibe_riviere:"River", vibe_nature:"Nature", vibe_activites:"Activities", vibe_famille:"Family", vibe_boire:"Drinks", vibe_culture:"Culture",
-    vibe_sport:"Sport & adventure", vibe_nightlife:"Nightlife", vibe_shopping:"Shopping & crafts", vibe_bienetre:"Wellness & relaxation",
+    vibe_sport:"Sport & adventure", vibe_nightlife:"Nightlife", vibe_shopping:"Shopping & crafts", vibe_bienetre:"Wellness & relaxation", vibe_photo:"Photo spot",
     "budget_gratuit":"Free", "budget_petit-budget":"Low budget", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Half day", "duree_journee":"Full day",
     "moment_jour":"Daytime", "moment_soir":"Evening",
@@ -335,6 +339,7 @@ const TRANSLATIONS = {
     avisPlaceholder:"Your comment (optional)...", avisSubmit:"Post my review",
     avisSuccess:"Thanks, your review was posted!", avisError:"Couldn't save your review right now.",
     avisNoteRequired:"Pick a rating before posting.", avisFirebaseOff:"Reviews aren't available in this version of the app.",
+    offlineBanner:"You're offline. Places you've already viewed stay available, but the map, reviews and your account may not work.",
   },
   es: {
     langPickerTitle:"Elige tu idioma", langPickerSub:"Puedes cambiarlo en cualquier momento desde el icono 🌐.",
@@ -365,7 +370,7 @@ const TRANSLATIONS = {
     errEmailInUse:"Ya existe una cuenta con este correo — intenta iniciar sesión.", errInvalidEmail:"Correo electrónico inválido.",
     errWeakPassword:"Contraseña demasiado corta (mínimo 6 caracteres).", errWrongCreds:"Correo o contraseña incorrectos.", errGeneric:"Ocurrió un error. Inténtalo de nuevo.",
     vibe_manger:"Comer", vibe_plage:"Playa", vibe_riviere:"Río", vibe_nature:"Naturaleza", vibe_activites:"Actividades", vibe_famille:"Familia", vibe_boire:"Copas", vibe_culture:"Cultura",
-    vibe_sport:"Deporte y aventura", vibe_nightlife:"Vida nocturna", vibe_shopping:"Compras y artesanía", vibe_bienetre:"Bienestar y relax",
+    vibe_sport:"Deporte y aventura", vibe_nightlife:"Vida nocturna", vibe_shopping:"Compras y artesanía", vibe_bienetre:"Bienestar y relax", vibe_photo:"Lugar para fotos",
     "budget_gratuit":"Gratis", "budget_petit-budget":"Presupuesto bajo", "budget_premium":"Premium",
     "duree_rapide":"< 1h", "duree_demi-journee":"Media jornada", "duree_journee":"Día completo",
     "moment_jour":"De día", "moment_soir":"De noche",
@@ -378,6 +383,7 @@ const TRANSLATIONS = {
     avisPlaceholder:"Tu comentario (opcional)...", avisSubmit:"Publicar mi opinión",
     avisSuccess:"¡Gracias, tu opinión fue publicada!", avisError:"No se pudo guardar tu opinión ahora mismo.",
     avisNoteRequired:"Elige una puntuación antes de publicar.", avisFirebaseOff:"Las opiniones no están disponibles en esta versión de la app.",
+    offlineBanner:"Estás sin conexión. Los lugares que ya consultaste siguen disponibles, pero el mapa, las opiniones y tu cuenta pueden no funcionar.",
   },
   cr: {
     langPickerTitle:"Chwazi lang ou", langPickerSub:"Ou ka chanjé-y an nenpòt moman ak zikon 🌐.",
@@ -408,7 +414,7 @@ const TRANSLATIONS = {
     errEmailInUse:"An kont ja égzisté épi imèl-tala — èsèyé konèkté.", errInvalidEmail:"Imèl-la pa bon.",
     errWeakPassword:"Mo pas twò kout (minimòm 6 karaktè).", errWrongCreds:"Imèl oben mo pas pa bon.", errGeneric:"Ni an érè. Èsèyé ankò.",
     vibe_manger:"Manjé", vibe_plage:"Laplaj", vibe_riviere:"Rivyè", vibe_nature:"Lanati", vibe_activites:"Aktivite", vibe_famille:"Fanmi", vibe_boire:"Bwè", vibe_culture:"Kilti",
-    vibe_sport:"Espò & avantir", vibe_nightlife:"Lavi lannwit", vibe_shopping:"Shopin & atizana", vibe_bienetre:"Byennèt & détant",
+    vibe_sport:"Espò & avantir", vibe_nightlife:"Lavi lannwit", vibe_shopping:"Shopin & atizana", vibe_bienetre:"Byennèt & détant", vibe_photo:"Spot foto",
     "budget_gratuit":"Gratis", "budget_petit-budget":"Ti bidjé", "budget_premium":"Premium",
     "duree_rapide":"< 1è", "duree_demi-journee":"Dèmi-jounen", "duree_journee":"Tout jounen an",
     "moment_jour":"Lajounen", "moment_soir":"Lasswè",
@@ -421,6 +427,7 @@ const TRANSLATIONS = {
     avisPlaceholder:"Kòmantè'w (pa obligatwa)...", avisSubmit:"Pibliyé avi mwen",
     avisSuccess:"Mèsi, avi'w pibliyé !", avisError:"Nou pa rivé anrejistré avi'w kounyé-a.",
     avisNoteRequired:"Chwazi an nòt avan ou pibliyé.", avisFirebaseOff:"Avi pa disponib asou vèsyon aplikasyon-tala.",
+    offlineBanner:"Ou pa konekté. Lyé ou déja gadé ka toujou disponib, mé kat-la, avi ek kont ou pé pa maché.",
   },
 };
 
@@ -452,7 +459,7 @@ function openLangModal(forced) {
 
 const PLACES = [
   { t:"martinique", z:"Sud", nom:"Grande Anse des Salines", v:["plage","famille"], desc:"La plage la plus réputée du sud, sable fin et cocotiers.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.3986, lng:-60.8672 },
-  { t:"martinique", z:"Sud", nom:"Rocher du Diamant", v:["plage","activites"], desc:"Îlot emblématique face à une longue plage de sable.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.4388, lng:-61.0363 },
+  { t:"martinique", z:"Sud", nom:"Rocher du Diamant", v:["plage","activites","photo"], desc:"Îlot emblématique face à une longue plage de sable.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.4388, lng:-61.0363 },
   { t:"martinique", z:"Sud", nom:"Les Anses-d'Arlet", v:["plage"], desc:"Village de pêcheurs et petites plages tranquilles.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.4964, lng:-61.0700 },
   { t:"martinique", z:"Sud", nom:"Bars de plage de Sainte-Anne", v:["boire","nightlife"], desc:"Ambiance festive en bord de mer, surtout en soirée.", budget:"petit-budget", duree:"rapide", moment:"soir", acces:[], lat:14.4384, lng:-60.8807 },
   { t:"martinique", z:"Centre", nom:"Fort Saint-Louis", v:["culture"], desc:"Fortification historique dominant la baie de Fort-de-France.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:14.6009, lng:-61.0693 },
@@ -480,7 +487,7 @@ const PLACES = [
   { t:"martinique", z:"Sud", nom:"Cap Chevalier", v:["plage","sport","activites"], desc:"Plage de la côte atlantique connue pour ses îlets accessibles à pied à marée basse et ses conditions idéales pour le kitesurf.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.4189, lng:-60.8402, conseils:"Vérifie la marée avant de rejoindre les îlets à pied ; sinon, plusieurs écoles de kitesurf proposent cours et location sur place." },
   { t:"martinique", z:"Nord Atlantique", nom:"Tartane", v:["culture","plage","manger"], desc:"Village de pêcheurs coloré au pied de la presqu'île de la Caravelle, ambiance authentique et gaufres locales réputées.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.7736, lng:-60.9214 },
   { t:"martinique", z:"Nord Caraïbe", nom:"Anse Couleuvre", v:["plage","nature","sport"], desc:"Plage sauvage du nord accessible par un sentier forestier, point de départ de la randonnée vers Grand'Rivière.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.8090, lng:-61.2270, conseils:"La rando vers Grand'Rivière (environ 3h aller) longe la côte, prévoir de l'eau et de bonnes chaussures." },
-  { t:"martinique", z:"Nord Caraïbe", nom:"Grand'Rivière", v:["culture","plage","nature"], desc:"Village de pêcheurs isolé tout au nord de l'île, surnommé le \"bout du monde\" martiniquais, face à la Dominique.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.8730, lng:-61.2100 },
+  { t:"martinique", z:"Nord Caraïbe", nom:"Grand'Rivière", v:["culture","plage","nature","photo"], desc:"Village de pêcheurs isolé tout au nord de l'île, surnommé le \"bout du monde\" martiniquais, face à la Dominique.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.8730, lng:-61.2100 },
   { t:"martinique", z:"Nord Caraïbe", nom:"Saut du Gendarme", v:["riviere","nature","activites","sport"], desc:"Petite cascade et bassin naturel accessibles par une courte marche depuis l'Ajoupa-Bouillon.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.8070, lng:-61.1470 },
   { t:"martinique", z:"Nord Caraïbe", nom:"Cachot de Cyparis", v:["culture"], desc:"Vestige de la prison de Saint-Pierre où un prisonnier survécut, seul ou presque, à l'éruption de la Montagne Pelée en 1902.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.7440, lng:-61.1770 },
   { t:"martinique", z:"Centre", nom:"Bibliothèque Schœlcher", v:["culture"], desc:"Bibliothèque Belle Époque au décor byzantino-égyptien, don de Victor Schœlcher à la ville de Fort-de-France.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["interieur","pmr"], lat:14.6015, lng:-61.0665 },
@@ -490,9 +497,15 @@ const PLACES = [
   { t:"martinique", z:"Sud", nom:"Savane des Pétrifications", v:["nature","activites"], desc:"Paysage aride et lunaire près des Salines, connu pour ses formations de bois pétrifié vieilles de plusieurs millions d'années.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.4020, lng:-60.8770 },
   { t:"martinique", z:"Sud", nom:"Écomusée de Martinique (Anse Figuier)", v:["culture","plage","famille"], desc:"Musée retraçant l'histoire de l'île depuis les Amérindiens jusqu'à aujourd'hui, au bord d'une plage tranquille de Rivière-Pilote.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette","interieur"], lat:14.4570, lng:-60.8940 },
   { t:"martinique", z:"Centre", nom:"Domaine d'Émeraude", v:["nature","famille","bienetre"], desc:"Parc naturel sur la route de la Trace, sentiers ombragés en forêt tropicale humide au pied de la Montagne Pelée.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:14.7280, lng:-61.1080 },
+  { t:"martinique", z:"Nord Atlantique", nom:"Instapoint Ailes (Tartane)", v:["photo","culture","nature"], desc:"Installation en forme d'ailes à l'entrée de Tartane, imaginée par l'association Valorisation Martinique pour sensibiliser à la protection du trembleur, oiseau endémique de la Caravelle.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.7720, lng:-60.9200 },
+  { t:"martinique", z:"Nord Caraïbe", nom:"Pont suspendu de Grand'Rivière", v:["photo","nature","sport"], desc:"Passerelle suspendue en bois et métal enjambant la forêt tropicale, sur le sentier entre Grand'Rivière et Anse Couleuvre, l'un des spots photo de l'association Valorisation Martinique.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.8500, lng:-61.2150 },
+  { t:"martinique", z:"Sud", nom:"Morne Larcher", v:["photo","nature","sport"], desc:"Randonnée derrière le Diamant offrant un point de vue panoramique à 360° sur le sud de l'île et le Rocher du Diamant.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:14.4650, lng:-61.0280 },
+  { t:"martinique", z:"Sud", nom:"Ponton des Anses-d'Arlet", v:["photo","culture"], desc:"Ponton face à la petite église du village, l'un des sites les plus photographiés de Martinique.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["poussette"], lat:14.4930, lng:-61.0740 },
+  { t:"martinique", z:"Sud", nom:"Nid de l'Anse Michel", v:["photo","plage","famille"], desc:"Grand nid d'oiseau géant installé par l'association Valorisation Martinique face à la plage de l'Anse Michel et sa barrière de corail, à Sainte-Anne.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.4230, lng:-60.8420 },
+  { t:"martinique", z:"Sud", nom:"Balançoire du Diamant", v:["photo","plage"], desc:"Balançoire installée face à la plage et au Rocher du Diamant, un des spots photo les plus prisés du sud.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:14.4750, lng:-61.0250 },
 
   { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Plage de Bois Jolan", v:["plage","famille"], desc:"Longue plage familiale bordée de filaos.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.1850, lng:-61.3850 },
-  { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Pointe des Châteaux", v:["plage","nature"], desc:"Point de vue spectaculaire à la pointe est de l'île.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.2508, lng:-61.1808 },
+  { t:"guadeloupe", z:"Sud Grande-Terre", nom:"Pointe des Châteaux", v:["plage","nature","photo"], desc:"Point de vue spectaculaire à la pointe est de l'île.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.2508, lng:-61.1808 },
   { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Chutes du Carbet", v:["riviere","nature","activites","sport"], desc:"Cascades majestueuses au cœur du parc national.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:16.0500, lng:-61.6600 },
   { t:"guadeloupe", z:"Sud Basse-Terre", nom:"La Soufrière", v:["nature","activites","sport"], desc:"Volcan actif, randonnée vers le sommet.", budget:"gratuit", duree:"journee", moment:"jour", acces:[], lat:16.0456, lng:-61.6640, conseils:"Prévois de bonnes chaussures et vérifie la météo avant de partir, le sentier peut être glissant." },
   { t:"guadeloupe", z:"Nord Basse-Terre", nom:"Plage de Grande Anse (Deshaies)", v:["plage"], desc:"Une des plus belles plages de l'île, ambiance paisible.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:["poussette"], lat:16.3080, lng:-61.7960 },
@@ -515,12 +528,12 @@ const PLACES = [
   { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Sources chaudes de Bouillante", v:["bienetre","nature"], desc:"Bains d'eau chaude naturelle en pleine nature, alimentés par l'activité volcanique de la Soufrière.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.1330, lng:-61.7690, conseils:"Plusieurs bassins accessibles gratuitement le long de la côte de Bouillante ; certains nécessitent une petite marche." },
   { t:"guadeloupe", z:"Région Pointoise", nom:"Destreland (Baie-Mahault)", v:["shopping"], desc:"Plus grand centre commercial de Guadeloupe, environ 125 boutiques, restaurants et hypermarché.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:["poussette","pmr","interieur"], lat:16.2540, lng:-61.5860 },
   { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Fort Delgrès", v:["culture"], desc:"Fortification historique dominant Basse-Terre, haut lieu de la résistance de Louis Delgrès contre le rétablissement de l'esclavage en 1802.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["pmr"], lat:15.9958, lng:-61.7317, site:"https://www.lesilesdeguadeloupe.com/en/cultural-heritage/fort-delgres/" },
-  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Allée Dumanoir", v:["nature","culture"], desc:"Route bordée d'un alignement centenaire de palmiers royaux, l'un des sites les plus photographiés de Guadeloupe.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.0364, lng:-61.5697 },
-  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Porte d'Enfer", v:["nature","plage"], desc:"Lagon calme encadré de falaises spectaculaires battues par l'océan, au nord de Grande-Terre.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:16.4703, lng:-61.4886, conseils:"Le lagon est baignable, mais évite de t'aventurer au-delà de la barrière rocheuse où la houle est dangereuse." },
+  { t:"guadeloupe", z:"Sud Basse-Terre", nom:"Allée Dumanoir", v:["nature","culture","photo"], desc:"Route bordée d'un alignement centenaire de palmiers royaux, l'un des sites les plus photographiés de Guadeloupe.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.0364, lng:-61.5697 },
+  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Porte d'Enfer", v:["nature","plage","photo"], desc:"Lagon calme encadré de falaises spectaculaires battues par l'océan, au nord de Grande-Terre.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:16.4703, lng:-61.4886, conseils:"Le lagon est baignable, mais évite de t'aventurer au-delà de la barrière rocheuse où la houle est dangereuse." },
   { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Habitation Zévallos", v:["culture"], desc:"Ruines d'une ancienne habitation-sucrerie du XIXe siècle au Moule, connue pour son architecture métallique et son surnom de \"maison hantée\".", budget:"petit-budget", duree:"rapide", moment:"jour", acces:[], lat:16.3350, lng:-61.3510 },
-  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Cimetière de Morne-à-l'Eau", v:["culture"], desc:"Cimetière en damier noir et blanc à flanc de colline, l'un des plus photographiés des Caraïbes, particulièrement lors de la Toussaint.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.3310, lng:-61.5230 },
+  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Cimetière de Morne-à-l'Eau", v:["culture","photo"], desc:"Cimetière en damier noir et blanc à flanc de colline, l'un des plus photographiés des Caraïbes, particulièrement lors de la Toussaint.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.3310, lng:-61.5230 },
   { t:"guadeloupe", z:"Région Pointoise", nom:"Musée Saint-John Perse", v:["culture"], desc:"Maison bourgeoise du XIXe siècle à Pointe-à-Pitre consacrée à la vie et l'œuvre du poète guadeloupéen prix Nobel Saint-John Perse.", budget:"petit-budget", duree:"rapide", moment:"jour", acces:["interieur"], lat:16.2410, lng:-61.5330 },
-  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Pointe de la Grande Vigie", v:["nature"], desc:"Point le plus au nord de la Guadeloupe, falaises calcaires spectaculaires plongeant dans l'océan.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.5140, lng:-61.4700 },
+  { t:"guadeloupe", z:"Nord Grande-Terre", nom:"Pointe de la Grande Vigie", v:["nature","photo"], desc:"Point le plus au nord de la Guadeloupe, falaises calcaires spectaculaires plongeant dans l'océan.", budget:"gratuit", duree:"rapide", moment:"jour", acces:[], lat:16.5140, lng:-61.4700 },
   { t:"guadeloupe", z:"Région Pointoise", nom:"Place de la Victoire", v:["culture","famille"], desc:"Place historique ombragée de Pointe-à-Pitre, bordée de bâtiments coloniaux et de kiosques.", budget:"gratuit", duree:"rapide", moment:"jour", acces:["poussette"], lat:16.2400, lng:-61.5330 },
   { t:"guadeloupe", z:"Les Saintes", nom:"Anse Crawen", v:["plage","nature"], desc:"Petite plage isolée et naturiste de Terre-de-Haut, accessible par un sentier côtier.", budget:"gratuit", duree:"demi-journee", moment:"jour", acces:[], lat:15.8580, lng:-61.6080 },
   { t:"guadeloupe", z:"Marie-Galante", nom:"Habitation Murat", v:["culture"], desc:"Ruines d'une ancienne sucrerie du XVIIIe siècle, aujourd'hui écomusée retraçant l'histoire de Marie-Galante et de la canne à sucre.", budget:"petit-budget", duree:"demi-journee", moment:"jour", acces:[], lat:15.8890, lng:-61.3020 },
@@ -598,6 +611,12 @@ const PLACES = [
 // (champ "desc" de chaque lieu) ; si une traduction manque, le français
 // s'affiche par défaut.
 const DESC_I18N = {
+  "Instapoint Ailes (Tartane)": { en:"Wing-shaped installation at the entrance to Tartane, created by the Valorisation Martinique association to raise awareness of protecting the white-breasted thrasher, a bird endemic to the Caravelle.", es:"Instalación en forma de alas a la entrada de Tartane, creada por la asociación Valorisation Martinique para sensibilizar sobre la protección del zorzal pechiblanco, un ave endémica de la Caravelle.", cr:"Enstalasyon fòm zèl an lantré Tartane, asosyasyon Valorisation Martinique fè'y pou sansibilizé sou pwotéksyon an zwézo ki sèlman ka viv Karavèl-la." },
+  "Pont suspendu de Grand'Rivière": { en:"Wood and metal suspension bridge crossing the rainforest, on the trail between Grand'Rivière and Anse Couleuvre, one of Valorisation Martinique's photo spots.", es:"Puente colgante de madera y metal que cruza el bosque tropical, en el sendero entre Grand'Rivière y Anse Couleuvre, uno de los spots fotográficos de Valorisation Martinique.", cr:"Pon soupandi an bwa épi métal ki ka pasé an mitan forè tropikal-la, anlè chimen ant Grand'Rivière ek Anse Couleuvre, yonn adan spot foto Valorisation Martinique." },
+  "Morne Larcher": { en:"Hike behind Le Diamant offering a 360° panoramic view over the south of the island and the Diamond Rock.", es:"Caminata detrás de Le Diamant que ofrece una vista panorámica de 360° sobre el sur de la isla y el Rocher du Diamant.", cr:"Rando dèyè Dyaman ki ba an bel vi 360° asou sid lil-la ek Wòch Dyaman-an." },
+  "Ponton des Anses-d'Arlet": { en:"Pontoon facing the village's small church, one of the most photographed sites in Martinique.", es:"Pontón frente a la pequeña iglesia del pueblo, uno de los lugares más fotografiados de Martinica.", cr:"Ponton anfas ti légliz vilaj-la, yonn adan plas pli fotografyé Matinik." },
+  "Nid de l'Anse Michel": { en:"Giant bird's nest installed by the Valorisation Martinique association facing Anse Michel beach and its coral reef, in Sainte-Anne.", es:"Nido de pájaro gigante instalado por la asociación Valorisation Martinique frente a la playa de Anse Michel y su arrecife de coral, en Sainte-Anne.", cr:"Gran nich zwézo asosyasyon Valorisation Martinique enstalé anfas plaj Anse Michel ek baryè koray li, Sent-Àn." },
+  "Balançoire du Diamant": { en:"Swing installed facing the beach and the Diamond Rock, one of the most popular photo spots in the south.", es:"Columpio instalado frente a la playa y al Rocher du Diamant, uno de los spots fotográficos más populares del sur.", cr:"Balansin enstalé anfas plaj-la ek Wòch Dyaman-an, yonn adan spot foto ki pli koni nan sid-la." },
   "Canal de Beauregard": { en:"Vertiginous trail running along an old mountainside irrigation canal, also known as Canal des Esclaves.", es:"Sendero vertiginoso a lo largo de un antiguo canal de riego en la ladera de la montaña, también llamado Canal des Esclaves.", cr:"Chimen vètijinèz ki ka swiv an ansyen kanal irigasyon anlè an mòn, yo ka rélé'y osi Canal des Esclaves." },
   "Savane des Pétrifications": { en:"Arid, moon-like landscape near Les Salines, known for its petrified wood formations millions of years old.", es:"Paisaje árido y lunar cerca de Les Salines, conocido por sus formaciones de madera petrificada de varios millones de años.", cr:"Peyizaj sèk ek ki sanm lalin, toupré Les Salines, koni pou bwa pétrifyé plizyè milyon lanné." },
   "Écomusée de Martinique (Anse Figuier)": { en:"Museum tracing the island's history from the Amerindians to today, beside a quiet beach in Rivière-Pilote.", es:"Museo que recorre la historia de la isla desde los amerindios hasta hoy, junto a una playa tranquila de Rivière-Pilote.", cr:"Mizé ki rakonté istwa lil-la apati Endyen jistan jodijou, bò an plaj trankil Rivyè-Pilòt." },
@@ -1191,8 +1210,23 @@ function renderProgramResult(overlay) {
 
 function setStep(n) { step = n; render(); }
 
+// ---- Bannière hors connexion ----
+function updateOfflineBanner() {
+  const banner = document.getElementById('offlineBanner');
+  if (!banner) return;
+  if (navigator.onLine === false) {
+    banner.textContent = t('offlineBanner');
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+window.addEventListener('online', updateOfflineBanner);
+window.addEventListener('offline', updateOfflineBanner);
+
 function render() {
   applyTerritoryTheme();
+  updateOfflineBanner();
   ['d0','d1','d2','d3'].forEach((id,i) => {
     document.getElementById(id).className = 'dot' + (step > i ? ' done' : '');
   });
