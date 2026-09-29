@@ -285,7 +285,7 @@ const TERRITOIRES = [
   { key:"guadeloupe", label:"Guadeloupe", stamp:"🦋", grad:"linear-gradient(135deg,#1B6E63,#2E9C7F)", color:"#1B6E63", colorSoft:"#E3F2EE" },
   { key:"guyane", label:"Guyane", stamp:"🌳", grad:"linear-gradient(135deg,#2F5233,#4C7A44)", color:"#2F5233", colorSoft:"#E7EEE5" },
   { key:"saint-martin", label:"Saint-Martin", stamp:"🏝️", grad:"linear-gradient(135deg,#1E6091,#2E8FBD)", color:"#1E6091", colorSoft:"#E5EFF6" },
-  { key:"saint-barthelemy", label:"Saint-Barthélemy", stamp:"⛵", grad:"linear-gradient(135deg,#8A4B6B,#BD6E92)", color:"#8A4B6B", colorSoft:"#F3E9EE" },
+  { key:"saint-barthelemy", label:"Saint-Barthélemy", shortLabel:"Saint-Barth", stamp:"⛵", grad:"linear-gradient(135deg,#8A4B6B,#BD6E92)", color:"#8A4B6B", colorSoft:"#F3E9EE" },
 ];
 
 // ---- Thème dynamique selon le territoire sélectionné ----
@@ -394,6 +394,27 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 À ne pas manquer aujourd'hui", alertFullMoon:"Pleine lune ce soir — idéal pour une balade ou une baignade nocturne.",
     evtToussaint:"Illumination de la Toussaint", evtMarcheCacao:"Marché dominical de Cacao", evtPonteTortues:"Période de ponte des tortues luths",
     evtCarnaval:"Saison du Carnaval", evtYoles:"Tour des Yoles Rondes", evtCuisinieres:"Fête des Cuisinières", evtChanteNwel:"Période des chanté Nwel",
+    brandTagline:"Nos lieux. Nos histoires. Nos sorties.", homeHeroSub:"La Caraïbe comme tu ne l'as jamais explorée.",
+    homeSearchLabel:"Que cherches-tu ?", homeSearchPlaceholder:"Une sortie, un lieu, une activité...",
+    geoTitle:"📍 Que faire autour de moi ?", geoUseBtn:"Utiliser ma position", geoLoading:"Recherche de ta position...",
+    geoDenied:"Position non disponible — active la localisation ou choisis un territoire plus haut.",
+    geoUnsupported:"La géolocalisation n'est pas disponible sur cet appareil.",
+    geo5:"À 5 km", geo10:"À 10 km", geoCommune:"Dans ma commune", geoAllPrefix:"Partout en",
+    geoCountSingular:"sortie à proximité", geoCountPlural:"sorties à proximité",
+    geoEmpty:"Aucune sortie trouvée à cette distance — élargis le rayon.",
+    collectionsTitle:"✨ Nos sélections", collSoleil:"☀️ 10 endroits pour profiter du soleil", collPlages:"🌊 Les plus belles plages",
+    collBalades:"🌿 Balades à faire ce week-end", collRomantique:"❤️ Sorties romantiques", collFamille:"👨‍👩‍👧 À faire en famille",
+    collGratuit:"💸 Sorties gratuites", collCoucherSoleil:"🌅 Spots coucher de soleil", collSeeAll:"Tout voir", collBack:"← Retour aux sélections",
+    surpriseBtn:"🎲 SURPRENDS-MOI", surpriseChooserTitle:"Configure ta surprise", surpriseTerritoireLabel:"📍 Territoire (optionnel)",
+    surpriseBudgetLabel:"💰 Budget (optionnel)", surpriseWithWhoLabel:"👥 Avec qui ? (optionnel)", surpriseDureeLabel:"⏱️ Durée (optionnel)",
+    surpriseWithFamille:"Famille", surpriseWithCouple:"Couple", surpriseWithAmis:"Amis", surpriseWithSolo:"Solo",
+    surpriseGo:"🎲 Surprends-moi", surpriseRevealTitle:"Aujourd'hui, Antan Nou te propose...", surpriseReroll:"🎲 Relancer",
+    surpriseSeeDetails:"Voir la fiche", surpriseNoMatch:"Aucun lieu ne correspond à ces critères — essaie d'élargir tes choix.",
+    surpriseApproxNote:"« Avec qui » est déduit des ambiances du lieu, ce n'est pas une donnée exacte.",
+    navAccueil:"Accueil", navExplorer:"Explorer", navCarte:"Carte", navFavoris:"Favoris", navProfil:"Profil",
+    accountOptionalNote:"Pas besoin de compte pour utiliser Antan Nou — connecte-toi juste pour sauvegarder tes découvertes ❤️ sur tous tes appareils.",
+    pourquoiYAller:"Pourquoi y aller ?", infosPratiquesTitle:"Infos pratiques", infosTarif:"💰 Tarif", infosDifficulte:"🥾 Difficulté",
+    infosContact:"📱 Plus d'infos", infosConseil:"💡 Conseil", yAllerCta:"📍 Y aller",
   },
   en: {
     langPickerTitle:"Choose your language", langPickerSub:"You can change this anytime from the 🌐 icon.",
@@ -452,6 +473,27 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 Don't miss today", alertFullMoon:"Full moon tonight — perfect for a night walk or a swim.",
     evtToussaint:"All Saints' Day illumination", evtMarcheCacao:"Cacao Sunday market", evtPonteTortues:"Leatherback turtle nesting season",
     evtCarnaval:"Carnival season", evtYoles:"Tour des Yoles Rondes (traditional boat race)", evtCuisinieres:"Fête des Cuisinières (Cooks' Festival)", evtChanteNwel:"Chanté Nwel (Creole Christmas carols) season",
+    brandTagline:"Our places. Our stories. Our outings.", homeHeroSub:"The Caribbean like you've never explored it.",
+    homeSearchLabel:"What are you looking for?", homeSearchPlaceholder:"An outing, a place, an activity...",
+    geoTitle:"📍 What to do nearby?", geoUseBtn:"Use my location", geoLoading:"Finding your location...",
+    geoDenied:"Location not available — enable location or pick a territory above.",
+    geoUnsupported:"Geolocation isn't available on this device.",
+    geo5:"Within 5 km", geo10:"Within 10 km", geoCommune:"In my area", geoAllPrefix:"All of",
+    geoCountSingular:"outing nearby", geoCountPlural:"outings nearby",
+    geoEmpty:"No outings found at this distance — widen the radius.",
+    collectionsTitle:"✨ Our picks", collSoleil:"☀️ 10 spots to soak up the sun", collPlages:"🌊 The best beaches",
+    collBalades:"🌿 Walks to do this weekend", collRomantique:"❤️ Romantic outings", collFamille:"👨‍👩‍👧 Family-friendly",
+    collGratuit:"💸 Free outings", collCoucherSoleil:"🌅 Sunset spots", collSeeAll:"See all", collBack:"← Back to picks",
+    surpriseBtn:"🎲 SURPRISE ME", surpriseChooserTitle:"Set up your surprise", surpriseTerritoireLabel:"📍 Territory (optional)",
+    surpriseBudgetLabel:"💰 Budget (optional)", surpriseWithWhoLabel:"👥 With whom? (optional)", surpriseDureeLabel:"⏱️ Duration (optional)",
+    surpriseWithFamille:"Family", surpriseWithCouple:"Couple", surpriseWithAmis:"Friends", surpriseWithSolo:"Solo",
+    surpriseGo:"🎲 Surprise me", surpriseRevealTitle:"Today, Antan Nou suggests...", surpriseReroll:"🎲 Reroll",
+    surpriseSeeDetails:"View details", surpriseNoMatch:"Nothing matches these criteria — try widening your choices.",
+    surpriseApproxNote:"\"With whom\" is inferred from the place's vibes, it isn't exact data.",
+    navAccueil:"Home", navExplorer:"Explore", navCarte:"Map", navFavoris:"Favorites", navProfil:"Profile",
+    accountOptionalNote:"No account needed to use Antan Nou — sign in just to save your finds ❤️ across all your devices.",
+    pourquoiYAller:"Why go there?", infosPratiquesTitle:"Practical info", infosTarif:"💰 Price", infosDifficulte:"🥾 Difficulty",
+    infosContact:"📱 More info", infosConseil:"💡 Tip", yAllerCta:"📍 Get directions",
   },
   es: {
     langPickerTitle:"Elige tu idioma", langPickerSub:"Puedes cambiarlo en cualquier momento desde el icono 🌐.",
@@ -510,6 +552,27 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 No te lo pierdas hoy", alertFullMoon:"Luna llena esta noche — ideal para un paseo o un baño nocturno.",
     evtToussaint:"Iluminación de Todos los Santos", evtMarcheCacao:"Mercado dominical de Cacao", evtPonteTortues:"Temporada de anidación de tortugas laúd",
     evtCarnaval:"Temporada de Carnaval", evtYoles:"Tour des Yoles Rondes (regata tradicional)", evtCuisinieres:"Fiesta de las Cocineras (Fête des Cuisinières)", evtChanteNwel:"Temporada de chanté Nwel (villancicos criollos)",
+    brandTagline:"Nuestros lugares. Nuestras historias. Nuestras salidas.", homeHeroSub:"El Caribe como nunca lo has explorado.",
+    homeSearchLabel:"¿Qué estás buscando?", homeSearchPlaceholder:"Una salida, un lugar, una actividad...",
+    geoTitle:"📍 ¿Qué hacer cerca de mí?", geoUseBtn:"Usar mi ubicación", geoLoading:"Buscando tu ubicación...",
+    geoDenied:"Ubicación no disponible — activa la localización o elige un territorio arriba.",
+    geoUnsupported:"La geolocalización no está disponible en este dispositivo.",
+    geo5:"A 5 km", geo10:"A 10 km", geoCommune:"En mi zona", geoAllPrefix:"Todo",
+    geoCountSingular:"salida cerca", geoCountPlural:"salidas cerca",
+    geoEmpty:"No se encontraron salidas a esta distancia — amplía el radio.",
+    collectionsTitle:"✨ Nuestras selecciones", collSoleil:"☀️ 10 lugares para disfrutar del sol", collPlages:"🌊 Las playas más bonitas",
+    collBalades:"🌿 Paseos para este fin de semana", collRomantique:"❤️ Salidas románticas", collFamille:"👨‍👩‍👧 Para hacer en familia",
+    collGratuit:"💸 Salidas gratuitas", collCoucherSoleil:"🌅 Lugares para ver el atardecer", collSeeAll:"Ver todo", collBack:"← Volver a las selecciones",
+    surpriseBtn:"🎲 SORPRÉNDEME", surpriseChooserTitle:"Configura tu sorpresa", surpriseTerritoireLabel:"📍 Territorio (opcional)",
+    surpriseBudgetLabel:"💰 Presupuesto (opcional)", surpriseWithWhoLabel:"👥 ¿Con quién? (opcional)", surpriseDureeLabel:"⏱️ Duración (opcional)",
+    surpriseWithFamille:"Familia", surpriseWithCouple:"Pareja", surpriseWithAmis:"Amigos", surpriseWithSolo:"Solo",
+    surpriseGo:"🎲 Sorpréndeme", surpriseRevealTitle:"Hoy, Antan Nou te propone...", surpriseReroll:"🎲 Relanzar",
+    surpriseSeeDetails:"Ver la ficha", surpriseNoMatch:"Ningún lugar coincide con estos criterios — intenta ampliar tus opciones.",
+    surpriseApproxNote:"«Con quién» se deduce de los ambientes del lugar, no es un dato exacto.",
+    navAccueil:"Inicio", navExplorer:"Explorar", navCarte:"Mapa", navFavoris:"Favoritos", navProfil:"Perfil",
+    accountOptionalNote:"No necesitas una cuenta para usar Antan Nou — inicia sesión solo para guardar tus descubrimientos ❤️ en todos tus dispositivos.",
+    pourquoiYAller:"¿Por qué ir?", infosPratiquesTitle:"Información práctica", infosTarif:"💰 Precio", infosDifficulte:"🥾 Dificultad",
+    infosContact:"📱 Más información", infosConseil:"💡 Consejo", yAllerCta:"📍 Cómo llegar",
   },
   cr: {
     langPickerTitle:"Chwazi lang ou", langPickerSub:"Ou ka chanjé-y an nenpòt moman ak zikon 🌐.",
@@ -568,6 +631,27 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 Pa manké sa jodi-a", alertFullMoon:"Lalin plen aswè-a — bon moman pou an pwomnad oben an benyen anba lalin.",
     evtToussaint:"Limiè-a pou Latousen", evtMarcheCacao:"Mawché dimanch Cacao", evtPonteTortues:"Sézon tòti-a ka fè zé",
     evtCarnaval:"Sézon Kannaval", evtYoles:"Tour a Yòl Won", evtCuisinieres:"Fèt Kizinyè-a", evtChanteNwel:"Sézon chanté Nwèl",
+    brandTagline:"Lyé nou. Istwa nou. Sòti nou.", homeHeroSub:"Karayib-la kon ou pa janmen wè'y.",
+    homeSearchLabel:"Ka ou ka chèché ?", homeSearchPlaceholder:"An sòti, an lyé, an aktivité...",
+    geoTitle:"📍 Ka nou ka fè toupré mwen ?", geoUseBtn:"Sèvi ak pozisyon mwen", geoLoading:"Ka chèché pozisyon'w...",
+    geoDenied:"Pozisyon pa disponib — aktivé lokalizasyon-an oben chwazi an tewitwa pi wo.",
+    geoUnsupported:"Jéolokalizasyon pa disponib asou aparèy-tala.",
+    geo5:"A 5 km", geo10:"A 10 km", geoCommune:"An kominn mwen", geoAllPrefix:"Patou an",
+    geoCountSingular:"sòti toupré", geoCountPlural:"sòti toupré",
+    geoEmpty:"Pa ni sòti jwenn a distans sala — laji rayon-an.",
+    collectionsTitle:"✨ Sélèksyon nou", collSoleil:"☀️ 10 kote pou pwofité solèy-la", collPlages:"🌊 Pli bèl plaj",
+    collBalades:"🌿 Pwomnad pou fè wikenn-tala", collRomantique:"❤️ Sòti womantik", collFamille:"👨‍👩‍👧 Pou fè an fanmi",
+    collGratuit:"💸 Sòti gratis", collCoucherSoleil:"🌅 Kote solèy ka kouché", collSeeAll:"Wè tout", collBack:"← Rétou a sélèksyon-a",
+    surpriseBtn:"🎲 SIPWIZ MWEN", surpriseChooserTitle:"Régle sipriz ou", surpriseTerritoireLabel:"📍 Tewitwa (pa obligatwa)",
+    surpriseBudgetLabel:"💰 Bidjé (pa obligatwa)", surpriseWithWhoLabel:"👥 Épi ki moun ? (pa obligatwa)", surpriseDureeLabel:"⏱️ Dirasyon (pa obligatwa)",
+    surpriseWithFamille:"Fanmi", surpriseWithCouple:"Koup", surpriseWithAmis:"Zanmi", surpriseWithSolo:"Solo",
+    surpriseGo:"🎲 Sipwiz mwen", surpriseRevealTitle:"Jodi-a, Antan Nou ka pwopozé'w...", surpriseReroll:"🎲 Rilansé",
+    surpriseSeeDetails:"Wè fich-la", surpriseNoMatch:"Pa ni lyé ki matché ak kritè-tala — laji chwa ou.",
+    surpriseApproxNote:"« Épi ki moun » sòti an anbyans lyé-a, se pa an done égzak.",
+    navAccueil:"Akèy", navExplorer:"Eksploré", navCarte:"Kat", navFavoris:"Favori", navProfil:"Pwofil",
+    accountOptionalNote:"Ou pa bézwen kont pou sèvi ak Antan Nou — konèkté sèlman pou sové dékouvèt ou ❤️ asou tout aparèy ou.",
+    pourquoiYAller:"Poutji pou ale ?", infosPratiquesTitle:"Enfo pratik", infosTarif:"💰 Pri", infosDifficulte:"🥾 Difikilté",
+    infosContact:"📱 Plis enfo", infosConseil:"💡 Konsèy", yAllerCta:"📍 Ale",
   },
 };
 
@@ -1023,13 +1107,29 @@ if (FIREBASE_ENABLED) {
 }
 
 // ---- État ----
-let step = 0;
+// step peut valoir 'home' (nouvel accueil éditorial) ou 0-3 (parcours de
+// recherche existant : territoire → zone → envies → résultats).
+let step = 'home';
 let selT = null, selZ = null, selV = [];
 let advOpen = false;
 let selBudget = [], selDuree = [], selMoment = [], selAcces = [];
 let searchQ = "";
 let sortBy = "pertinence";
 let viewMode = "liste";
+
+// ---- État : nouvel accueil (test de direction) ----
+let homeSearchQ = "";
+// Résultats d'une "Collection" (Nos sélections) affichés en vue liste (step 3)
+// sans passer par les filtres classiques territoire/zone/envies.
+let collectionOverride = null; // { titleKey, places }
+// Géolocalisation "Que faire autour de moi ?"
+let geoCoords = null; // {lat,lng}
+let geoState = 'idle'; // idle | loading | ok | denied | unsupported
+let geoRadius = '5'; // '5' | '10' | 'commune' | 'all'
+// "Surprends-moi"
+let surpriseFilters = { t:null, budget:null, who:null, duree:null };
+let surprisePick = null;
+let surpriseLastNom = null;
 
 const FAV_KEY = "antan_nou_favoris_v1";
 function loadFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch(e){ return []; } }
@@ -1152,6 +1252,7 @@ function openAccountModal() {
       </div>
       <button class="btn btn-primary" id="accSubmit" style="width:100%; margin-bottom:10px;">${mode === 'login' ? t('accountLoginBtn') : t('accountCreateBtn')}</button>
       <button class="btn btn-ghost" id="accSwitch" style="width:100%;">${mode === 'login' ? t('accountNoAccount') : t('accountHasAccount')}</button>
+      <p class="account-optional-note">${t('accountOptionalNote')}</p>
     </div>`;
     document.getElementById('closeAccount').onclick = () => overlay.remove();
     document.getElementById('accSwitch').onclick = () => { mode = mode === 'login' ? 'signup' : 'login'; renderForm(); };
@@ -1512,16 +1613,374 @@ function wireTodayAlerts(container) {
   });
 }
 
+// ==================== Navigation basse (test de direction) ====================
+// Barre à 5 onglets, toujours affichée : Accueil / Explorer / Carte / Favoris /
+// Profil. Favoris et Profil réutilisent les fenêtres modales existantes ;
+// Accueil/Explorer/Carte pilotent la variable `step` déjà utilisée par le
+// parcours de recherche.
+const TABS = [
+  { key:'home', icon:'⌂', labelKey:'navAccueil' },
+  { key:'explorer', icon:'🔎', labelKey:'navExplorer' },
+  { key:'carte', icon:'🗺️', labelKey:'navCarte' },
+  { key:'favoris', icon:'❤️', labelKey:'navFavoris' },
+  { key:'profil', icon:'👤', labelKey:'navProfil' },
+];
+function renderBottomNav(active) {
+  const nav = document.getElementById('bottomNav');
+  nav.className = 'bottom-nav tab-bar';
+  nav.innerHTML = TABS.map(tb => `<button class="tab-btn ${active===tb.key?'sel':''}" data-tab="${tb.key}"><span class="tab-icon">${tb.icon}</span><span class="tab-label">${t(tb.labelKey)}</span></button>`).join('');
+  nav.querySelectorAll('.tab-btn').forEach(el => {
+    el.onclick = () => {
+      const k = el.dataset.tab;
+      if (k === 'home') { collectionOverride = null; step = 'home'; render(); }
+      else if (k === 'explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
+      else if (k === 'carte') { collectionOverride = null; if (!selT) selT = TERRITOIRES[0].key; viewMode = 'carte'; step = 3; render(); }
+      else if (k === 'favoris') { openFavsModal(); }
+      else if (k === 'profil') { openAccountModal(); }
+    };
+  });
+}
+
+// ==================== Carte de lieu réutilisable (liste, recherche accueil, collections) ====================
+function placeCardHTML(p) {
+  const budgetLabel = k => t('budget_'+k);
+  const dureeLabel = k => t('duree_'+k);
+  return `
+    <div class="place" data-open="${p.nom.replace(/"/g,'&quot;')}" style="cursor:pointer;">
+      <span class="tab">${p.z}</span>
+      <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${p.nom.replace(/"/g,'&quot;')}">${isFav(p.nom)?'❤️':'🤍'}</button>
+      <p class="nom">${p.nom}</p>
+      ${p.typeKey ? `<p class="loc">${t('type_'+p.typeKey)}</p>` : ''}
+      <div class="vibes">
+        ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
+        <span class="chip-meta">${budgetLabel(p.budget)}</span>
+        <span class="chip-meta">${dureeLabel(p.duree)}</span>
+      </div>
+    </div>`;
+}
+function wirePlaceCards(container) {
+  container.querySelectorAll('.fav-btn').forEach(el => { el.onclick = (e) => { e.stopPropagation(); toggleFav(el.dataset.nom); }; });
+  container.querySelectorAll('.place[data-open]').forEach(el => {
+    el.onclick = () => { const p = PLACES.find(x => x.nom === el.dataset.open); if (p) openPlaceDetail(p); };
+  });
+}
+// Petite carte compacte (photo remplacée par un aplat de couleur + emoji, en
+// l'absence de vraies photos par lieu) utilisée dans les rangées horizontales
+// de l'accueil (à proximité, collections).
+function miniCardHTML(p) {
+  const terr = TERRITOIRES.find(x => x.key === p.t);
+  const emoji = (p.v[0] && (VIBES.find(x => x.key === p.v[0]) || {}).e) || (terr ? terr.stamp : '🌴');
+  return `<div class="mini-card" data-open="${p.nom.replace(/"/g,'&quot;')}">
+    <div class="visual" style="background:${terr ? terr.grad : 'var(--brand-green)'};">${emoji}</div>
+    <div class="info"><p class="nom">${p.nom}</p><p class="loc">${terr ? (terr.shortLabel||terr.label) : ''} · ${p.z}</p></div>
+  </div>`;
+}
+function wireMiniCards(container) {
+  container.querySelectorAll('.mini-card[data-open]').forEach(el => {
+    el.onclick = () => { const p = PLACES.find(x => x.nom === el.dataset.open); if (p) openPlaceDetail(p); };
+  });
+}
+
+// ==================== Accueil : distance à vol d'oiseau (Haversine) ====================
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) ** 2 + Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) * Math.sin(dLng/2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function requestGeo() {
+  if (!navigator.geolocation) { geoState = 'unsupported'; render(); return; }
+  geoState = 'loading'; render();
+  navigator.geolocation.getCurrentPosition(
+    pos => { geoCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude }; geoState = 'ok'; render(); },
+    () => { geoState = 'denied'; render(); },
+    { timeout: 8000 }
+  );
+}
+// Retourne les lieux triés par distance depuis geoCoords, filtrés selon
+// geoRadius. "Dans ma commune" utilise la même zone (`z`) que le lieu le plus
+// proche comme approximation (la base ne connaît pas les limites communales
+// précises) ; "Partout en [territoire]" utilise le territoire du lieu le
+// plus proche.
+function computeNearby() {
+  if (!geoCoords) return { list: [], nearest: null };
+  const withDist = PLACES.map(p => ({ p, d: haversineKm(geoCoords.lat, geoCoords.lng, p.lat, p.lng) })).sort((a,b) => a.d - b.d);
+  const nearest = withDist[0] ? withDist[0].p : null;
+  let filtered;
+  if (geoRadius === '5') filtered = withDist.filter(x => x.d <= 5);
+  else if (geoRadius === '10') filtered = withDist.filter(x => x.d <= 10);
+  else if (geoRadius === 'commune' && nearest) filtered = withDist.filter(x => x.p.z === nearest.z);
+  else if (geoRadius === 'all' && nearest) filtered = withDist.filter(x => x.p.t === nearest.t);
+  else filtered = withDist;
+  return { list: filtered.map(x => x.p), nearest };
+}
+function renderGeoSection() {
+  let body;
+  if (geoState === 'idle') {
+    body = `<button class="geo-btn" id="geoUseBtn">📍 ${t('geoUseBtn')}</button>`;
+  } else if (geoState === 'loading') {
+    body = `<p class="geo-note">${t('geoLoading')}</p>`;
+  } else if (geoState === 'unsupported') {
+    body = `<p class="geo-note">${t('geoUnsupported')}</p>`;
+  } else if (geoState === 'denied') {
+    body = `<p class="geo-note">${t('geoDenied')}</p>`;
+  } else if (geoState === 'ok') {
+    const { list, nearest } = computeNearby();
+    const terrLabel = nearest ? (TERRITOIRES.find(x => x.key === nearest.t) || {}).label : '';
+    body = `
+      <div class="geo-chip-row">
+        <span class="geo-chip ${geoRadius==='5'?'sel':''}" data-r="5">${t('geo5')}</span>
+        <span class="geo-chip ${geoRadius==='10'?'sel':''}" data-r="10">${t('geo10')}</span>
+        <span class="geo-chip ${geoRadius==='commune'?'sel':''}" data-r="commune">${t('geoCommune')}</span>
+        <span class="geo-chip ${geoRadius==='all'?'sel':''}" data-r="all">${t('geoAllPrefix')} ${terrLabel}</span>
+      </div>
+      <p class="geo-count">${list.length} ${list.length > 1 ? t('geoCountPlural') : t('geoCountSingular')}</p>
+      ${list.length === 0
+        ? `<p class="geo-note">${t('geoEmpty')}</p>`
+        : `<div class="h-scroll">${list.slice(0,20).map(p => miniCardHTML(p)).join('')}</div>`}
+    `;
+  }
+  return `<div class="home-section">
+    <p class="home-section-title">${t('geoTitle')}</p>
+    <div id="geoBody">${body}</div>
+  </div>`;
+}
+function wireGeoSection(container) {
+  const btn = container.querySelector('#geoUseBtn');
+  if (btn) btn.onclick = requestGeo;
+  container.querySelectorAll('.geo-chip[data-r]').forEach(el => {
+    el.onclick = () => { geoRadius = el.dataset.r; render(); };
+  });
+  wireMiniCards(container);
+}
+
+// ==================== Accueil : Nos sélections (collections) ====================
+// Construites uniquement à partir des lieux et tags déjà présents dans
+// PLACES — aucune donnée inventée (pas d'agenda d'événements réel, aucune
+// note ou nombre de favoris fictif).
+function buildCollections() {
+  const byPlage = p => p.v.includes('plage');
+  const colls = [
+    { key:'soleil', titleKey:'collSoleil', places: PLACES.filter(byPlage).slice(0, 10) },
+    { key:'plages', titleKey:'collPlages', places: PLACES.filter(p => p.typeKey === 'plage') },
+    { key:'balades', titleKey:'collBalades', places: PLACES.filter(p => p.v.includes('randonnee') && (!p.difficulte || p.difficulte <= 3)) },
+    { key:'romantique', titleKey:'collRomantique', places: PLACES.filter(p => p.v.some(v => ['bienetre','boire','photo'].includes(v)) && !p.v.includes('famille')) },
+    { key:'famille', titleKey:'collFamille', places: PLACES.filter(p => p.v.includes('famille') || p.acces.includes('poussette')) },
+    { key:'gratuit', titleKey:'collGratuit', places: PLACES.filter(p => p.budget === 'gratuit') },
+    { key:'coucherSoleil', titleKey:'collCoucherSoleil', places: PLACES.filter(p => p.v.includes('photo') && (p.v.includes('plage') || p.typeKey === 'point_de_vue' || p.typeKey === 'ilet_rocher')) },
+  ];
+  return colls.filter(c => c.places.length >= 2);
+}
+function openCollection(coll) {
+  collectionOverride = coll;
+  selV = []; selBudget = []; selDuree = []; selMoment = []; selAcces = []; searchQ = '';
+  step = 3;
+  render();
+}
+function renderCollectionsSection() {
+  const colls = buildCollections();
+  if (!colls.length) return '';
+  return `<div class="home-section">
+    <p class="home-section-title">${t('collectionsTitle')}</p>
+    ${colls.map(c => `
+      <div style="margin-bottom:18px;">
+        <p class="home-section-title" style="font-size:13px;"><span>${t(c.titleKey)}</span><span class="see-all" data-coll="${c.key}">${t('collSeeAll')}</span></p>
+        <div class="h-scroll">${c.places.slice(0,12).map(p => miniCardHTML(p)).join('')}</div>
+      </div>`).join('')}
+  </div>`;
+}
+function wireCollectionsSection(container) {
+  const colls = buildCollections();
+  container.querySelectorAll('.see-all[data-coll]').forEach(el => {
+    el.onclick = () => { const c = colls.find(x => x.key === el.dataset.coll); if (c) openCollection(c); };
+  });
+  wireMiniCards(container);
+}
+
+// ==================== Accueil : recherche globale (toutes les îles) ====================
+function computeHomeSearch(q) {
+  const query = q.trim().toLowerCase();
+  if (!query) return [];
+  return PLACES.filter(p => {
+    const haystack = (p.nom + ' ' + p.z + ' ' + placeDesc(p) + ' ' + p.v.map(v => t('vibe_'+v)).join(' ')).toLowerCase();
+    return haystack.includes(query);
+  }).slice(0, 40);
+}
+function renderHomeDynamicArea() {
+  const area = document.getElementById('homeDynamicArea');
+  if (!area) return;
+  if (homeSearchQ.trim()) {
+    const results = computeHomeSearch(homeSearchQ);
+    area.innerHTML = results.length === 0
+      ? `<div class="empty"><span class="e">🌴</span>${t('emptyResults')}</div>`
+      : `<div class="home-section"><div class="postcard-grid">${results.map(p => placeCardHTML(p)).join('')}</div></div>`;
+    wirePlaceCards(area);
+  } else {
+    area.innerHTML = renderCollectionsSection();
+    wireCollectionsSection(area);
+  }
+}
+
+// ==================== Accueil : Surprends-moi ====================
+const SURPRISE_WHO_VIBES = {
+  famille: ['famille'],
+  couple: ['bienetre','boire','photo'],
+  amis: ['activites','sport','nightlife'],
+  solo: ['activites','sport','nightlife'],
+};
+function surpriseMatches() {
+  const f = surpriseFilters;
+  return PLACES.filter(p =>
+    (!f.t || p.t === f.t) &&
+    (!f.budget || p.budget === f.budget) &&
+    (!f.duree || p.duree === f.duree) &&
+    (!f.who || p.v.some(v => SURPRISE_WHO_VIBES[f.who].includes(v)))
+  );
+}
+function pickSurprise() {
+  const matches = surpriseMatches();
+  if (!matches.length) { surprisePick = null; return; }
+  let pool = matches;
+  if (matches.length > 1 && surpriseLastNom) pool = matches.filter(p => p.nom !== surpriseLastNom);
+  const chosen = pool[Math.floor(Math.random() * pool.length)];
+  surprisePick = chosen;
+  surpriseLastNom = chosen.nom;
+}
+function openSurpriseModal() {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'surpriseOverlay';
+  document.body.appendChild(overlay);
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  surprisePick = null;
+  renderSurpriseForm(overlay);
+}
+function renderSurpriseForm(overlay) {
+  const f = surpriseFilters;
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>${t('surpriseChooserTitle')}</h3><button class="modal-close" id="closeSurprise">✕</button></div>
+    <div class="prog-form">
+      <div class="adv-group surprise-form-row">
+        <p class="adv-label">${t('surpriseTerritoireLabel')}</p>
+        <div class="adv-row">${TERRITOIRES.map(tr => `<div class="chip-opt ${f.t===tr.key?'sel':''}" data-f="t" data-v="${tr.key}">${tr.stamp} ${tr.shortLabel||tr.label}</div>`).join('')}</div>
+      </div>
+      <div class="adv-group surprise-form-row">
+        <p class="adv-label">${t('surpriseBudgetLabel')}</p>
+        <div class="adv-row">${BUDGETS.map(([k]) => `<div class="chip-opt ${f.budget===k?'sel':''}" data-f="budget" data-v="${k}">${t('budget_'+k)}</div>`).join('')}</div>
+      </div>
+      <div class="adv-group surprise-form-row">
+        <p class="adv-label">${t('surpriseWithWhoLabel')}</p>
+        <div class="adv-row">
+          <div class="chip-opt ${f.who==='famille'?'sel':''}" data-f="who" data-v="famille">${t('surpriseWithFamille')}</div>
+          <div class="chip-opt ${f.who==='couple'?'sel':''}" data-f="who" data-v="couple">${t('surpriseWithCouple')}</div>
+          <div class="chip-opt ${f.who==='amis'?'sel':''}" data-f="who" data-v="amis">${t('surpriseWithAmis')}</div>
+          <div class="chip-opt ${f.who==='solo'?'sel':''}" data-f="who" data-v="solo">${t('surpriseWithSolo')}</div>
+        </div>
+        <p class="geo-note">${t('surpriseApproxNote')}</p>
+      </div>
+      <div class="adv-group surprise-form-row">
+        <p class="adv-label">${t('surpriseDureeLabel')}</p>
+        <div class="adv-row">${DUREES.map(([k]) => `<div class="chip-opt ${f.duree===k?'sel':''}" data-f="duree" data-v="${k}">${t('duree_'+k)}</div>`).join('')}</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="surpriseGoBtn" style="width:100%;">${t('surpriseGo')}</button>
+  </div>`;
+  document.getElementById('closeSurprise').onclick = () => overlay.remove();
+  overlay.querySelectorAll('.chip-opt[data-f]').forEach(el => {
+    el.onclick = () => {
+      const key = el.dataset.f, val = el.dataset.v;
+      f[key] = f[key] === val ? null : val;
+      renderSurpriseForm(overlay);
+    };
+  });
+  document.getElementById('surpriseGoBtn').onclick = () => { pickSurprise(); renderSurpriseReveal(overlay); };
+}
+function renderSurpriseReveal(overlay) {
+  if (!surprisePick) {
+    overlay.innerHTML = `<div class="modal">
+      <div class="modal-head"><h3>${t('surpriseChooserTitle')}</h3><button class="modal-close" id="closeSurprise">✕</button></div>
+      <div class="empty"><span class="e">🌴</span>${t('surpriseNoMatch')}</div>
+      <button class="btn btn-ghost" id="surpriseBackBtn" style="width:100%;">${t('back')}</button>
+    </div>`;
+    document.getElementById('closeSurprise').onclick = () => overlay.remove();
+    document.getElementById('surpriseBackBtn').onclick = () => renderSurpriseForm(overlay);
+    return;
+  }
+  const p = surprisePick;
+  const terr = TERRITOIRES.find(x => x.key === p.t);
+  const emoji = (p.v[0] && (VIBES.find(x => x.key === p.v[0]) || {}).e) || '🌴';
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>${t('surpriseRevealTitle')}</h3><button class="modal-close" id="closeSurprise">✕</button></div>
+    <div class="surprise-reveal">
+      <div class="visual" style="background:${terr ? terr.grad : 'var(--brand-green)'};">${emoji}</div>
+      <p class="nom">${p.nom}</p>
+      <p class="loc">${terr ? terr.label : ''} · ${p.z}</p>
+      <div class="vibes" style="justify-content:center; margin-bottom:18px;">
+        ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
+        <span class="chip-meta">${t('budget_'+p.budget)}</span>
+      </div>
+      <button class="btn btn-primary" id="surpriseDetailsBtn" style="width:100%; margin-bottom:10px;">${t('surpriseSeeDetails')}</button>
+      <button class="btn btn-ghost" id="surpriseRerollBtn" style="width:100%;">${t('surpriseReroll')}</button>
+    </div>
+  </div>`;
+  document.getElementById('closeSurprise').onclick = () => overlay.remove();
+  document.getElementById('surpriseDetailsBtn').onclick = () => { overlay.remove(); openPlaceDetail(p); };
+  document.getElementById('surpriseRerollBtn').onclick = () => { pickSurprise(); renderSurpriseReveal(overlay); };
+}
+
+// ==================== Accueil : rendu principal ====================
+function renderHome() {
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    ${renderTodayAlerts()}
+    <div class="home-hero">
+      <p class="home-wordmark">ANTAN NOU</p>
+      <p class="home-brand-tagline">${t('brandTagline')}</p>
+      <p class="home-hero-sub">${t('homeHeroSub')}</p>
+    </div>
+    <div class="home-search-block">
+      <p class="home-search-label">${t('homeSearchLabel')}</p>
+      <div class="search-bar">🔎 <input type="text" id="homeSearchInput" placeholder="${t('homeSearchPlaceholder')}" value="${homeSearchQ.replace(/"/g,'&quot;')}"></div>
+    </div>
+    <div class="territory-chip-row">
+      ${TERRITOIRES.map(tr => `<span class="territory-chip" data-t="${tr.key}">${tr.stamp} ${tr.shortLabel||tr.label}</span>`).join('')}
+    </div>
+    ${renderGeoSection()}
+    <div id="homeDynamicArea"></div>
+    <button class="surprise-btn" id="surpriseBtnHome">${t('surpriseBtn')}</button>
+  `;
+  wireTodayAlerts(main);
+  document.getElementById('homeSearchInput').oninput = (e) => { homeSearchQ = e.target.value; renderHomeDynamicArea(); };
+  main.querySelectorAll('.territory-chip[data-t]').forEach(el => {
+    el.onclick = () => { collectionOverride = null; selT = el.dataset.t; selZ = null; selV = []; step = 3; render(); };
+  });
+  wireGeoSection(main);
+  renderHomeDynamicArea();
+  document.getElementById('surpriseBtnHome').onclick = openSurpriseModal;
+  appendLegalFooter();
+  renderBottomNav('home');
+}
+
 function render() {
   applyTerritoryTheme();
   updateOfflineBanner();
-  ['d0','d1','d2','d3'].forEach((id,i) => {
-    document.getElementById(id).className = 'dot' + (step > i ? ' done' : '');
-  });
-  const main = document.getElementById('main');
-  const nav = document.getElementById('bottomNav');
+  const stepperEl = document.querySelector('.stepper');
   const title = document.getElementById('stepTitle');
   const sub = document.getElementById('stepSub');
+  const isWizardStep = typeof step === 'number';
+  if (stepperEl) stepperEl.style.display = isWizardStep ? 'flex' : 'none';
+  title.style.display = isWizardStep ? '' : 'none';
+  sub.style.display = isWizardStep ? '' : 'none';
+  ['d0','d1','d2','d3'].forEach((id,i) => {
+    document.getElementById(id).className = 'dot' + (isWizardStep && step > i ? ' done' : '');
+  });
+  const main = document.getElementById('main');
+
+  if (step === 'home') {
+    renderHome();
+    return;
+  }
 
   if (step === 0) {
     title.textContent = t('step0Title');
@@ -1534,8 +1993,8 @@ function render() {
     main.querySelectorAll('.postcard').forEach(el => {
       el.onclick = () => { selT = el.dataset.t; selZ = null; setStep(1); };
     });
-    nav.innerHTML = '';
     appendLegalFooter();
+    renderBottomNav('explorer');
     return;
   }
 
@@ -1545,13 +2004,14 @@ function render() {
     main.innerHTML = `<div class="pill-wrap">
       <div class="pill ${selZ===null?'sel':''}" data-z="">${t('zoneAll')}</div>
       ${ZONES[selT].map(z => `<div class="pill ${selZ===z?'sel':''}" data-z="${z}">${z}</div>`).join('')}
-    </div>`;
+    </div>
+    <div class="wizard-nav-row"><button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" disabled>${t('chooseZone')}</button></div>`;
     main.querySelectorAll('.pill').forEach(el => {
       el.onclick = () => { selZ = el.dataset.z || null; setStep(2); };
     });
-    nav.innerHTML = `<button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" disabled>${t('chooseZone')}</button>`;
     document.getElementById('back').onclick = () => setStep(0);
     appendLegalFooter();
+    renderBottomNav('explorer');
     return;
   }
 
@@ -1568,7 +2028,8 @@ function render() {
         <div class="adv-group"><p class="adv-label">${t('dureeGroupLabel')}</p><div class="adv-row">${DUREES.map(([k]) => `<div class="chip-opt ${selDuree.includes(k)?'sel':''}" data-group="duree" data-k="${k}">${t('duree_'+k)}</div>`).join('')}</div></div>
         <div class="adv-group"><p class="adv-label">${t('momentGroupLabel')}</p><div class="adv-row">${MOMENTS.map(([k]) => `<div class="chip-opt ${selMoment.includes(k)?'sel':''}" data-group="moment" data-k="${k}">${t('moment_'+k)}</div>`).join('')}</div></div>
         <div class="adv-group"><p class="adv-label">${t('accesGroupLabel')}</p><div class="adv-row">${ACCES.map(([k]) => `<div class="chip-opt ${selAcces.includes(k)?'sel':''}" data-group="acces" data-k="${k}">${t('acces_'+k)}</div>`).join('')}</div></div>
-      </div>`;
+      </div>
+      <div class="wizard-nav-row"><button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" id="go">${t('seeOutings')}</button></div>`;
     main.querySelectorAll('.vibe').forEach(el => {
       el.onclick = () => {
         const k = el.dataset.v;
@@ -1590,17 +2051,18 @@ function render() {
         render();
       };
     });
-    nav.innerHTML = `<button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" id="go">${t('seeOutings')}</button>`;
     document.getElementById('back').onclick = () => setStep(1);
     document.getElementById('go').onclick = () => setStep(3);
     appendLegalFooter();
+    renderBottomNav('explorer');
     return;
   }
 
   if (step === 3) {
-    title.textContent = t('step3Title');
-    sub.textContent = TERRITOIRES.find(x=>x.key===selT).label + (selZ ? ' · ' + selZ : '');
+    title.textContent = collectionOverride ? t(collectionOverride.titleKey) : t('step3Title');
+    sub.textContent = collectionOverride ? t('collectionsTitle') : (TERRITOIRES.find(x=>x.key===selT).label + (selZ ? ' · ' + selZ : ''));
     main.innerHTML = `
+      ${collectionOverride ? `<p class="territory-chip" id="backToCollections" style="display:inline-block; margin-bottom:10px;">${t('collBack')}</p>` : ''}
       <div class="search-bar">🔎 <input type="text" id="searchInput" placeholder="${t('searchPlaceholder')}" value="${searchQ}"></div>
       <div class="sort-row">
         <div class="sort-chip ${sortBy==='pertinence'?'sel':''}" data-s="pertinence">${t('sortPertinence')}</div>
@@ -1613,22 +2075,31 @@ function render() {
       </div>
       <div class="results-head"><h2>${t('resultsTitle')}</h2><span id="resCount"></span></div>
       <div id="resultsList"></div>
-      <div id="mapView" style="display:none;"></div>`;
+      <div id="mapView" style="display:none;"></div>
+      <div class="wizard-nav-row"><button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" id="restart">${t('newSearch')}</button></div>`;
     document.getElementById('searchInput').oninput = (e) => { searchQ = e.target.value; renderResults(); };
     main.querySelectorAll('.sort-chip').forEach(el => { el.onclick = () => { sortBy = el.dataset.s; render(); }; });
     document.getElementById('viewListeBtn').onclick = () => { viewMode = 'liste'; render(); };
     document.getElementById('viewCarteBtn').onclick = () => { viewMode = 'carte'; render(); };
-    nav.innerHTML = `<button class="btn btn-ghost" id="back">${t('back')}</button><button class="btn btn-primary" id="restart">${t('newSearch')}</button>`;
-    document.getElementById('back').onclick = () => setStep(2);
-    document.getElementById('restart').onclick = () => { selT=null; selZ=null; selV=[]; selBudget=[]; selDuree=[]; selMoment=[]; selAcces=[]; searchQ=''; sortBy='pertinence'; viewMode='liste'; setStep(0); };
+    const backToCollBtn = document.getElementById('backToCollections');
+    if (backToCollBtn) backToCollBtn.onclick = () => { collectionOverride = null; step = 'home'; render(); };
+    document.getElementById('back').onclick = () => {
+      if (collectionOverride) { collectionOverride = null; step = 'home'; render(); }
+      else setStep(2);
+    };
+    document.getElementById('restart').onclick = () => { collectionOverride=null; selT=null; selZ=null; selV=[]; selBudget=[]; selDuree=[]; selMoment=[]; selAcces=[]; searchQ=''; sortBy='pertinence'; viewMode='liste'; setStep(0); };
     renderResults();
     appendLegalFooter();
+    renderBottomNav(viewMode === 'carte' ? 'carte' : 'explorer');
     return;
   }
 }
 
 function renderResults() {
-  let results = PLACES.filter(p => {
+  // Une "Collection" (Nos sélections, accueil) affiche sa propre liste de
+  // lieux sans repasser par les filtres territoire/zone/envies — seule la
+  // recherche libre s'applique encore par-dessus.
+  let results = collectionOverride ? collectionOverride.places.slice() : PLACES.filter(p => {
     if (p.t !== selT) return false;
     if (selZ && p.z !== selZ) return false;
     if (selV.length && !p.v.some(v => selV.includes(v))) return false;
@@ -1636,19 +2107,19 @@ function renderResults() {
     if (selDuree.length && !selDuree.includes(p.duree)) return false;
     if (selMoment.length && !selMoment.includes(p.moment)) return false;
     if (selAcces.length && !selAcces.every(a => p.acces.includes(a))) return false;
-    if (searchQ.trim()) {
-      const q = searchQ.trim().toLowerCase();
-      const haystack = (p.nom + ' ' + p.z + ' ' + placeDesc(p) + ' ' + p.v.map(v => t('vibe_'+v)).join(' ')).toLowerCase();
-      if (!haystack.includes(q)) return false;
-    }
     return true;
   });
+  if (searchQ.trim()) {
+    const q = searchQ.trim().toLowerCase();
+    results = results.filter(p => {
+      const haystack = (p.nom + ' ' + p.z + ' ' + placeDesc(p) + ' ' + p.v.map(v => t('vibe_'+v)).join(' ')).toLowerCase();
+      return haystack.includes(q);
+    });
+  }
   if (sortBy === 'alpha') results = results.slice().sort((a,b) => a.nom.localeCompare(b.nom));
   if (sortBy === 'favoris') results = results.filter(p => isFav(p.nom));
 
   document.getElementById('resCount').textContent = results.length + ' ' + (results.length>1?t('resultPlural'):t('resultSingular'));
-  const budgetLabel = k => t('budget_'+k);
-  const dureeLabel = k => t('duree_'+k);
 
   const listEl = document.getElementById('resultsList');
   const mapEl = document.getElementById('mapView');
@@ -1664,22 +2135,8 @@ function renderResults() {
 
   listEl.innerHTML = results.length === 0
     ? `<div class="empty"><span class="e">🌴</span>${sortBy==='favoris' ? t('emptyFavoris') : t('emptyResults')}</div>`
-    : results.map(p => `
-      <div class="place" data-open="${p.nom.replace(/"/g,'&quot;')}" style="cursor:pointer;">
-        <span class="tab">${p.z}</span>
-        <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${p.nom.replace(/"/g,'&quot;')}">${isFav(p.nom)?'❤️':'🤍'}</button>
-        <p class="nom">${p.nom}</p>
-        ${p.typeKey ? `<p class="loc">${t('type_'+p.typeKey)}</p>` : ''}
-        <div class="vibes">
-          ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
-          <span class="chip-meta">${budgetLabel(p.budget)}</span>
-          <span class="chip-meta">${dureeLabel(p.duree)}</span>
-        </div>
-      </div>`).join('');
-  document.querySelectorAll('.fav-btn').forEach(el => { el.onclick = (e) => { e.stopPropagation(); toggleFav(el.dataset.nom); }; });
-  document.querySelectorAll('.place[data-open]').forEach(el => {
-    el.onclick = () => { const p = PLACES.find(x => x.nom === el.dataset.open); if (p) openPlaceDetail(p); };
-  });
+    : results.map(p => placeCardHTML(p)).join('');
+  wirePlaceCards(listEl);
 }
 
 // ---- Vue carte des résultats (Leaflet + OpenStreetMap) ----
@@ -1875,6 +2332,7 @@ function openPlaceDetail(p) {
   overlay.id = 'placeOverlay';
   document.body.appendChild(overlay);
   overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  const hasInfos = !!(p.tarif || p.budget !== 'gratuit' || p.difficulte || p.conseils || p.site);
   overlay.innerHTML = `<div class="modal">
     <div class="modal-head"><h3>${p.nom}</h3><button class="modal-close" id="closePlace">✕</button></div>
     <div id="placePhotoWrap" class="photo-carousel">
@@ -1883,23 +2341,21 @@ function openPlaceDetail(p) {
     <div id="placePhotoDots" class="photo-dots"></div>
     <p id="placePhotoCredit" style="font-size:10px; color:var(--muted); text-align:right; margin:2px 0 12px;"></p>
     <p class="loc" style="margin-bottom:10px;">${TERRITOIRES.find(x=>x.key===p.t).label} · ${p.z}</p>
+    <p class="adv-label" style="margin-bottom:6px;">${t('pourquoiYAller')}</p>
     <p class="desc" style="margin-bottom:14px;">${placeDesc(p)}</p>
     <div class="vibes" style="margin-bottom:14px;">
       ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
       <span class="chip-meta">${t('budget_'+p.budget)}</span>
       <span class="chip-meta">${t('duree_'+p.duree)}</span>
     </div>
-    ${p.difficulte ? `<div class="day-card" style="margin-bottom:14px;">
-      <p class="adv-label" style="margin-bottom:6px;">${t('difficulteLabel')}</p>
-      <p style="margin:0; font-size:13.5px;">${'●'.repeat(p.difficulte)}${'○'.repeat(5 - p.difficulte)} <span style="color:var(--muted);">${t('difficulte'+p.difficulte)}</span></p>
+    ${hasInfos ? `<div class="infos-pratiques">
+      <h4>${t('infosPratiquesTitle')}</h4>
+      ${p.tarif || p.budget !== 'gratuit' ? `<div class="infos-row"><span class="ic">💰</span><span><b>${t('infosTarif')}</b><br>${p.tarif ? p.tarif : t('detailTarifUnknown')}</span></div>` : ''}
+      ${p.difficulte ? `<div class="infos-row"><span class="ic">🥾</span><span><b>${t('infosDifficulte')}</b><br>${'●'.repeat(p.difficulte)}${'○'.repeat(5 - p.difficulte)} <span style="color:var(--muted);">${t('difficulte'+p.difficulte)}</span></span></div>` : ''}
+      ${p.conseils ? `<div class="infos-row"><span class="ic">💡</span><span><b>${t('infosConseil')}</b><br>${p.conseils}</span></div>` : ''}
+      ${p.site ? `<div class="infos-row"><span class="ic">📱</span><span><b>${t('infosContact')}</b><br><a href="${p.site}" target="_blank" rel="noopener" style="color:var(--brand-blue); font-weight:700;">${t('detailSite')}</a></span></div>` : ''}
     </div>` : ''}
-    ${(p.tarif || p.budget !== 'gratuit' || p.conseils) ? `<div class="day-card">
-      ${(p.tarif || p.budget !== 'gratuit') ? `<p class="adv-label" style="margin-bottom:6px;">${t('detailTarif')}</p>
-      <p style="margin:0 0 ${p.conseils ? '14px' : '0'}; font-size:13.5px;">${p.tarif ? p.tarif : t('detailTarifUnknown')}</p>` : ''}
-      ${p.conseils ? `<p class="adv-label" style="margin-bottom:6px;">${t('detailConseil')}</p><p style="margin:0; font-size:13.5px;">💡 ${p.conseils}</p>` : ''}
-    </div>` : ''}
-    <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener" style="display:flex; justify-content:center; margin-bottom:10px;">🧭 ${t('itineraire')}</a>
-    ${p.site ? `<a class="btn btn-ghost" href="${p.site}" target="_blank" rel="noopener" style="display:block; text-align:center; text-decoration:none; margin-bottom:10px;">🔗 ${t('detailSite')}</a>` : ''}
+    <a class="maps-btn" href="${mapsLink(p)}" target="_blank" rel="noopener" style="display:flex; justify-content:center; margin-bottom:10px;">${t('yAllerCta')}</a>
     <div class="day-card" style="margin-top:4px;">
       <p class="adv-label" style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
         <span>${t('avisTitle')}</span> <span id="avisAverage" style="font-weight:600;">…</span>
