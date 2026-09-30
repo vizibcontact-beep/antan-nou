@@ -46,6 +46,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 <!-- Leaflet (carte des résultats) : gratuit, fonds de carte OpenStreetMap, aucune clé API requise -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -483,6 +484,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Ton commentaire (optionnel)...", avisSubmit:"Publier mon avis",
     avisSuccess:"Merci, ton avis a été publié !", avisError:"Impossible d'enregistrer ton avis pour le moment.",
     avisNoteRequired:"Choisis une note avant de publier.", avisFirebaseOff:"Les avis ne sont pas disponibles sur cette version de l'appli.",
+    avisPhotoLabel:"Ajouter une photo (optionnel)", avisPhotoRemove:"Retirer", avisUploading:"Envoi...", avisPhotoUploadError:"L'avis a bien été publié, mais la photo n'a pas pu être envoyée.",
+    avisPhotoTooLarge:"Cette photo dépasse 5 Mo, choisis-en une autre.", avisPhotoWrongType:"Ce fichier n'est pas une image.", avisPhotoUnavailable:"L'avis a bien été publié, mais l'ajout de photo n'est pas disponible pour le moment.",
     pointsLabel:"points de contribution", pointsExplainer:"Gagne des points en laissant des avis (5 pts, 10 avec photo) — ils reflètent ta contribution à la communauté.",
     tierDecouvreur:"Découvreur", tierHabitue:"Habitué", tierAmbassadeur:"Ambassadeur", tierGardien:"Gardien du patrimoine",
     gameToggleLabel:"Mode Chasseur de Trésors 🗺️", gameToggleDescOn:"Activé ! Débloque les lieux en te rendant sur place pour gagner des points et monter de niveau.",
@@ -578,6 +581,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Your comment (optional)...", avisSubmit:"Post my review",
     avisSuccess:"Thanks, your review was posted!", avisError:"Couldn't save your review right now.",
     avisNoteRequired:"Pick a rating before posting.", avisFirebaseOff:"Reviews aren't available in this version of the app.",
+    avisPhotoLabel:"Add a photo (optional)", avisPhotoRemove:"Remove", avisUploading:"Uploading...", avisPhotoUploadError:"Your review was posted, but the photo couldn't be uploaded.",
+    avisPhotoTooLarge:"This photo is over 5MB, pick another one.", avisPhotoWrongType:"That file isn't an image.", avisPhotoUnavailable:"Your review was posted, but photo attachments aren't available right now.",
     pointsLabel:"contribution points", pointsExplainer:"Earn points by leaving reviews (5 pts, 10 with a photo) — they reflect your contribution to the community.",
     tierDecouvreur:"Discoverer", tierHabitue:"Regular", tierAmbassadeur:"Ambassador", tierGardien:"Heritage Guardian",
     gameToggleLabel:"Treasure Hunter Mode 🗺️", gameToggleDescOn:"Enabled! Unlock places by visiting them in person to earn points and level up.",
@@ -673,6 +678,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Tu comentario (opcional)...", avisSubmit:"Publicar mi opinión",
     avisSuccess:"¡Gracias, tu opinión fue publicada!", avisError:"No se pudo guardar tu opinión ahora mismo.",
     avisNoteRequired:"Elige una puntuación antes de publicar.", avisFirebaseOff:"Las opiniones no están disponibles en esta versión de la app.",
+    avisPhotoLabel:"Añadir una foto (opcional)", avisPhotoRemove:"Quitar", avisUploading:"Enviando...", avisPhotoUploadError:"Tu opinión fue publicada, pero la foto no se pudo subir.",
+    avisPhotoTooLarge:"Esta foto supera los 5 MB, elige otra.", avisPhotoWrongType:"Ese archivo no es una imagen.", avisPhotoUnavailable:"Tu opinión fue publicada, pero adjuntar fotos no está disponible por ahora.",
     pointsLabel:"puntos de contribución", pointsExplainer:"Gana puntos dejando opiniones (5 pts, 10 con foto) — reflejan tu contribución a la comunidad.",
     tierDecouvreur:"Descubridor", tierHabitue:"Habitual", tierAmbassadeur:"Embajador", tierGardien:"Guardián del patrimonio",
     gameToggleLabel:"Modo Cazador de Tesoros 🗺️", gameToggleDescOn:"¡Activado! Desbloquea lugares visitándolos en persona para ganar puntos y subir de nivel.",
@@ -768,6 +775,8 @@ const TRANSLATIONS = {
     avisPlaceholder:"Kòmantè'w (pa obligatwa)...", avisSubmit:"Pibliyé avi mwen",
     avisSuccess:"Mèsi, avi'w pibliyé !", avisError:"Nou pa rivé anrejistré avi'w kounyé-a.",
     avisNoteRequired:"Chwazi an nòt avan ou pibliyé.", avisFirebaseOff:"Avi pa disponib asou vèsyon aplikasyon-tala.",
+    avisPhotoLabel:"Adjouté an foto (pa obligatwa)", avisPhotoRemove:"Wété", avisUploading:"Ka voyé...", avisPhotoUploadError:"Avi'w pibliyé, mé foto-a pa rivé voyé.",
+    avisPhotoTooLarge:"Foto-tala pli gwo ki 5 Mo, chwazi an lot.", avisPhotoWrongType:"Fichyé-tala pa an foto.", avisPhotoUnavailable:"Avi'w pibliyé, mé adjouté foto pa disponib kounyé-a.",
     pointsLabel:"pwen kontribisyon", pointsExplainer:"Genyen pwen lè ou kité avi (5 pwen, 10 èvè an foto) — yo montré kontribisyon'w bay kominoté-a.",
     tierDecouvreur:"Dékouvrè", tierHabitue:"Abityé", tierAmbassadeur:"Anbasadè", tierGardien:"Gadyen patrimwàn-nou",
     gameToggleLabel:"Mòd Chasè Trézò 🗺️", gameToggleDescOn:"Aktivé ! Dévéwouyé lyé an vwayajé alé-y pou genyen pwen épi monté nivo.",
@@ -1253,13 +1262,14 @@ const FIREBASE_ENABLED = typeof firebase !== "undefined"
   && !!FIREBASE_CONFIG.apiKey
   && !FIREBASE_CONFIG.apiKey.startsWith("COLLE_");
 
-let auth = null, db = null, currentUser = null;
+let auth = null, db = null, storage = null, currentUser = null;
 
 if (FIREBASE_ENABLED) {
   try {
     firebase.initializeApp(FIREBASE_CONFIG);
     auth = firebase.auth();
     db = firebase.firestore();
+    storage = firebase.storage();
   } catch (e) {
     console.warn("Firebase non initialisé :", e);
   }
@@ -2911,6 +2921,45 @@ async function gameShareCard() {
 }
 
 let selectedNote = 0;
+let selectedAvisPhotoBlob = null;
+// Redimensionne côté client une image sélectionnée avant envoi, pour limiter
+// le coût de stockage (projet perso gratuit) : max ~1600px sur le plus grand
+// côté, ré-encodée en JPEG qualité ~0.8. En cas d'échec (canvas indisponible,
+// format non décodable...), on retombe simplement sur le fichier original :
+// ça ne doit jamais bloquer l'envoi de l'avis.
+function resizeAvisPhoto(file) {
+  return new Promise(resolve => {
+    try {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        try {
+          const maxSide = 1600;
+          let { width, height } = img;
+          if (width > maxSide || height > maxSide) {
+            if (width >= height) { height = Math.round(height * maxSide / width); width = maxSide; }
+            else { width = Math.round(width * maxSide / height); height = maxSide; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob(blob => {
+            URL.revokeObjectURL(url);
+            resolve(blob || file);
+          }, 'image/jpeg', 0.8);
+        } catch (e) {
+          URL.revokeObjectURL(url);
+          resolve(file);
+        }
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    } catch (e) {
+      resolve(file);
+    }
+  });
+}
 async function loadAvis(p) {
   const box = document.getElementById('avisList');
   const avgEl = document.getElementById('avisAverage');
@@ -2935,7 +2984,8 @@ async function loadAvis(p) {
       box.innerHTML = sorted.slice(0, 20).map(e => `
         <div style="border-top:1px solid var(--line); padding:8px 0;">
           <p style="margin:0 0 2px; font-weight:600; font-size:13px;">${'⭐'.repeat(e.note || 0)} <span style="font-weight:400; color:var(--muted); font-size:11px;">${(e.pseudo || '').replace(/</g,'&lt;')}</span></p>
-          ${e.commentaire ? `<p style="margin:0; font-size:13px;">${e.commentaire.replace(/</g,'&lt;')}</p>` : ''}
+          ${e.commentaire ? `<p style="margin:0 0 6px; font-size:13px;">${e.commentaire.replace(/</g,'&lt;')}</p>` : ''}
+          ${e.photoUrl ? `<a href="${e.photoUrl}" target="_blank" rel="noopener"><img src="${e.photoUrl}" alt="" loading="lazy" style="width:84px; height:84px; object-fit:cover; border-radius:10px; display:block;"></a>` : ''}
         </div>`).join('');
     }
   } catch (e) {
@@ -2954,9 +3004,17 @@ function renderAvisForm(p) {
       ${[1,2,3,4,5].map(n => `<span data-n="${n}" style="opacity:0.3;">⭐</span>`).join('')}
     </div>
     <textarea id="avisTextarea" placeholder="${t('avisPlaceholder')}" style="width:100%; min-height:60px; border-radius:10px; border:1.5px solid var(--line); padding:8px; font-size:13px; font-family:inherit; margin-bottom:8px; box-sizing:border-box;"></textarea>
+    <label for="avisPhotoInput" class="step-sub" style="display:block; margin-bottom:4px; cursor:pointer;">${t('avisPhotoLabel')}</label>
+    <input type="file" id="avisPhotoInput" accept="image/*" capture="environment" style="margin-bottom:8px;">
+    <div id="avisPhotoPreviewWrap" style="display:none; align-items:center; gap:8px; margin-bottom:8px;">
+      <img id="avisPhotoPreviewImg" alt="" style="width:56px; height:56px; object-fit:cover; border-radius:10px; display:block;">
+      <button type="button" id="avisPhotoRemoveBtn" class="btn" style="width:auto; padding:4px 10px; font-size:12px;">${t('avisPhotoRemove')}</button>
+    </div>
+    <p id="avisPhotoStatus" class="step-sub" style="margin:0 0 8px; display:none;"></p>
     <button class="btn" id="avisSubmitBtn" style="width:100%;">${t('avisSubmit')}</button>
   `;
   selectedNote = 0;
+  selectedAvisPhotoBlob = null;
   const stars = formBox.querySelectorAll('#avisStars span');
   stars.forEach(s => {
     s.onclick = () => {
@@ -2964,6 +3022,56 @@ function renderAvisForm(p) {
       stars.forEach(x => x.style.opacity = parseInt(x.dataset.n, 10) <= selectedNote ? '1' : '0.3');
     };
   });
+  const photoInput = document.getElementById('avisPhotoInput');
+  const previewWrap = document.getElementById('avisPhotoPreviewWrap');
+  const previewImg = document.getElementById('avisPhotoPreviewImg');
+  const removeBtn = document.getElementById('avisPhotoRemoveBtn');
+  const statusEl = document.getElementById('avisPhotoStatus');
+  const AVIS_PHOTO_MAX_BYTES = 5 * 1024 * 1024;
+  const showPhotoStatus = (msg, isError) => {
+    if (!statusEl) return;
+    if (!msg) { statusEl.style.display = 'none'; statusEl.textContent = ''; return; }
+    statusEl.style.display = 'block';
+    statusEl.textContent = msg;
+    statusEl.style.color = isError ? '#c0392b' : '';
+  };
+  photoInput.onchange = async () => {
+    const file = photoInput.files && photoInput.files[0];
+    if (!file) { selectedAvisPhotoBlob = null; previewWrap.style.display = 'none'; showPhotoStatus(''); return; }
+    if (!file.type || !file.type.startsWith('image/')) {
+      showPhotoStatus(t('avisPhotoWrongType'), true);
+      photoInput.value = '';
+      selectedAvisPhotoBlob = null;
+      previewWrap.style.display = 'none';
+      return;
+    }
+    if (file.size > AVIS_PHOTO_MAX_BYTES) {
+      showPhotoStatus(t('avisPhotoTooLarge'), true);
+      photoInput.value = '';
+      selectedAvisPhotoBlob = null;
+      previewWrap.style.display = 'none';
+      return;
+    }
+    showPhotoStatus('');
+    previewImg.src = URL.createObjectURL(file);
+    previewWrap.style.display = 'flex';
+    selectedAvisPhotoBlob = await resizeAvisPhoto(file);
+    // Garde-fou : si le redimensionnement échoue et retombe sur le fichier original,
+    // on revérifie la taille (le fichier original a déjà passé le test ci-dessus, mais
+    // on reste défensif si resizeAvisPhoto renvoyait un jour un blob plus lourd).
+    if (selectedAvisPhotoBlob && selectedAvisPhotoBlob.size > AVIS_PHOTO_MAX_BYTES) {
+      showPhotoStatus(t('avisPhotoTooLarge'), true);
+      photoInput.value = '';
+      selectedAvisPhotoBlob = null;
+      previewWrap.style.display = 'none';
+    }
+  };
+  removeBtn.onclick = () => {
+    photoInput.value = '';
+    selectedAvisPhotoBlob = null;
+    previewWrap.style.display = 'none';
+    showPhotoStatus('');
+  };
   document.getElementById('avisSubmitBtn').onclick = () => submitAvis(p);
 }
 async function submitAvis(p) {
@@ -2972,22 +3080,48 @@ async function submitAvis(p) {
   const commentaire = document.getElementById('avisTextarea').value.trim().slice(0, 500);
   const pseudo = (currentUser.email || '').split('@')[0];
   const ref = db.collection('avis').doc(slugId(p.nom));
+  const submitBtn = document.getElementById('avisSubmitBtn');
+  const photoBlob = selectedAvisPhotoBlob;
+  let photoUrl = null, photoFailed = false, photoUnavailable = false;
   try {
+    if (photoBlob) {
+      if (!storage) {
+        // Firebase Storage indisponible (non provisionné sur ce projet, par ex.) :
+        // on dégrade proprement, l'avis part sans photo plutôt que de bloquer l'envoi.
+        photoFailed = true;
+        photoUnavailable = true;
+      } else {
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = t('avisUploading'); }
+        try {
+          const path = `avis-photos/${slugId(p.nom)}/${currentUser.uid}_${Date.now()}.jpg`;
+          const snap = await storage.ref(path).put(photoBlob);
+          photoUrl = await snap.ref.getDownloadURL();
+        } catch (e) {
+          console.warn('Upload de la photo d\'avis échoué :', e);
+          photoFailed = true;
+        }
+      }
+    }
     const doc = await ref.get();
     const entries = (doc.exists && doc.data().entries) || [];
     const isNewReview = !entries.some(e => e.uid === currentUser.uid);
     const isFirstOnPlace = entries.length === 0;
     const filtered = entries.filter(e => e.uid !== currentUser.uid);
-    filtered.push({ uid: currentUser.uid, pseudo, note: selectedNote, commentaire, date: Date.now() });
+    const entry = { uid: currentUser.uid, pseudo, note: selectedNote, commentaire, date: Date.now() };
+    if (photoUrl) entry.photoUrl = photoUrl;
+    filtered.push(entry);
     await ref.set({ entries: filtered });
-    document.getElementById('avisFormBox').innerHTML = `<p class="step-sub">${t('avisSuccess')}</p>`;
+    document.getElementById('avisFormBox').innerHTML = `<p class="step-sub">${t('avisSuccess')}</p>${photoFailed ? `<p class="step-sub">${t(photoUnavailable ? 'avisPhotoUnavailable' : 'avisPhotoUploadError')}</p>` : ''}`;
     loadAvis(p);
     // Points de contribution : uniquement sur un nouvel avis (pas une modification), jamais bloquant.
+    // Les deux bonus (1er avis du lieu, photo jointe) se cumulent.
     if (isNewReview) {
-      const delta = 5 + (isFirstOnPlace ? 5 : 0);
+      const hasPhoto = !!photoUrl;
+      const delta = 5 + (isFirstOnPlace ? 5 : 0) + (hasPhoto ? 5 : 0);
       awardPoints(currentUser.uid, delta);
     }
   } catch (e) {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = t('avisSubmit'); }
     alert(t('avisError'));
   }
 }
