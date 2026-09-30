@@ -187,6 +187,21 @@
   .place .vibes { display:flex; gap:6px; flex-wrap:wrap; }
   .chip-vibe { font-size:10.5px; font-weight:700; background:var(--indigo-soft); color:var(--indigo); padding:3px 9px; border-radius:999px; }
   .chip-meta { font-size:10.5px; font-weight:700; background:var(--gold-soft); color:#8A6110; padding:3px 9px; border-radius:999px; }
+
+  /* Carte résultat avec photo (placeCardHTML) : mise en page photo plein cadre,
+     badges flottants, dégradé bas pour le nom/localisation. Les règles ci-dessous
+     sont scopées à .place.pcard pour ne pas affecter les autres usages de .place
+     (favoris, lieux débloqués, file d'attente admin) qui gardent la mise en page
+     texte d'origine. */
+  .place.pcard { padding:0; border:none; overflow:hidden; aspect-ratio:4/3; box-shadow:0 2px 8px rgba(13,59,49,.12); }
+  .place.pcard .pcard-bg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:42px; background-size:cover; background-position:center; color:rgba(255,255,255,.85); transition:opacity .25s ease; }
+  .place.pcard .pcard-badge-cat { position:absolute; top:10px; left:10px; max-width:calc(100% - 20px); background:rgba(255,255,255,.92); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); color:var(--ink); font-size:11px; font-weight:800; padding:5px 11px; border-radius:999px; box-shadow:0 1px 4px rgba(0,0,0,.15); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .place.pcard .pcard-badge-comm { position:absolute; top:44px; left:10px; background:rgba(29,127,166,.88); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); color:#fff; font-size:10px; font-weight:800; padding:4px 10px; border-radius:999px; box-shadow:0 1px 4px rgba(0,0,0,.15); }
+  .place.pcard .fav-btn { top:10px; right:10px; width:34px; height:34px; background:rgba(255,255,255,.3); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1.5px solid rgba(255,255,255,.55); box-shadow:0 1px 4px rgba(0,0,0,.2); }
+  .place.pcard .fav-btn.active { background:rgba(255,255,255,.85); }
+  .place.pcard .pcard-overlay { position:absolute; left:0; right:0; bottom:0; padding:28px 12px 12px; background:linear-gradient(to top, rgba(0,0,0,.75), transparent 60%); }
+  .place.pcard .pcard-nom { margin:0 0 2px; font-size:15.5px; font-weight:800; color:#fff; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .place.pcard .pcard-loc { margin:0; font-size:11.5px; font-weight:700; color:rgba(255,255,255,.92); display:flex; align-items:center; gap:3px; }
   .maps-btn { display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:800; color:white; background:var(--indigo); padding:6px 12px; border-radius:999px; text-decoration:none; margin-top:10px; }
 
   .empty { text-align:center; padding:40px 20px; color:var(--muted); font-size:13.5px; }
@@ -2003,19 +2018,18 @@ function openAgendaModal() {
 
 // ==================== Carte de lieu réutilisable (liste, recherche accueil, collections) ====================
 function placeCardHTML(p) {
-  const budgetLabel = k => t('budget_'+k);
-  const dureeLabel = k => t('duree_'+k);
+  const terr = TERRITOIRES.find(x => x.key === p.t);
+  const emoji = (p.v[0] && (VIBES.find(x => x.key === p.v[0]) || {}).e) || (terr ? terr.stamp : '🌴');
+  const nomAttr = p.nom.replace(/"/g,'&quot;');
   return `
-    <div class="place" data-open="${p.nom.replace(/"/g,'&quot;')}" style="cursor:pointer;">
-      <span class="tab">${p.z}</span>
-      <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${p.nom.replace(/"/g,'&quot;')}">${isFav(p.nom)?'❤️':'🤍'}</button>
-      <p class="nom">${p.nom}</p>
-      ${p.typeKey ? `<p class="loc">${t('type_'+p.typeKey)}</p>` : ''}
-      <div class="vibes">
-        ${p.v.map(v => `<span class="chip-vibe">${VIBES.find(x=>x.key===v).e} ${t('vibe_'+v)}</span>`).join('')}
-        <span class="chip-meta">${budgetLabel(p.budget)}</span>
-        <span class="chip-meta">${dureeLabel(p.duree)}</span>
-        ${p.communautaire ? `<span class="chip-meta" style="background:var(--brand-blue-soft); color:var(--brand-blue);">${t('communautaireBadge')}</span>` : ''}
+    <div class="place pcard" data-open="${nomAttr}" style="cursor:pointer;">
+      <div class="pcard-bg" style="background:${terr ? terr.grad : 'var(--brand-green)'};">${emoji}</div>
+      ${p.typeKey ? `<span class="pcard-badge-cat">${t('type_'+p.typeKey)}</span>` : ''}
+      ${p.communautaire ? `<span class="pcard-badge-comm">${t('communautaireBadge')}</span>` : ''}
+      <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${nomAttr}">${isFav(p.nom)?'❤️':'🤍'}</button>
+      <div class="pcard-overlay">
+        <p class="pcard-nom">${p.nom}</p>
+        <p class="pcard-loc">📍 ${p.z}</p>
       </div>
     </div>`;
 }
@@ -2024,6 +2038,41 @@ function wirePlaceCards(container) {
   container.querySelectorAll('.place[data-open]').forEach(el => {
     el.onclick = () => { const p = ALL_PLACES.find(x => x.nom === el.dataset.open); if (p) openPlaceDetail(p); };
   });
+  wirePlaceCardPhotos(container);
+}
+// Charge les photos (Wikimedia) des cartes résultat de façon paresseuse : une
+// carte n'est récupérée qu'au moment où elle entre (ou approche) le viewport,
+// via un seul IntersectionObserver par conteneur, recréé proprement à chaque
+// appel de wirePlaceCards (filtres, favoris...) pour ne pas cumuler d'anciens
+// observers ni redéclencher un fetch pour une carte déjà traitée.
+function wirePlaceCardPhotos(container) {
+  const cards = container.querySelectorAll('.place.pcard[data-open]');
+  const loadCardPhoto = (el) => {
+    const nom = el.dataset.open;
+    const p = ALL_PLACES.find(x => x.nom === nom);
+    if (!p) return;
+    fetchPlacePhotos(p).then(photos => {
+      if (!photos || !photos.length) return;
+      const bg = el.querySelector('.pcard-bg');
+      if (!bg) return;
+      bg.style.backgroundImage = `url('${photos[0].url.replace(/'/g,"%27")}')`;
+      bg.textContent = '';
+    }).catch(() => {});
+  };
+  if (container._placePhotoObserver) { container._placePhotoObserver.disconnect(); container._placePhotoObserver = null; }
+  if (typeof IntersectionObserver === 'function') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { obs.unobserve(entry.target); loadCardPhoto(entry.target); }
+      });
+    }, { rootMargin: '200px' });
+    cards.forEach(el => obs.observe(el));
+    container._placePhotoObserver = obs;
+  } else {
+    // Pas d'IntersectionObserver disponible (vieux navigateur / environnement
+    // de test) : on charge tout de suite plutôt que de ne jamais afficher de photo.
+    cards.forEach(loadCardPhoto);
+  }
 }
 // Petite carte compacte (photo remplacée par un aplat de couleur + emoji, en
 // l'absence de vraies photos par lieu) utilisée dans les rangées horizontales
