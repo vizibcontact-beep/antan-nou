@@ -498,6 +498,11 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 À ne pas manquer aujourd'hui", alertFullMoon:"Pleine lune ce soir — idéal pour une balade ou une baignade nocturne.",
     evtToussaint:"Illumination de la Toussaint", evtMarcheCacao:"Marché dominical de Cacao", evtPonteTortues:"Période de ponte des tortues luths",
     evtCarnaval:"Saison du Carnaval", evtYoles:"Tour des Yoles Rondes", evtCuisinieres:"Fête des Cuisinières", evtChanteNwel:"Période des chanté Nwel",
+    gameEventBonusBanner:"en cours — points doublés aujourd'hui !", gameBonusTag:"×2",
+    gameShareBtn:"📤 Partager", gameShareLieuxLabel:"lieux découverts", gameShareViaSuffix:"via Antan Nou",
+    gameSharePreparing:"Préparation de l'image…", gameShareDone:"Partagé !", gameShareDownloaded:"Image téléchargée !",
+    gameShareError:"Impossible de générer l'image de partage.",
+    gameBadgesTitle:"🏅 Badges de territoire", gameBadgeComplete:"Complet !",
     brandTagline:"Nos lieux. Nos histoires. Nos sorties.", homeHeroSub:"La Caraïbe comme tu ne l'as jamais explorée.",
     homeSearchLabel:"Que cherches-tu ?", homeSearchPlaceholder:"Une sortie, un lieu, une activité...",
     geoTitle:"📍 Que faire autour de moi ?", geoUseBtn:"Utiliser ma position", geoLoading:"Recherche de ta position...",
@@ -588,6 +593,11 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 Don't miss today", alertFullMoon:"Full moon tonight — perfect for a night walk or a swim.",
     evtToussaint:"All Saints' Day illumination", evtMarcheCacao:"Cacao Sunday market", evtPonteTortues:"Leatherback turtle nesting season",
     evtCarnaval:"Carnival season", evtYoles:"Tour des Yoles Rondes (traditional boat race)", evtCuisinieres:"Fête des Cuisinières (Cooks' Festival)", evtChanteNwel:"Chanté Nwel (Creole Christmas carols) season",
+    gameEventBonusBanner:"happening now — points doubled today!", gameBonusTag:"×2",
+    gameShareBtn:"📤 Share", gameShareLieuxLabel:"places discovered", gameShareViaSuffix:"via Antan Nou",
+    gameSharePreparing:"Preparing image…", gameShareDone:"Shared!", gameShareDownloaded:"Image downloaded!",
+    gameShareError:"Couldn't generate the share image.",
+    gameBadgesTitle:"🏅 Territory badges", gameBadgeComplete:"Complete!",
     brandTagline:"Our places. Our stories. Our outings.", homeHeroSub:"The Caribbean like you've never explored it.",
     homeSearchLabel:"What are you looking for?", homeSearchPlaceholder:"An outing, a place, an activity...",
     geoTitle:"📍 What to do nearby?", geoUseBtn:"Use my location", geoLoading:"Finding your location...",
@@ -678,6 +688,11 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 No te lo pierdas hoy", alertFullMoon:"Luna llena esta noche — ideal para un paseo o un baño nocturno.",
     evtToussaint:"Iluminación de Todos los Santos", evtMarcheCacao:"Mercado dominical de Cacao", evtPonteTortues:"Temporada de anidación de tortugas laúd",
     evtCarnaval:"Temporada de Carnaval", evtYoles:"Tour des Yoles Rondes (regata tradicional)", evtCuisinieres:"Fiesta de las Cocineras (Fête des Cuisinières)", evtChanteNwel:"Temporada de chanté Nwel (villancicos criollos)",
+    gameEventBonusBanner:"en curso — ¡puntos duplicados hoy!", gameBonusTag:"×2",
+    gameShareBtn:"📤 Compartir", gameShareLieuxLabel:"lugares descubiertos", gameShareViaSuffix:"vía Antan Nou",
+    gameSharePreparing:"Preparando imagen…", gameShareDone:"¡Compartido!", gameShareDownloaded:"¡Imagen descargada!",
+    gameShareError:"No se pudo generar la imagen para compartir.",
+    gameBadgesTitle:"🏅 Insignias de territorio", gameBadgeComplete:"¡Completo!",
     brandTagline:"Nuestros lugares. Nuestras historias. Nuestras salidas.", homeHeroSub:"El Caribe como nunca lo has explorado.",
     homeSearchLabel:"¿Qué estás buscando?", homeSearchPlaceholder:"Una salida, un lugar, una actividad...",
     geoTitle:"📍 ¿Qué hacer cerca de mí?", geoUseBtn:"Usar mi ubicación", geoLoading:"Buscando tu ubicación...",
@@ -768,6 +783,11 @@ const TRANSLATIONS = {
     alertsTitle:"🔔 Pa manké sa jodi-a", alertFullMoon:"Lalin plen aswè-a — bon moman pou an pwomnad oben an benyen anba lalin.",
     evtToussaint:"Limiè-a pou Latousen", evtMarcheCacao:"Mawché dimanch Cacao", evtPonteTortues:"Sézon tòti-a ka fè zé",
     evtCarnaval:"Sézon Kannaval", evtYoles:"Tour a Yòl Won", evtCuisinieres:"Fèt Kizinyè-a", evtChanteNwel:"Sézon chanté Nwèl",
+    gameEventBonusBanner:"ka fèt jòdi-a — pwen doublé jòdi-a !", gameBonusTag:"×2",
+    gameShareBtn:"📤 Pataj", gameShareLieuxLabel:"lyé dékouvè", gameShareViaSuffix:"an Antan Nou",
+    gameSharePreparing:"Ka préparé imaj-la…", gameShareDone:"Patajé !", gameShareDownloaded:"Imaj télédjajé !",
+    gameShareError:"Pa rivé fè imaj pataj-la.",
+    gameBadgesTitle:"🏅 Badj tèwitwa", gameBadgeComplete:"Konplé !",
     brandTagline:"Lyé nou. Istwa nou. Sòti nou.", homeHeroSub:"Karayib-la kon ou pa janmen wè'y.",
     homeSearchLabel:"Ka ou ka chèché ?", homeSearchPlaceholder:"An sòti, an lyé, an aktivité...",
     geoTitle:"📍 Ka nou ka fè toupré mwen ?", geoUseBtn:"Sèvi ak pozisyon mwen", geoLoading:"Ka chèché pozisyon'w...",
@@ -1295,11 +1315,23 @@ function loadGameEnabled() { try { return localStorage.getItem(GAME_ENABLED_KEY)
 function saveGameEnabled(v) { try { localStorage.setItem(GAME_ENABLED_KEY, v ? "1" : "0"); } catch(e){} }
 let gameEnabled = loadGameEnabled();
 
+// Chaque lieu débloqué est stocké comme { nom, bonus } — `bonus` indique s'il
+// a été débloqué pendant la fenêtre active d'un événement culturel (voir
+// isEventActive), ce qui fait que le bonus de points reste acquis même après
+// la fin de l'événement. Compatibilité ascendante : la version précédente du
+// module stockait de simples chaînes (nom du lieu) — on les normalise à la
+// lecture pour ne pas faire perdre leur progression aux joueurs déjà actifs.
 const GAME_UNLOCKED_KEY = "antan_nou_game_unlocked_v1";
-function loadGameUnlocked() { try { return JSON.parse(localStorage.getItem(GAME_UNLOCKED_KEY)) || []; } catch(e){ return []; } }
+function loadGameUnlocked() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(GAME_UNLOCKED_KEY)) || [];
+    return raw.map(entry => (typeof entry === 'string') ? { nom: entry, bonus: false } : entry);
+  } catch(e) { return []; }
+}
 function saveGameUnlocked(u) { try { localStorage.setItem(GAME_UNLOCKED_KEY, JSON.stringify(u)); } catch(e){} }
 let gameUnlocked = loadGameUnlocked();
-function isGameUnlocked(nom) { return gameUnlocked.includes(nom); }
+function isGameUnlocked(nom) { return gameUnlocked.some(e => e.nom === nom); }
+function getGameUnlockedEntry(nom) { return gameUnlocked.find(e => e.nom === nom); }
 
 // ---- Comptes (connexion / inscription / déconnexion) + synchronisation ----
 function updateAccountIcon() {
@@ -1736,25 +1768,33 @@ function getMoonPhase(date) {
   return (((diffDays % synodicMonth) + synodicMonth) % synodicMonth) / synodicMonth;
 }
 let todayAlerts = [];
+// isEventActive() centralise la logique de fenêtre de date des événements
+// culturels du champ `evenement` (utilisée par les alertes du jour ET par le
+// bonus de points du Mode Chasseur de Trésors) — une seule version de cette
+// logique pour éviter que deux copies ne divergent avec le temps.
+function isEventActive(ev, date) {
+  if (!ev) return false;
+  const d = date || new Date();
+  const day = d.getDay(), month = d.getMonth() + 1, dateNum = d.getDate();
+  if (ev.jours && ev.jours.includes(day)) return true;
+  if (ev.debutMois && (
+    (month === ev.debutMois && dateNum >= ev.debutJour && ev.debutMois === ev.finMois && dateNum <= ev.finJour) ||
+    (month === ev.debutMois && dateNum >= ev.debutJour && ev.debutMois !== ev.finMois) ||
+    (month === ev.finMois && dateNum <= ev.finJour && ev.debutMois !== ev.finMois) ||
+    (month > ev.debutMois && month < ev.finMois)
+  )) return true;
+  return false;
+}
 function computeTodayAlerts() {
   const alerts = [];
   const now = new Date();
   if (Math.abs(getMoonPhase(now) - 0.5) < 0.035) {
     alerts.push({ icon:"🌕", text: t('alertFullMoon'), place: null });
   }
-  const day = now.getDay(), month = now.getMonth() + 1, dateNum = now.getDate();
   PLACES.forEach(p => {
     const ev = p.evenement;
     if (!ev) return;
-    let active = false;
-    if (ev.jours && ev.jours.includes(day)) active = true;
-    if (ev.debutMois && (
-      (month === ev.debutMois && dateNum >= ev.debutJour && ev.debutMois === ev.finMois && dateNum <= ev.finJour) ||
-      (month === ev.debutMois && dateNum >= ev.debutJour && ev.debutMois !== ev.finMois) ||
-      (month === ev.finMois && dateNum <= ev.finJour && ev.debutMois !== ev.finMois) ||
-      (month > ev.debutMois && month < ev.finMois)
-    )) active = true;
-    if (active) alerts.push({ icon:"📅", text: `${t(ev.labelKey)} — ${p.nom}`, place: p });
+    if (isEventActive(ev, now)) alerts.push({ icon:"📅", text: `${t(ev.labelKey)} — ${p.nom}`, place: p });
   });
   todayAlerts = alerts;
   return alerts;
@@ -2499,12 +2539,43 @@ function rarityForPlace(p) {
   return 'bronze';
 }
 function gameRarityIcon(rarity) { return rarity === 'or' ? '🥇' : rarity === 'argent' ? '🥈' : '🥉'; }
+// Points d'un lieu débloqué pendant la fenêtre active d'un événement culturel
+// réel (voir isEventActive) : doublés, et le bonus reste acquis pour ce lieu
+// même après la fin de l'événement (voir la forme stockée de gameUnlocked).
+const GAME_EVENT_BONUS_MULTIPLIER = 2;
+// Bonus optionnel, purement décoratif, pour un badge de territoire/zone
+// complété à 100 % — recalculé à chaque appel à partir de gameZoneBadges(),
+// jamais stocké, pour ne jamais pouvoir se désynchroniser des lieux réellement
+// débloqués.
+const GAME_BADGE_BONUS_POINTS = 10;
 function gameTotalPoints() {
-  return gameUnlocked.reduce((sum, nom) => {
-    const p = PLACES.find(x => x.nom === nom);
+  const unlockPoints = gameUnlocked.reduce((sum, entry) => {
+    const p = PLACES.find(x => x.nom === entry.nom);
     if (!p) return sum;
-    return sum + GAME_RARITY_POINTS[rarityForPlace(p)];
+    return sum + GAME_RARITY_POINTS[rarityForPlace(p)] * (entry.bonus ? GAME_EVENT_BONUS_MULTIPLIER : 1);
   }, 0);
+  const badgePoints = gameCompletedZoneBadgesCount() * GAME_BADGE_BONUS_POINTS;
+  return unlockPoints + badgePoints;
+}
+// ---- Badges de territoire/zone (dérivés en direct de PLACES + gameUnlocked, aucun stockage dédié) ----
+function gameZoneBadges() {
+  const groups = {};
+  PLACES.forEach(p => {
+    const key = p.t + '|' + p.z;
+    if (!groups[key]) groups[key] = { t: p.t, z: p.z, total: 0, unlocked: 0 };
+    groups[key].total++;
+    if (isGameUnlocked(p.nom)) groups[key].unlocked++;
+  });
+  return Object.values(groups);
+}
+function gameZoneBadgesOrdered() {
+  const groups = gameZoneBadges();
+  return TERRITOIRES
+    .map(terr => groups.filter(g => g.t === terr.key).sort((a, b) => a.z.localeCompare(b.z)))
+    .flat();
+}
+function gameCompletedZoneBadgesCount() {
+  return gameZoneBadges().filter(g => g.total > 0 && g.unlocked === g.total).length;
 }
 function gameLevelForPoints(pts) {
   if (pts >= 150) return { key: 'gameLevelMaitre', label: t('gameLevelMaitre') };
@@ -2578,22 +2649,58 @@ function openGrimoireModal() {
       if (!items.length) return '';
       return `<div class="adv-group">
         <p class="adv-label">${terr.stamp} ${terr.label}</p>
-        ${items.map(p => `
+        ${items.map(p => {
+          const entry = getGameUnlockedEntry(p.nom);
+          const bonusTag = entry && entry.bonus ? ` <span style="display:inline-block; background:var(--warm-orange-soft); color:var(--warm-orange); font-size:10.5px; font-weight:800; padding:1px 6px; border-radius:8px; vertical-align:middle;">${t('gameBonusTag')}</span>` : '';
+          return `
           <div class="place" style="padding:12px 14px; margin-bottom:8px;">
-            <p class="nom" style="margin:0 0 2px;">${gameRarityIcon(rarityForPlace(p))} ${p.nom}</p>
+            <p class="nom" style="margin:0 0 2px;">${gameRarityIcon(rarityForPlace(p))} ${p.nom}${bonusTag}</p>
             <p class="loc" style="margin:0;">${p.z}</p>
-          </div>`).join('')}
+          </div>`;
+        }).join('')}
       </div>`;
     }).join('');
   }
   overlay.innerHTML = `<div class="modal">
     <div class="modal-head"><h3>${t('grimoireTitle')}</h3><button class="modal-close" id="closeGrimoire">✕</button></div>
-    <p class="step-sub" style="margin-bottom:14px; font-weight:700;">⭐ ${pts} ${t('grimoireTotalPoints')} — ${level.label}</p>
+    <p class="step-sub" style="margin-bottom:10px; font-weight:700;">⭐ ${pts} ${t('grimoireTotalPoints')} — ${level.label}</p>
+    <button class="btn btn-ghost" id="gameShareBtn" style="width:100%; margin-bottom:14px;">${t('gameShareBtn')}</button>
+    <p id="gameShareStatus" class="step-sub" style="margin:-8px 0 14px; min-height:1em;"></p>
     ${bodyHtml}
+    ${gameBadgesSectionHTML()}
   </div>`;
   document.body.appendChild(overlay);
   overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
   document.getElementById('closeGrimoire').onclick = () => overlay.remove();
+  const shareBtn = document.getElementById('gameShareBtn');
+  if (shareBtn) shareBtn.onclick = () => gameShareCard();
+}
+// ---- Section "Badges de territoire" (Grimoire) ----
+function gameBadgesSectionHTML() {
+  const groups = gameZoneBadgesOrdered();
+  if (!groups.length) return '';
+  return `<div class="adv-group" style="margin-top:6px;">
+    <p class="adv-label" style="margin-bottom:8px;">${t('gameBadgesTitle')}</p>
+    ${TERRITOIRES.map(terr => {
+      const terrGroups = groups.filter(g => g.t === terr.key);
+      if (!terrGroups.length) return '';
+      return `<p style="font-weight:700; font-size:12.5px; margin:10px 0 6px;">${terr.stamp} ${terr.label}</p>
+        ${terrGroups.map(g => {
+          const complete = g.total > 0 && g.unlocked === g.total;
+          const pct = g.total ? Math.round((g.unlocked / g.total) * 100) : 0;
+          return `<div style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:6px; border-radius:10px; background:${complete ? 'var(--sun-yellow-soft)' : 'var(--cream-bg)'}; border:1px solid ${complete ? 'var(--sun-yellow)' : 'var(--line)'};">
+            <span style="font-size:18px; flex-shrink:0;">${complete ? '🏅' : '⬜'}</span>
+            <div style="flex:1; min-width:0;">
+              <p style="margin:0; font-weight:700; font-size:12.5px;">${g.z}${complete ? ' — ' + t('gameBadgeComplete') : ''}</p>
+              <div style="height:5px; background:var(--line); border-radius:3px; margin-top:4px; overflow:hidden;">
+                <div style="height:100%; width:${pct}%; background:${complete ? 'var(--sun-yellow)' : 'var(--forest-teal)'};"></div>
+              </div>
+            </div>
+            <span style="font-size:11px; font-weight:700; color:var(--muted); white-space:nowrap; flex-shrink:0;">${g.unlocked}/${g.total}</span>
+          </div>`;
+        }).join('')}`;
+    }).join('')}
+  </div>`;
 }
 
 // ---- Déblocage d'un lieu (géolocalisation + distance) ----
@@ -2601,10 +2708,13 @@ function gameSectionHTML(p) {
   const rarity = rarityForPlace(p);
   const icon = gameRarityIcon(rarity);
   const unlocked = isGameUnlocked(p.nom);
+  const entry = unlocked ? getGameUnlockedEntry(p.nom) : null;
+  const eventActive = !unlocked && p.evenement && isEventActive(p.evenement, new Date());
   return `<div class="day-card" id="gameSection" style="margin-top:4px;">
     <p class="adv-label" style="margin-bottom:8px;">${icon} ${t('rarity_'+rarity)}</p>
+    ${eventActive ? `<div style="background:var(--sun-yellow-soft); border:1px solid var(--sun-yellow); border-radius:10px; padding:8px 10px; margin-bottom:10px; font-size:12.5px; font-weight:700;">🎉 ${t(p.evenement.labelKey)} ${t('gameEventBonusBanner')}</div>` : ''}
     ${unlocked ? `
-      <p style="font-weight:700; margin:0 0 8px;">${t('gameUnlockedBadge')}</p>
+      <p style="font-weight:700; margin:0 0 8px;">${t('gameUnlockedBadge')}${entry && entry.bonus ? ` <span style="display:inline-block; background:var(--warm-orange-soft); color:var(--warm-orange); font-size:10.5px; font-weight:800; padding:1px 6px; border-radius:8px; vertical-align:middle;">${t('gameBonusTag')}</span>` : ''}</p>
       <p class="adv-label" style="margin-bottom:4px;">${t('gameDiscoveryCardTitle')}</p>
       <p class="desc" style="margin-bottom:${p.conseils ? '8px' : '0'};">${placeDesc(p)}</p>
       ${p.conseils ? `<p class="desc" style="margin:0;">💡 ${p.conseils}</p>` : ''}
@@ -2637,7 +2747,8 @@ function gameAttemptUnlock(p) {
       const tol = gameToleranceMeters(p);
       if (distM <= tol) {
         if (!isGameUnlocked(p.nom)) {
-          gameUnlocked.push(p.nom);
+          const bonus = !!(p.evenement && isEventActive(p.evenement, new Date()));
+          gameUnlocked.push({ nom: p.nom, bonus });
           saveGameUnlocked(gameUnlocked);
         }
         refreshGameSection(p);
@@ -2650,6 +2761,153 @@ function gameAttemptUnlock(p) {
       if (statusEl) statusEl.innerHTML = `<p class="step-sub" style="color:var(--coral); margin:0;">${t('gameGeoDenied')}</p>`;
     }
   );
+}
+
+// ---- Partage de la carte de niveau (canvas client-side, aucun backend) ----
+// Réduit progressivement la taille de police jusqu'à ce que le texte tienne
+// dans maxWidth, puis le dessine centré en (x, y).
+function gameFitCenteredText(ctx, text, x, y, maxWidth, weight, startSize, family) {
+  let size = startSize;
+  while (size > 18) {
+    ctx.font = `${weight} ${size}px '${family}', 'Montserrat', sans-serif`;
+    if (ctx.measureText(text).width <= maxWidth) break;
+    size -= 2;
+  }
+  ctx.textAlign = 'center';
+  ctx.fillText(text, x, y);
+}
+// Génère la carte de partage 1080×1080 en Promise<HTMLCanvasElement|null> —
+// ne lève jamais : en cas d'erreur (canvas non supporté, logo introuvable...),
+// se rabat sur une carte texte seul, et en dernier recours résout `null`.
+function gameShareCardCanvas() {
+  return new Promise(resolve => {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080; canvas.height = 1080;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) { resolve(null); return; }
+
+      const rootStyle = getComputedStyle(document.documentElement);
+      const forestTeal = (rootStyle.getPropertyValue('--forest-teal') || '#093B36').trim() || '#093B36';
+      const cream = (rootStyle.getPropertyValue('--cream-bg') || '#F8F6ED').trim() || '#F8F6ED';
+      const sunYellow = (rootStyle.getPropertyValue('--sun-yellow') || '#F8A411').trim() || '#F8A411';
+      const warmOrange = (rootStyle.getPropertyValue('--warm-orange') || '#F66620').trim() || '#F66620';
+
+      const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+      grad.addColorStop(0, forestTeal);
+      grad.addColorStop(1, '#071F1A');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1080, 1080);
+
+      const pts = gameTotalPoints();
+      const level = gameLevelForPoints(pts);
+      const unlockedPlaces = PLACES.filter(p => isGameUnlocked(p.nom));
+      const territoireCounts = {};
+      unlockedPlaces.forEach(p => { territoireCounts[p.t] = (territoireCounts[p.t] || 0) + 1; });
+      const territoireLines = TERRITOIRES
+        .filter(terr => territoireCounts[terr.key])
+        .map(terr => `${territoireCounts[terr.key]} ${terr.label}`);
+
+      function drawTextAndResolve() {
+        try {
+          ctx.textAlign = 'center';
+          ctx.fillStyle = cream;
+          ctx.font = "800 62px 'Baloo 2', 'Montserrat', sans-serif";
+          ctx.fillText('ANTAN NOU', 540, 300);
+
+          ctx.fillStyle = sunYellow;
+          ctx.font = "700 26px 'Montserrat', sans-serif";
+          ctx.fillText((t('brandTagline') || '').toUpperCase(), 540, 344);
+
+          ctx.fillStyle = warmOrange;
+          gameFitCenteredText(ctx, level.label, 540, 540, 920, 800, 48, 'Baloo 2');
+
+          ctx.fillStyle = cream;
+          ctx.font = "700 42px 'Montserrat', sans-serif";
+          ctx.fillText(`⭐ ${pts} ${t('gamePointsLabel')}`, 540, 630);
+
+          ctx.font = "600 30px 'Montserrat', sans-serif";
+          ctx.fillText(`${unlockedPlaces.length} ${t('gameShareLieuxLabel')}`, 540, 678);
+
+          ctx.font = "500 26px 'Montserrat', sans-serif";
+          let y = 750;
+          territoireLines.forEach(line => { ctx.fillText(line, 540, y); y += 40; });
+
+          resolve(canvas);
+        } catch (e) {
+          resolve(canvas); // le fond + éventuellement une partie du texte suffisent déjà
+        }
+      }
+
+      try {
+        const logoImg = new Image();
+        logoImg.onload = () => {
+          try { ctx.drawImage(logoImg, 480, 70, 120, 120); } catch (e) { /* on continue sans logo */ }
+          drawTextAndResolve();
+        };
+        logoImg.onerror = () => drawTextAndResolve();
+        logoImg.src = 'assets/logo-antan-nou.svg';
+      } catch (e) {
+        drawTextAndResolve();
+      }
+    } catch (e) {
+      resolve(null);
+    }
+  });
+}
+function gameShareStatusMsg(msg) {
+  const el = document.getElementById('gameShareStatus');
+  if (el) el.textContent = msg;
+}
+// Orchestration du partage : Web Share API (fichier image) en priorité,
+// sinon téléchargement du PNG, avec repli sur le partage texte si le partage
+// de fichier spécifiquement n'est pas supporté mais que l'API existe. Ne
+// laisse jamais l'utilisateur sans retour, même si aucune API n'existe.
+async function gameShareCard() {
+  gameShareStatusMsg(t('gameSharePreparing'));
+  const canvas = await gameShareCardCanvas();
+  if (!canvas) {
+    gameShareStatusMsg(t('gameShareError'));
+    return;
+  }
+  const pts = gameTotalPoints();
+  const level = gameLevelForPoints(pts);
+  const shareText = `${level.label} — ⭐ ${pts} ${t('gamePointsLabel')} ${t('gameShareViaSuffix')}`;
+
+  canvas.toBlob(async blob => {
+    if (!blob) { gameShareStatusMsg(t('gameShareError')); return; }
+    const fileName = 'antan-nou-grimoire.png';
+    let file = null;
+    try { file = new File([blob], fileName, { type: 'image/png' }); } catch (e) { /* File non dispo : on retombera sur le téléchargement */ }
+
+    if (file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], text: shareText, title: 'Antan Nou' });
+        gameShareStatusMsg(t('gameShareDone'));
+        return;
+      } catch (e) {
+        // Partage annulé par l'utilisateur ou API indisponible au dernier moment :
+        // on retombe sur le téléchargement ci-dessous plutôt que de rester bloqué.
+      }
+    }
+
+    try {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      if (navigator.share) {
+        try { await navigator.share({ text: shareText, title: 'Antan Nou' }); }
+        catch (e) { /* partage texte facultatif : le téléchargement a déjà eu lieu */ }
+      }
+      gameShareStatusMsg(t('gameShareDownloaded'));
+    } catch (e) {
+      gameShareStatusMsg(t('gameShareError'));
+    }
+  }, 'image/png');
 }
 
 let selectedNote = 0;
