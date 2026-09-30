@@ -267,7 +267,9 @@
   /* ==================== Entête desktop (≥1024px), caché par défaut ==================== */
   .desktop-header { display:none; }
   .desktop-header-inner { display:flex; align-items:center; gap:28px; padding:12px 40px; }
-  .desktop-header .dh-brand { display:flex; align-items:center; flex:0 0 auto; }
+  .desktop-header .dh-brand { display:flex; align-items:center; flex:0 0 auto; cursor:pointer; border-radius:12px; }
+  .desktop-header .dh-brand:hover { opacity:.85; }
+  .desktop-header .dh-brand:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
   .desktop-header .dh-brand .wordmark-svg { display:block; }
   .dh-nav { display:flex; align-items:center; gap:8px; flex:1; }
   .dh-link { background:none; border:none; cursor:pointer; padding:9px 16px; border-radius:999px; font-family:var(--font-display); font-size:14px; font-weight:700; color:var(--ink); }
@@ -1755,6 +1757,7 @@ function renderDesktopHeader(active) {
   const el = document.getElementById('desktopHeader');
   if (!el) return;
   const links = [
+    { key:'home', label:t('navAccueil') },
     { key:'explorer', label:t('navExplorer') },
     { key:'carte', label:t('navCarte') },
     { key:'agenda', label:t('navAgenda') },
@@ -1763,7 +1766,7 @@ function renderDesktopHeader(active) {
   const profilIcon = '👤';
   const profilLabel = t('navProfil');
   el.innerHTML = `<div class="desktop-header-inner">
-    <div class="dh-brand">${wordmarkSVG({width:126})}</div>
+    <div class="dh-brand" id="dhBrand" role="button" tabindex="0" aria-label="${t('navAccueil')}">${wordmarkSVG({width:126})}</div>
     <nav class="dh-nav">
       ${links.map(l => `<button class="dh-link ${active===l.key?'sel':''}" data-dh="${l.key}">${l.label}</button>`).join('')}
     </nav>
@@ -1777,7 +1780,8 @@ function renderDesktopHeader(active) {
   el.querySelectorAll('.dh-link[data-dh]').forEach(btn => {
     btn.onclick = () => {
       const k = btn.dataset.dh;
-      if (k === 'explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
+      if (k === 'home') { collectionOverride = null; step = 'home'; render(); }
+      else if (k === 'explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
       else if (k === 'carte') { collectionOverride = null; if (!selT) selT = TERRITOIRES[0].key; viewMode = 'carte'; step = 3; render(); }
       else if (k === 'agenda') { openAgendaModal(); }
     };
@@ -1786,6 +1790,11 @@ function renderDesktopHeader(active) {
   const progBtn = document.getElementById('dhProgram'); if (progBtn) progBtn.onclick = openProgramModal;
   const favBtn = document.getElementById('dhFavs'); if (favBtn) favBtn.onclick = openFavsModal;
   const profBtn = document.getElementById('dhProfil'); if (profBtn) profBtn.onclick = openAccountModal;
+  const brandBtn = document.getElementById('dhBrand');
+  if (brandBtn) {
+    brandBtn.onclick = () => { collectionOverride = null; step = 'home'; render(); };
+    brandBtn.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); brandBtn.onclick(); } };
+  }
 }
 // Panneau "Agenda" (desktop) : réutilise exactement les alertes du moment
 // (pleine lune + événements culturels récurrents déjà tagués sur PLACES) —
@@ -2566,7 +2575,14 @@ function openPlaceDetail(p) {
   renderAvisForm(p);
 }
 
-document.getElementById('headerBrand').innerHTML = wordmarkSVG({width:112});
+const headerBrandEl = document.getElementById('headerBrand');
+headerBrandEl.innerHTML = wordmarkSVG({width:112});
+headerBrandEl.setAttribute('role', 'button');
+headerBrandEl.setAttribute('tabindex', '0');
+headerBrandEl.setAttribute('aria-label', t('navAccueil'));
+headerBrandEl.style.cursor = 'pointer';
+headerBrandEl.onclick = () => { collectionOverride = null; step = 'home'; render(); };
+headerBrandEl.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); headerBrandEl.onclick(); } };
 render();
 updateFavBadge();
 updateAccountIcon();
