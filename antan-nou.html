@@ -344,7 +344,7 @@
       <div class="icon-row">
         <button class="icon-btn" id="openLang" aria-label="Langue">🌐</button>
         <button class="icon-btn" id="openAccount" aria-label="Se connecter">👤</button>
-        <button class="icon-btn" id="openProgram" aria-label="Programme automatique">🗺️</button>
+        <button class="icon-btn" id="openProgram" aria-label="Programme automatique"><img src="assets/icon-programme.png" alt="" style="width:20px; height:auto; display:block;"></button>
         <button class="icon-btn" id="openFavs" aria-label="Mes favoris">❤️<span class="badge" id="favBadge" style="display:none;">0</span></button>
       </div>
     </div>
@@ -1952,7 +1952,7 @@ function renderDesktopHeader(active) {
     </nav>
     <div class="dh-actions">
       <button class="dh-action" id="dhLang">🌐 ${curLang ? curLang.label : t('navLangue')}</button>
-      <button class="dh-action" id="dhProgram">🗺️ ${t('navProgramme')}</button>
+      <button class="dh-action" id="dhProgram"><img src="assets/icon-programme.png" alt="" style="width:16px; height:auto; display:inline-block; vertical-align:-3px; margin-right:4px;"> ${t('navProgramme')}</button>
       <button class="dh-action" id="dhFavs">❤️ ${t('navFavoris')}</button>
       <button class="dh-action" id="dhProfil">${profilIcon} ${profilLabel}</button>
     </div>
