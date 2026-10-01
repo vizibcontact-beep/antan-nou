@@ -1679,7 +1679,7 @@ const LEGAL_TEXTS = {
       <p>Les fonctionnalités de compte utilisateur, d'authentification et de stockage des avis sont assurées par les services Firebase (Firebase Authentication, Cloud Firestore), fournis par Google Ireland Limited / Google LLC.</p>
       <h4>Propriété intellectuelle</h4>
       <p>Sauf mention contraire, les contenus du site (textes, structure, code source) sont la propriété de l'éditeur.</p>
-      <p>Les photographies illustrant les fiches lieux proviennent de Wikimedia Commons et sont utilisées sous des licences libres (domaine public, Creative Commons ou équivalent), selon les conditions propres à chaque média.</p>
+      <p>Les photographies illustrant les fiches lieux proviennent de Wikimedia Commons et d'Openverse (qui agrège notamment Flickr Commons et Pixabay sous licences libres) et sont utilisées sous des licences libres (domaine public, Creative Commons ou équivalent), selon les conditions propres à chaque média.</p>
       <p>Les avis et commentaires publiés par les utilisateurs restent la propriété de leurs auteurs ; en les publiant, l'utilisateur autorise leur affichage public sur le site.</p>
       <h4>Données personnelles</h4>
       <p>Pour plus de détails sur les données collectées, leur usage et vos droits, consultez notre <a href="#" data-legal-link="privacy">politique de confidentialité</a>.</p>
@@ -1737,7 +1737,7 @@ const LEGAL_TEXTS = {
       </ul>
       <p>L'éditeur se réserve le droit de modérer, modifier ou supprimer tout avis ne respectant pas ces règles, sans préavis. Un utilisateur peut demander la suppression de son propre avis en écrivant à vizib.contact@gmail.com.</p>
       <h4>Propriété intellectuelle</h4>
-      <p>Le contenu du site (textes, code, mise en forme) est la propriété de l'éditeur, à l'exception des photographies (Wikimedia Commons, sous licences libres) et des avis publiés par les utilisateurs, qui en restent les auteurs.</p>
+      <p>Le contenu du site (textes, code, mise en forme) est la propriété de l'éditeur, à l'exception des photographies (Wikimedia Commons et Openverse, sous licences libres) et des avis publiés par les utilisateurs, qui en restent les auteurs.</p>
       <h4>Responsabilité</h4>
       <p>Les informations sur les lieux (tarifs, horaires, accès) sont fournies à titre indicatif à partir de sources publiques et peuvent évoluer sans préavis. L'éditeur ne saurait être tenu responsable des conséquences d'une information devenue inexacte, ni du contenu des avis publiés par les utilisateurs. Il est recommandé de vérifier les informations importantes avant tout déplacement.</p>
       <h4>Disponibilité du service</h4>
@@ -2663,34 +2663,62 @@ function renderMapView(results) {
   if (withCoords.length === 1) mapInstance.setZoom(12);
 }
 
-// ---- Photos libres de droit (Wikimedia Commons) ----
+// ---- Photos libres de droit (Wikimedia Commons + Openverse) ----
+// Openverse agrège sous licences libres Unsplash, Pexels, Pixabay, Flickr
+// Commons et d'autres sources, sans clé API requise — complément naturel à
+// Wikimedia pour les lieux peu documentés sur Commons.
 const TERRITOIRE_SEARCH_TERM = {
   martinique: "Martinique", guadeloupe: "Guadeloupe", guyane: "French Guiana",
   "saint-martin": "Saint Martin Caribbean", "saint-barthelemy": "Saint Barthélemy",
 };
 const photoCache = {};
-async function fetchPlacePhotos(p) {
-  if (photoCache[p.nom] !== undefined) return photoCache[p.nom];
+async function fetchWikimediaPhotos(p) {
   try {
     const term = `${p.nom} ${TERRITOIRE_SEARCH_TERM[p.t] || ''}`;
     const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
     const res = await fetch(url);
     const json = await res.json();
     const pages = json.query && json.query.pages;
-    let results = [];
-    if (pages) {
-      results = Object.values(pages)
-        .map(pg => pg.imageinfo && pg.imageinfo[0])
-        .filter(Boolean)
-        .filter(info => info.url && !/\.(svg|pdf|ogv|webm|tif|tiff|djvu|xcf)$/i.test(info.url))
-        .map(info => ({ url: info.thumburl || info.url, page: info.descriptionurl || info.url }));
-    }
-    photoCache[p.nom] = results;
-    return results;
+    if (!pages) return [];
+    return Object.values(pages)
+      .map(pg => pg.imageinfo && pg.imageinfo[0])
+      .filter(Boolean)
+      .filter(info => info.url && !/\.(svg|pdf|ogv|webm|tif|tiff|djvu|xcf)$/i.test(info.url))
+      .map(info => ({ url: info.thumburl || info.url, page: info.descriptionurl || info.url, source: "Wikimedia Commons" }));
   } catch (e) {
-    photoCache[p.nom] = [];
     return [];
   }
+}
+async function fetchOpenversePhotos(p) {
+  try {
+    const term = `${p.nom} ${TERRITOIRE_SEARCH_TERM[p.t] || ''}`;
+    const url = `https://api.openverse.org/v1/images/?q=${encodeURIComponent(term)}&license_type=all-cc,publicdomain&page_size=6`;
+    const res = await fetch(url);
+    const json = await res.json();
+    const results = Array.isArray(json.results) ? json.results : [];
+    return results
+      // Wikimedia est déjà couvert par fetchWikimediaPhotos ci-dessus : on
+      // évite les doublons en ne gardant que les autres sources agrégées
+      // (Flickr, Pixabay, etc. — Unsplash/Pexels n'y figurent qu'indirectement).
+      .filter(r => r && r.url && r.source !== 'wikimedia')
+      .map(r => ({
+        url: r.thumbnail || r.url,
+        page: r.foreign_landing_url || r.url,
+        source: `Openverse${r.source ? ' · ' + r.source : ''}`,
+      }));
+  } catch (e) {
+    return [];
+  }
+}
+async function fetchPlacePhotos(p) {
+  if (photoCache[p.nom] !== undefined) return photoCache[p.nom];
+  const [wiki, openverse] = await Promise.all([
+    fetchWikimediaPhotos(p),
+    fetchOpenversePhotos(p),
+  ]);
+  const results = [...wiki, ...openverse].slice(0, 10);
+  photoCache[p.nom] = results;
+  return results;
 }
 
 // ---- Avis / notes utilisateurs (Firestore, collection "avis") ----
@@ -3741,12 +3769,14 @@ function openPlaceDetail(p) {
     if (p.communautaire && p.photoUrl) photos = [{ url: p.photoUrl, page: null }, ...(photos || [])];
     if (wrap && photos && photos.length) {
       wrap.innerHTML = photos.map(ph => `<div class="photo-slide"><img src="${ph.url}" alt="${p.nom.replace(/"/g,'&quot;')}" loading="lazy"></div>`).join('');
-      if (credit) credit.innerHTML = photos[0].page ? `<a href="${photos[0].page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 Wikimedia Commons</a>` : '';
+      if (credit) credit.innerHTML = photos[0].page ? `<a href="${photos[0].page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 ${photos[0].source || 'Wikimedia Commons'}</a>` : '';
       if (photos.length > 1 && dotsEl) {
         dotsEl.innerHTML = photos.map((_, i) => `<span class="${i===0?'active':''}"></span>`).join('');
         wrap.onscroll = () => {
-          const idx = Math.round(wrap.scrollLeft / wrap.clientWidth);
+          const idx = Math.min(photos.length - 1, Math.round(wrap.scrollLeft / wrap.clientWidth));
           dotsEl.querySelectorAll('span').forEach((d, i) => d.classList.toggle('active', i === idx));
+          const ph = photos[idx];
+          if (credit && ph) credit.innerHTML = ph.page ? `<a href="${ph.page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 ${ph.source || 'Wikimedia Commons'}</a>` : '';
         };
       }
     } else if (wrap) {
