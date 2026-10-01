@@ -510,6 +510,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Curieux", gameLevelMarcheur:"Marcheur des Mornes", gameLevelGardien:"Gardien de la Mémoire", gameLevelMaitre:"Maître de l'Histoire d'Antan",
     gamePointsLabel:"points", gameToNextLevel:"avant le niveau suivant", gameMaxLevelReached:"Niveau maximum atteint !",
     gameGrimoireBtn:"🗒️ Mon Grimoire", grimoireTitle:"Mon Grimoire", grimoireEmpty:"Aucune découverte pour l'instant — active le mode Chasseur et débloque ton premier lieu !", grimoireTotalPoints:"points",
+    gameNavExplorer:"Explorer", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
     rarity_or:"Trésor rare (or)", rarity_argent:"Trésor peu commun (argent)", rarity_bronze:"Trésor commun (bronze)",
     gameUnlockBtn:"📍 Débloquer ce lieu", gameUnlockedBadge:"✅ Débloqué", gameDiscoveryCardTitle:"Carte de découverte",
     gameTooFar:"Tu es trop loin de ce lieu pour le débloquer.", gameGeoDenied:"Géolocalisation indisponible ou refusée.",
@@ -618,6 +619,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Curious Kid", gameLevelMarcheur:"Hillside Walker", gameLevelGardien:"Keeper of Memory", gameLevelMaitre:"Master of Bygone History",
     gamePointsLabel:"points", gameToNextLevel:"to next level", gameMaxLevelReached:"Maximum level reached!",
     gameGrimoireBtn:"🗒️ My Grimoire", grimoireTitle:"My Grimoire", grimoireEmpty:"No discoveries yet — turn on Hunter mode and unlock your first place!", grimoireTotalPoints:"points",
+    gameNavExplorer:"Explore", gameNavCarnet:"Journal", gameNavBadges:"Badges",
     rarity_or:"Rare treasure (gold)", rarity_argent:"Uncommon treasure (silver)", rarity_bronze:"Common treasure (bronze)",
     gameUnlockBtn:"📍 Unlock this place", gameUnlockedBadge:"✅ Unlocked", gameDiscoveryCardTitle:"Discovery card",
     gameTooFar:"You're too far from this place to unlock it.", gameGeoDenied:"Location unavailable or denied.",
@@ -726,6 +728,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Niño Curioso", gameLevelMarcheur:"Caminante de los Mornes", gameLevelGardien:"Guardián de la Memoria", gameLevelMaitre:"Maestro de la Historia de Antaño",
     gamePointsLabel:"puntos", gameToNextLevel:"para el siguiente nivel", gameMaxLevelReached:"¡Nivel máximo alcanzado!",
     gameGrimoireBtn:"🗒️ Mi Grimorio", grimoireTitle:"Mi Grimorio", grimoireEmpty:"Todavía no hay descubrimientos — ¡activa el modo Cazador y desbloquea tu primer lugar!", grimoireTotalPoints:"puntos",
+    gameNavExplorer:"Explorar", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
     rarity_or:"Tesoro raro (oro)", rarity_argent:"Tesoro poco común (plata)", rarity_bronze:"Tesoro común (bronce)",
     gameUnlockBtn:"📍 Desbloquear este lugar", gameUnlockedBadge:"✅ Desbloqueado", gameDiscoveryCardTitle:"Tarjeta de descubrimiento",
     gameTooFar:"Estás demasiado lejos de este lugar para desbloquearlo.", gameGeoDenied:"Ubicación no disponible o denegada.",
@@ -834,6 +837,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Kirye", gameLevelMarcheur:"Machè Mòn", gameLevelGardien:"Gadyen Mémwa-a", gameLevelMaitre:"Mèt Istwa Antan",
     gamePointsLabel:"pwen", gameToNextLevel:"avan nivo aprè", gameMaxLevelReached:"Nivo maksimòm rivé !",
     gameGrimoireBtn:"🗒️ Grimwè Mwen", grimoireTitle:"Grimwè Mwen", grimoireEmpty:"Pa ni dékouvèt ankò — aktivé mòd Chasè-a é dévéwouyé pwèmyé lyé'w !", grimoireTotalPoints:"pwen",
+    gameNavExplorer:"Eksploré", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
     rarity_or:"Trézò ra (lò)", rarity_argent:"Trézò pa two komen (lajan)", rarity_bronze:"Trézò komen (bwonz)",
     gameUnlockBtn:"📍 Dévéwouyé lyé-tala", gameUnlockedBadge:"✅ Dévéwouyé", gameDiscoveryCardTitle:"Kat dékouvèt",
     gameTooFar:"Ou two lwen lyé-tala pou dévéwouyé-y.", gameGeoDenied:"Jéolokalizasyon pa disponib oben rifizé.",
@@ -1988,18 +1992,38 @@ const TABS = [
   { key:'favoris', icon:'❤️', labelKey:'navFavoris' },
   { key:'profil', icon:'👤', labelKey:'navProfil' },
 ];
+// Navigation dédiée au Mode Chasseur de Trésors (section 28 du cahier des
+// charges « Chasseur de trésors ») : remplace la barre classique quand le
+// mode est actif, pour que l'utilisateur sente qu'il est dans un univers de
+// jeu plutôt que dans l'app patrimoniale habituelle. Favoris et Profil
+// restent accessibles via les icônes d'entête (toujours visibles), et Carte
+// reste accessible via le bouton 📋/🗺️ déjà présent dans les résultats —
+// ces deux onglets sont donc libérés pour Carnet et Badges, propres au jeu.
+const GAME_TABS = [
+  { key:'g-explorer', icon:'🗺️', labelKey:'gameNavExplorer' },
+  { key:'g-carnet', icon:'📖', labelKey:'gameNavCarnet' },
+  { key:'g-badges', icon:'🏅', labelKey:'gameNavBadges' },
+  { key:'g-profil', icon:'👤', labelKey:'navProfil' },
+];
+// Les steps/vues classiques (home, explorer, carte) n'ont pas d'équivalent
+// 1:1 dans la nav jeu : on les ramène tous vers l'unique onglet Explorer du
+// Mode Chasseur pour que la bonne pastille reste active.
 function renderBottomNav(active) {
   const nav = document.getElementById('bottomNav');
-  nav.className = 'bottom-nav tab-bar';
-  nav.innerHTML = TABS.map(tb => `<button class="tab-btn ${active===tb.key?'sel':''}" data-tab="${tb.key}"><span class="tab-icon">${tb.icon}</span><span class="tab-label">${t(tb.labelKey)}</span></button>`).join('');
+  const tabs = gameEnabled ? GAME_TABS : TABS;
+  const activeKey = gameEnabled ? 'g-explorer' : active;
+  nav.className = 'bottom-nav tab-bar' + (gameEnabled ? ' tab-bar-game' : '');
+  nav.innerHTML = tabs.map(tb => `<button class="tab-btn ${activeKey===tb.key?'sel':''}" data-tab="${tb.key}"><span class="tab-icon">${tb.icon}</span><span class="tab-label">${t(tb.labelKey)}</span></button>`).join('');
   nav.querySelectorAll('.tab-btn').forEach(el => {
     el.onclick = () => {
       const k = el.dataset.tab;
       if (k === 'home') { collectionOverride = null; step = 'home'; render(); }
-      else if (k === 'explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
+      else if (k === 'explorer' || k === 'g-explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
       else if (k === 'carte') { collectionOverride = null; if (!selT) selT = TERRITOIRES[0].key; viewMode = 'carte'; step = 3; render(); }
       else if (k === 'favoris') { openFavsModal(); }
-      else if (k === 'profil') { openAccountModal(); }
+      else if (k === 'profil' || k === 'g-profil') { openAccountModal(); }
+      else if (k === 'g-carnet') { openGrimoireModal(); }
+      else if (k === 'g-badges') { openGrimoireModal('badges'); }
     };
   });
   renderDesktopHeader(active);
@@ -2013,19 +2037,28 @@ function renderBottomNav(active) {
 function renderDesktopHeader(active) {
   const el = document.getElementById('desktopHeader');
   if (!el) return;
-  const links = [
+  // En Mode Chasseur de Trésors, la même logique qu'en mobile s'applique :
+  // Carnet et Badges remplacent Accueil/Carte dans les liens de navigation,
+  // Agenda reste pertinent (événements = bonus de points) donc conservé.
+  const links = gameEnabled ? [
+    { key:'g-explorer', label:t('gameNavExplorer') },
+    { key:'g-carnet', label:t('gameNavCarnet') },
+    { key:'g-badges', label:t('gameNavBadges') },
+    { key:'agenda', label:t('navAgenda') },
+  ] : [
     { key:'home', label:t('navAccueil') },
     { key:'explorer', label:t('navExplorer') },
     { key:'carte', label:t('navCarte') },
     { key:'agenda', label:t('navAgenda') },
   ];
+  const activeKey = gameEnabled && (active === 'home' || active === 'explorer' || active === 'carte') ? 'g-explorer' : active;
   const curLang = LANGS.find(l => l.key === lang);
   const profilIcon = '👤';
   const profilLabel = t('navProfil');
   el.innerHTML = `<div class="desktop-header-inner">
     <div class="dh-brand" id="dhBrand" role="button" tabindex="0" aria-label="${t('navAccueil')}">${wordmarkSVG({width:126})}</div>
     <nav class="dh-nav">
-      ${links.map(l => `<button class="dh-link ${active===l.key?'sel':''}" data-dh="${l.key}">${l.label}</button>`).join('')}
+      ${links.map(l => `<button class="dh-link ${activeKey===l.key?'sel':''}" data-dh="${l.key}">${l.label}</button>`).join('')}
     </nav>
     <div class="dh-actions">
       <button class="dh-action" id="dhLang">🌐 ${curLang ? curLang.label : t('navLangue')}</button>
@@ -2038,9 +2071,11 @@ function renderDesktopHeader(active) {
     btn.onclick = () => {
       const k = btn.dataset.dh;
       if (k === 'home') { collectionOverride = null; step = 'home'; render(); }
-      else if (k === 'explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
+      else if (k === 'explorer' || k === 'g-explorer') { collectionOverride = null; step = selT ? 3 : 0; render(); }
       else if (k === 'carte') { collectionOverride = null; if (!selT) selT = TERRITOIRES[0].key; viewMode = 'carte'; step = 3; render(); }
       else if (k === 'agenda') { openAgendaModal(); }
+      else if (k === 'g-carnet') { openGrimoireModal(); }
+      else if (k === 'g-badges') { openGrimoireModal('badges'); }
     };
   });
   const langBtn = document.getElementById('dhLang'); if (langBtn) langBtn.onclick = () => openLangModal(false);
@@ -2851,6 +2886,10 @@ function bindGameToggleSection() {
     gameEnabled = input.checked;
     saveGameEnabled(gameEnabled);
     refreshGameToggleSectionIfOpen();
+    // Bascule immédiatement la navigation (bas + entête desktop) vers/depuis
+    // la nav dédiée au Mode Chasseur, sans fermer la fenêtre Compte ouverte
+    // (render() ne touche que #main et l'entête, jamais les modales).
+    render();
   };
   const grimBtn = document.getElementById('openGrimoireBtn');
   if (grimBtn) grimBtn.onclick = () => openGrimoireModal();
@@ -2863,7 +2902,7 @@ function refreshGameToggleSectionIfOpen() {
 }
 
 // ---- Fenêtre Grimoire (lieux débloqués en Mode Chasseur de Trésors) ----
-function openGrimoireModal() {
+function openGrimoireModal(focus) {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'grimoireOverlay';
@@ -2904,12 +2943,20 @@ function openGrimoireModal() {
   document.getElementById('closeGrimoire').onclick = () => overlay.remove();
   const shareBtn = document.getElementById('gameShareBtn');
   if (shareBtn) shareBtn.onclick = () => gameShareCard();
+  // Venant de l'onglet 🏅 Badges de la nav Chasseur de Trésors : on ouvre le
+  // même Grimoire (une seule source de vérité pour la progression) mais on
+  // scrolle directement sur la section badges, pour que le clic sur
+  // l'onglet amène bien l'utilisateur à ce qu'il est venu voir.
+  if (focus === 'badges') {
+    const badgesEl = document.getElementById('gameBadgesSection');
+    if (badgesEl && typeof badgesEl.scrollIntoView === 'function') badgesEl.scrollIntoView({ block: 'start' });
+  }
 }
 // ---- Section "Badges de territoire" (Grimoire) ----
 function gameBadgesSectionHTML() {
   const groups = gameZoneBadgesOrdered();
   if (!groups.length) return '';
-  return `<div class="adv-group" style="margin-top:6px;">
+  return `<div class="adv-group" id="gameBadgesSection" style="margin-top:6px;">
     <p class="adv-label" style="margin-bottom:8px;">${t('gameBadgesTitle')}</p>
     ${TERRITOIRES.map(terr => {
       const terrGroups = groups.filter(g => g.t === terr.key);
