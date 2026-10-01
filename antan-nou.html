@@ -224,21 +224,97 @@
   .tab-btn .tab-label { font-size:10px; font-weight:700; }
   .tab-btn.sel { color:var(--brand-green); }
 
-  /* ==================== Mode Chasseur de Trésors : "Tu es passé à côté" ==================== */
-  /* Toast flottant, discret, posé au-dessus de la nav basse (mobile) — section
-     21 du cahier des charges : signaler qu'un trésor non découvert est tout
-     proche, sans révéler lequel, pour donner envie d'aller voir. */
+  /* ==================== Mode Chasseur de Trésors ==================== */
+  /* Identité visuelle dédiée (section 5 du cahier des charges) : construite
+     à partir de la charte Antan Nou existante (forêt profonde + or du soleil)
+     plutôt que des couleurs inédites, pour garder le lien avec la marque tout
+     en créant une sous-identité plus sombre, contrastée et "carte au trésor"
+     — sans tomber dans l'esthétique enfantine. Appliquée via [data-game-mode]
+     sur <html>, posé/retiré à chaque bascule du toggle, uniquement sur les
+     surfaces propres au jeu (nav, Grimoire, panneau de distance, toasts) :
+     le reste de l'app garde sa charte claire habituelle. */
+  :root {
+    --game-bg:#0B2E29; --game-bg-2:#123F38; --game-card:#154A41;
+    --game-text:#F8F6ED; --game-muted:#B9CFC8; --game-line:rgba(248,246,237,.14);
+    --game-gold:var(--sun-yellow); --game-gold-soft:var(--sun-yellow-soft);
+  }
+  /* Nav basse mobile en Mode Chasseur : fond sombre, onglet actif doré. */
+  nav.bottom-nav.tab-bar-game { background:var(--game-bg); border-top:1px solid var(--game-line); }
+  nav.bottom-nav.tab-bar-game .tab-btn { color:var(--game-muted); }
+  nav.bottom-nav.tab-bar-game .tab-btn.sel { color:var(--game-gold); }
+  /* Entête desktop en Mode Chasseur. */
+  html[data-game-mode="1"] .desktop-header { background:var(--game-bg); }
+  html[data-game-mode="1"] .desktop-header.scrolled, html[data-game-mode="1"] .desktop-header { box-shadow:0 1px 0 rgba(0,0,0,.2); }
+  html[data-game-mode="1"] .dh-link { color:var(--game-muted); }
+  html[data-game-mode="1"] .dh-link:hover { background:rgba(248,196,42,.12); color:var(--game-gold); }
+  html[data-game-mode="1"] .dh-link.sel { background:var(--game-gold); color:var(--game-bg); }
+  .tab-btn.sel .tab-icon { transform:translateY(-1px); }
+
+  /* Panneau "distance au trésor" + fiche de jeu dans la fiche lieu (sections
+     8/11/12 du cahier des charges) : encart sombre et doré façon carte au
+     trésor, posé au milieu d'une fiche lieu par ailleurs classique. */
+  .game-card { background:var(--game-bg); color:var(--game-text); border-radius:16px; padding:16px; border-color:var(--game-line); box-shadow:none;
+    background-image:repeating-linear-gradient(135deg, rgba(248,246,237,.035) 0 2px, transparent 2px 26px); }
+  .game-card .adv-label, .game-card .desc, .game-card p { color:var(--game-text); }
+  .game-card .step-sub { color:var(--game-muted); }
+  .game-card .game-muted { color:var(--game-muted); }
+  .game-distance-panel { text-align:center; padding:10px 0 4px; }
+  .game-distance-label { font-size:12.5px; font-weight:800; letter-spacing:.02em; color:var(--game-gold); margin:0 0 6px; text-transform:uppercase; }
+  .game-distance-value { font-family:var(--font-display); font-size:34px; font-weight:900; margin:0; color:var(--game-text); }
+  .game-distance-value .unit { font-size:16px; font-weight:700; margin-left:4px; color:var(--game-muted); }
+  .btn-game { background:var(--game-gold); color:var(--game-bg); }
+  .btn-game.btn-ghost { background:transparent; border:1px solid var(--game-line); color:var(--game-text); }
+
+  /* Fenêtre Grimoire (Carnet) : même sous-identité sombre/dorée. */
+  .modal.modal-game { background:var(--game-bg); color:var(--game-text);
+    background-image:repeating-linear-gradient(135deg, rgba(248,246,237,.03) 0 2px, transparent 2px 28px); }
+  .modal.modal-game .modal-head h3, .modal.modal-game .adv-label { color:var(--game-gold); }
+  .modal.modal-game .modal-close { color:var(--game-text); }
+  .modal.modal-game .step-sub { color:var(--game-muted); }
+  .modal.modal-game .place { background:var(--game-card); }
+  .modal.modal-game .place .nom { color:var(--game-text); }
+  .modal.modal-game .place .loc { color:var(--game-muted); }
+  .modal.modal-game .btn-ghost { background:var(--game-card); color:var(--game-gold); border:1px solid var(--game-line); }
+
+  /* Toast "Tu es passé à côté" (section 21) — reste volontairement discret
+     mais avec la touche dorée de la sous-identité du jeu. */
   .game-nearby-toast { position:fixed; left:16px; right:16px; bottom:84px; max-width:448px; margin:0 auto;
-    background:var(--ink); color:white; border-radius:16px; padding:14px 16px; display:flex; align-items:center;
+    background:var(--game-bg); color:var(--game-text); border:1px solid var(--game-gold); border-radius:16px; padding:14px 16px; display:flex; align-items:center;
     gap:10px; box-shadow:0 10px 28px rgba(0,0,0,.28); z-index:900; animation:gameNearbyIn .35s ease; }
-  .game-nearby-toast .gnt-icon { font-size:22px; flex:0 0 auto; }
+  .game-nearby-toast .gnt-icon { font-size:22px; flex:0 0 auto; color:var(--game-gold); }
   .game-nearby-toast .gnt-body { flex:1; min-width:0; }
   .game-nearby-toast .gnt-title { font-size:13px; font-weight:800; margin:0 0 2px; }
   .game-nearby-toast .gnt-sub { font-size:11.5px; opacity:.8; margin:0; }
-  .game-nearby-toast .gnt-close { background:none; border:none; color:white; opacity:.7; font-size:16px; cursor:pointer; flex:0 0 auto; padding:4px; }
+  .game-nearby-toast .gnt-close { background:none; border:none; color:var(--game-text); opacity:.7; font-size:16px; cursor:pointer; flex:0 0 auto; padding:4px; }
   @keyframes gameNearbyIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
   @media (min-width: 1024px) { .game-nearby-toast { bottom:24px; } }
-  .tab-btn.sel .tab-icon { transform:translateY(-1px); }
+
+  /* Animation de découverte (section 13) : flash plein écran bref, discret
+     mais satisfaisant, qui s'efface tout seul. */
+  .game-discovery-overlay { position:fixed; inset:0; z-index:1100; display:flex; align-items:center; justify-content:center;
+    background:rgba(11,46,41,.92); animation:gameFadeIn .25s ease; cursor:pointer; }
+  .game-discovery-overlay .gdo-card { text-align:center; color:var(--game-text); padding:0 24px; animation:gameDiscoveryPop .45s cubic-bezier(.2,1.4,.4,1); }
+  .game-discovery-overlay .gdo-spark { font-size:40px; display:block; margin-bottom:8px; }
+  .game-discovery-overlay .gdo-title { font-family:var(--font-display); font-size:22px; font-weight:900; color:var(--game-gold); margin:0 0 6px; }
+  .game-discovery-overlay .gdo-name { font-size:16px; font-weight:700; margin:0 0 10px; }
+  .game-discovery-overlay .gdo-points { font-size:14px; font-weight:800; color:var(--game-gold); margin:0; }
+  @keyframes gameDiscoveryPop { from { opacity:0; transform:scale(.85); } to { opacity:1; transform:scale(1); } }
+
+  /* Entrée immersive (section 4) : jouée une fois à l'activation du mode. */
+  .game-intro-overlay { position:fixed; inset:0; z-index:1200; display:flex; align-items:center; justify-content:center;
+    background:var(--game-bg); background-image:repeating-linear-gradient(135deg, rgba(248,246,237,.04) 0 2px, transparent 2px 30px);
+    animation:gameFadeIn .3s ease; cursor:pointer; }
+  .game-intro-overlay .gio-card { text-align:center; color:var(--game-text); padding:0 32px; }
+  .game-intro-overlay .gio-from { font-family:var(--font-display); font-size:15px; font-weight:700; letter-spacing:.08em; color:var(--game-muted);
+    margin:0 0 10px; opacity:0; animation:gameIntroFrom .5s ease forwards; }
+  .game-intro-overlay .gio-title { font-family:var(--font-display); font-size:30px; font-weight:900; color:var(--game-gold); margin:0 0 14px;
+    opacity:0; animation:gameIntroTitle .6s ease .5s forwards; }
+  .game-intro-overlay .gio-tagline { font-size:15px; font-weight:600; line-height:1.5; max-width:320px; margin:0 auto; opacity:0;
+    animation:gameIntroTagline .6s ease 1.1s forwards; }
+  @keyframes gameFadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes gameIntroFrom { from { opacity:0; transform:translateY(6px); } to { opacity:.85; transform:translateY(0); } }
+  @keyframes gameIntroTitle { from { opacity:0; transform:scale(.92); } to { opacity:1; transform:scale(1); } }
+  @keyframes gameIntroTagline { from { opacity:0; } to { opacity:.9; } }
 
   .home-hero { position:relative; margin:4px -20px 0; padding:18px 24px 20px; border-radius:0 0 28px 28px; overflow:hidden; text-align:center; color:white;
     display:flex; flex-direction:column; align-items:center;
@@ -527,6 +603,8 @@ const TRANSLATIONS = {
     gameGrimoireBtn:"🗒️ Mon Grimoire", grimoireTitle:"Mon Grimoire", grimoireEmpty:"Aucune découverte pour l'instant — active le mode Chasseur et débloque ton premier lieu !", grimoireTotalPoints:"points",
     gameNavExplorer:"Explorer", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
     gameNearbyTitle:"Tu es passé tout près d'un trésor…", gameNearbySub:"Quelque chose à découvrir ici. Touche pour voir où.",
+    gameMysteryDetected:"🌫️ Mystère détecté", gameTreasureNearby:"✨ Trésor à proximité",
+    gameDiscoveredTitle:"TRÉSOR DÉCOUVERT !", gameIntroTagline:"Le patrimoine est partout. À toi de le découvrir.",
     rarity_or:"Trésor rare (or)", rarity_argent:"Trésor peu commun (argent)", rarity_bronze:"Trésor commun (bronze)",
     gameUnlockBtn:"📍 Débloquer ce lieu", gameUnlockedBadge:"✅ Débloqué", gameDiscoveryCardTitle:"Carte de découverte",
     gameTooFar:"Tu es trop loin de ce lieu pour le débloquer.", gameGeoDenied:"Géolocalisation indisponible ou refusée.",
@@ -637,6 +715,8 @@ const TRANSLATIONS = {
     gameGrimoireBtn:"🗒️ My Grimoire", grimoireTitle:"My Grimoire", grimoireEmpty:"No discoveries yet — turn on Hunter mode and unlock your first place!", grimoireTotalPoints:"points",
     gameNavExplorer:"Explore", gameNavCarnet:"Journal", gameNavBadges:"Badges",
     gameNearbyTitle:"You just walked past a treasure…", gameNearbySub:"Something to discover nearby. Tap to see where.",
+    gameMysteryDetected:"🌫️ Mystery detected", gameTreasureNearby:"✨ Treasure nearby",
+    gameDiscoveredTitle:"TREASURE FOUND!", gameIntroTagline:"Heritage is everywhere. It's yours to discover.",
     rarity_or:"Rare treasure (gold)", rarity_argent:"Uncommon treasure (silver)", rarity_bronze:"Common treasure (bronze)",
     gameUnlockBtn:"📍 Unlock this place", gameUnlockedBadge:"✅ Unlocked", gameDiscoveryCardTitle:"Discovery card",
     gameTooFar:"You're too far from this place to unlock it.", gameGeoDenied:"Location unavailable or denied.",
@@ -747,6 +827,8 @@ const TRANSLATIONS = {
     gameGrimoireBtn:"🗒️ Mi Grimorio", grimoireTitle:"Mi Grimorio", grimoireEmpty:"Todavía no hay descubrimientos — ¡activa el modo Cazador y desbloquea tu primer lugar!", grimoireTotalPoints:"puntos",
     gameNavExplorer:"Explorar", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
     gameNearbyTitle:"Acabas de pasar cerca de un tesoro…", gameNearbySub:"Hay algo por descubrir aquí cerca. Toca para ver dónde.",
+    gameMysteryDetected:"🌫️ Misterio detectado", gameTreasureNearby:"✨ Tesoro cerca",
+    gameDiscoveredTitle:"¡TESORO DESCUBIERTO!", gameIntroTagline:"El patrimonio está en todas partes. A ti te toca descubrirlo.",
     rarity_or:"Tesoro raro (oro)", rarity_argent:"Tesoro poco común (plata)", rarity_bronze:"Tesoro común (bronce)",
     gameUnlockBtn:"📍 Desbloquear este lugar", gameUnlockedBadge:"✅ Desbloqueado", gameDiscoveryCardTitle:"Tarjeta de descubrimiento",
     gameTooFar:"Estás demasiado lejos de este lugar para desbloquearlo.", gameGeoDenied:"Ubicación no disponible o denegada.",
@@ -857,6 +939,8 @@ const TRANSLATIONS = {
     gameGrimoireBtn:"🗒️ Grimwè Mwen", grimoireTitle:"Grimwè Mwen", grimoireEmpty:"Pa ni dékouvèt ankò — aktivé mòd Chasè-a é dévéwouyé pwèmyé lyé'w !", grimoireTotalPoints:"pwen",
     gameNavExplorer:"Eksploré", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
     gameNearbyTitle:"Ou sòti pasé toupré an trézò…", gameNearbySub:"Ni an biten pou dékouvè bò isi-a. Tiré pou wè koté.",
+    gameMysteryDetected:"🌫️ Mistè dékouvè", gameTreasureNearby:"✨ Trézò toupré",
+    gameDiscoveredTitle:"TRÉZÒ DÉVÉWOUYÉ !", gameIntroTagline:"Patrimwàn-an pati tout koté. A ou pou dékouvè-y.",
     rarity_or:"Trézò ra (lò)", rarity_argent:"Trézò pa two komen (lajan)", rarity_bronze:"Trézò komen (bwonz)",
     gameUnlockBtn:"📍 Dévéwouyé lyé-tala", gameUnlockedBadge:"✅ Dévéwouyé", gameDiscoveryCardTitle:"Kat dékouvèt",
     gameTooFar:"Ou two lwen lyé-tala pou dévéwouyé-y.", gameGeoDenied:"Jéolokalizasyon pa disponib oben rifizé.",
@@ -1492,6 +1576,14 @@ const GAME_ENABLED_KEY = "antan_nou_game_enabled";
 function loadGameEnabled() { try { return localStorage.getItem(GAME_ENABLED_KEY) === "1"; } catch(e){ return false; } }
 function saveGameEnabled(v) { try { localStorage.setItem(GAME_ENABLED_KEY, v ? "1" : "0"); } catch(e){} }
 let gameEnabled = loadGameEnabled();
+// Pose/retire l'attribut qui scope toute l'identité visuelle sombre/dorée du
+// Mode Chasseur (voir le bloc CSS "Mode Chasseur de Trésors") — fait ici dès
+// le chargement pour refléter l'état déjà sauvegardé, et à chaque bascule du
+// toggle ensuite (voir bindGameToggleSection).
+function applyGameModeAttribute() {
+  document.documentElement.dataset.gameMode = gameEnabled ? '1' : '0';
+}
+applyGameModeAttribute();
 
 // Chaque lieu débloqué est stocké comme { nom, bonus } — `bonus` indique s'il
 // a été débloqué pendant la fenêtre active d'un événement culturel (voir
@@ -2902,14 +2994,19 @@ function gameToggleSectionHTML() {
 function bindGameToggleSection() {
   const input = document.getElementById('gameToggleInput');
   if (input) input.onchange = () => {
+    const turningOn = input.checked && !gameEnabled;
     gameEnabled = input.checked;
     saveGameEnabled(gameEnabled);
+    applyGameModeAttribute();
     refreshGameToggleSectionIfOpen();
     // Bascule immédiatement la navigation (bas + entête desktop) vers/depuis
     // la nav dédiée au Mode Chasseur, sans fermer la fenêtre Compte ouverte
     // (render() ne touche que #main et l'entête, jamais les modales).
     render();
     syncGameNearbyWatch();
+    // Entrée immersive (section 4) : jouée uniquement à l'activation, jamais
+    // à la désactivation ni aux rendus suivants.
+    if (turningOn) showGameIntroOverlay();
   };
   const grimBtn = document.getElementById('openGrimoireBtn');
   if (grimBtn) grimBtn.onclick = () => openGrimoireModal();
@@ -2950,7 +3047,7 @@ function openGrimoireModal(focus) {
       </div>`;
     }).join('');
   }
-  overlay.innerHTML = `<div class="modal">
+  overlay.innerHTML = `<div class="modal modal-game">
     <div class="modal-head"><h3>${t('grimoireTitle')}</h3><button class="modal-close" id="closeGrimoire">✕</button></div>
     <p class="step-sub" style="margin-bottom:10px; font-weight:700;">⭐ ${pts} ${t('grimoireTotalPoints')} — ${level.label}</p>
     <button class="btn btn-ghost" id="gameShareBtn" style="width:100%; margin-bottom:14px;">${t('gameShareBtn')}</button>
@@ -3000,14 +3097,21 @@ function gameBadgesSectionHTML() {
   </div>`;
 }
 
-// ---- Déblocage d'un lieu (géolocalisation + distance) ----
+// ---- Déblocage d'un lieu (géolocalisation + distance en direct) ----
+// Tant que le lieu n'est pas débloqué, la fiche affiche un panneau "distance
+// au trésor" façon carte au trésor (sections 8/11/12 du cahier des charges) :
+// un suivi de position en tâche de fond met à jour la distance en direct, le
+// libellé passe de "Mystère détecté" à "Trésor à proximité" en approchant, et
+// le déblocage se déclenche automatiquement dès l'entrée dans le rayon — plus
+// besoin de cliquer au bon moment. Le bouton manuel reste en secours (position
+// qui tarde à se mettre à jour, navigateur sans watchPosition fiable, etc.).
 function gameSectionHTML(p) {
   const rarity = rarityForPlace(p);
   const icon = gameRarityIcon(rarity);
   const unlocked = isGameUnlocked(p.nom);
   const entry = unlocked ? getGameUnlockedEntry(p.nom) : null;
   const eventActive = !unlocked && p.evenement && isEventActive(p.evenement, new Date());
-  return `<div class="day-card" id="gameSection" style="margin-top:4px;">
+  return `<div class="day-card ${unlocked ? '' : 'game-card'}" id="gameSection" style="margin-top:4px;">
     <p class="adv-label" style="margin-bottom:8px;">${icon} ${t('rarity_'+rarity)}</p>
     ${eventActive ? `<div style="background:var(--sun-yellow-soft); border:1px solid var(--sun-yellow); border-radius:10px; padding:8px 10px; margin-bottom:10px; font-size:12.5px; font-weight:700;">🎉 ${t(p.evenement.labelKey)} ${t('gameEventBonusBanner')}</div>` : ''}
     ${unlocked ? `
@@ -3016,7 +3120,11 @@ function gameSectionHTML(p) {
       <p class="desc" style="margin-bottom:${p.conseils ? '8px' : '0'};">${placeDesc(p)}</p>
       ${p.conseils ? `<p class="desc" style="margin:0;">💡 ${p.conseils}</p>` : ''}
     ` : `
-      <button class="btn btn-primary" id="gameUnlockBtn" style="width:100%; margin-bottom:8px;">${t('gameUnlockBtn')}</button>
+      <div class="game-distance-panel" id="gameDistancePanel">
+        <p class="game-distance-label" id="gameDistanceLabel">${t('gameMysteryDetected')}</p>
+        <p class="game-distance-value" id="gameDistanceValue">···</p>
+      </div>
+      <button class="btn btn-game btn-ghost" id="gameUnlockBtn" style="width:100%; margin-top:10px;">${t('gameUnlockBtn')}</button>
       <div id="gameUnlockStatus"></div>
     `}
   </div>`;
@@ -3030,6 +3138,63 @@ function refreshGameSection(p) {
 function bindGameSection(p) {
   const btn = document.getElementById('gameUnlockBtn');
   if (btn) btn.onclick = () => gameAttemptUnlock(p);
+  // Lance le suivi en direct uniquement si le lieu reste à débloquer — une
+  // fois débloqué, gameSectionHTML ne régénère plus ce panneau et il n'y a
+  // plus rien à suivre.
+  if (!isGameUnlocked(p.nom)) startGameDetailDistanceWatch(p);
+  else stopGameDetailDistanceWatch();
+}
+// Marque un lieu comme débloqué (partagé entre le suivi automatique et le
+// bouton manuel) et renvoie les points gagnés, pour l'animation de découverte.
+function gameMarkUnlocked(p) {
+  const alreadyUnlocked = isGameUnlocked(p.nom);
+  const bonus = !!(p.evenement && isEventActive(p.evenement, new Date()));
+  if (!alreadyUnlocked) {
+    gameUnlocked.push({ nom: p.nom, bonus });
+    saveGameUnlocked(gameUnlocked);
+  }
+  return { alreadyUnlocked, points: GAME_RARITY_POINTS[rarityForPlace(p)] * (bonus ? GAME_EVENT_BONUS_MULTIPLIER : 1) };
+}
+function gameFormatDistanceLabel(distM, tol) {
+  const near = distM <= tol + GAME_NEARBY_EXTRA_METERS;
+  return { label: t(near ? 'gameTreasureNearby' : 'gameMysteryDetected'), value: `${Math.round(distM)}<span class="unit"> m</span>` };
+}
+function gameUpdateDistancePanel(p, pos) {
+  const labelEl = document.getElementById('gameDistanceLabel');
+  const valueEl = document.getElementById('gameDistanceValue');
+  if (!labelEl || !valueEl) return; // fiche fermée / section déjà changée
+  const distM = haversineKm(pos.coords.latitude, pos.coords.longitude, p.lat, p.lng) * 1000;
+  const tol = gameToleranceMeters(p);
+  if (distM <= tol) {
+    stopGameDetailDistanceWatch();
+    const { alreadyUnlocked, points } = gameMarkUnlocked(p);
+    refreshGameSection(p);
+    refreshGameToggleSectionIfOpen();
+    if (!alreadyUnlocked) gameShowDiscoveryAnimation(p, points);
+    return;
+  }
+  const { label, value } = gameFormatDistanceLabel(distM, tol);
+  labelEl.textContent = label;
+  valueEl.innerHTML = value;
+}
+let gameDetailWatchId = null;
+let gameDetailWatchPlace = null;
+function startGameDetailDistanceWatch(p) {
+  if (!navigator.geolocation) return;
+  // Déjà en train de suivre ce même lieu : rien à refaire.
+  if (gameDetailWatchId !== null && gameDetailWatchPlace === p.nom) return;
+  stopGameDetailDistanceWatch();
+  gameDetailWatchPlace = p.nom;
+  gameDetailWatchId = navigator.geolocation.watchPosition(
+    pos => gameUpdateDistancePanel(p, pos),
+    () => {}, // échec/refus silencieux ici : le bouton manuel donne le message d'erreur explicite au clic
+    { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 }
+  );
+}
+function stopGameDetailDistanceWatch() {
+  if (gameDetailWatchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(gameDetailWatchId);
+  gameDetailWatchId = null;
+  gameDetailWatchPlace = null;
 }
 function gameAttemptUnlock(p) {
   const statusEl = document.getElementById('gameUnlockStatus');
@@ -3043,13 +3208,11 @@ function gameAttemptUnlock(p) {
       const distM = haversineKm(pos.coords.latitude, pos.coords.longitude, p.lat, p.lng) * 1000;
       const tol = gameToleranceMeters(p);
       if (distM <= tol) {
-        if (!isGameUnlocked(p.nom)) {
-          const bonus = !!(p.evenement && isEventActive(p.evenement, new Date()));
-          gameUnlocked.push({ nom: p.nom, bonus });
-          saveGameUnlocked(gameUnlocked);
-        }
+        stopGameDetailDistanceWatch();
+        const { alreadyUnlocked, points } = gameMarkUnlocked(p);
         refreshGameSection(p);
         refreshGameToggleSectionIfOpen();
+        if (!alreadyUnlocked) gameShowDiscoveryAnimation(p, points);
       } else if (statusEl) {
         statusEl.innerHTML = `<p class="step-sub" style="color:var(--coral); margin:0;">${t('gameTooFar')} (${Math.round(distM)} m)</p>`;
       }
@@ -3058,6 +3221,38 @@ function gameAttemptUnlock(p) {
       if (statusEl) statusEl.innerHTML = `<p class="step-sub" style="color:var(--coral); margin:0;">${t('gameGeoDenied')}</p>`;
     }
   );
+}
+// ---- Animation de découverte (section 13) ----
+function gameShowDiscoveryAnimation(p, points) {
+  const overlay = document.createElement('div');
+  overlay.className = 'game-discovery-overlay';
+  overlay.innerHTML = `<div class="gdo-card">
+    <span class="gdo-spark">✨</span>
+    <p class="gdo-title">${t('gameDiscoveredTitle')}</p>
+    <p class="gdo-name">${p.nom}</p>
+    <p class="gdo-points">+${points} ${t('gamePointsLabel')}</p>
+  </div>`;
+  document.body.appendChild(overlay);
+  const dismiss = () => { if (document.body.contains(overlay)) overlay.remove(); };
+  overlay.onclick = dismiss;
+  setTimeout(dismiss, 1800);
+}
+// ---- Entrée immersive (section 4) ----
+// Jouée une seule fois, à l'activation du Mode Chasseur depuis la fenêtre
+// Compte — brève, et qu'on peut écourter d'un tap pour ne jamais ralentir
+// quelqu'un de pressé.
+function showGameIntroOverlay() {
+  const overlay = document.createElement('div');
+  overlay.className = 'game-intro-overlay';
+  overlay.innerHTML = `<div class="gio-card">
+    <p class="gio-from">ANTAN NOU</p>
+    <p class="gio-title">🧭 ${t('gameToggleLabel').replace(' 🗺️','')}</p>
+    <p class="gio-tagline">${t('gameIntroTagline')}</p>
+  </div>`;
+  document.body.appendChild(overlay);
+  const dismiss = () => { if (document.body.contains(overlay)) overlay.remove(); };
+  overlay.onclick = dismiss;
+  setTimeout(dismiss, 2600);
 }
 
 // ---- "Tu es passé à côté" (section 21 du cahier des charges) ----
@@ -3880,7 +4075,10 @@ function openPlaceDetail(p) {
   overlay.className = 'modal-overlay';
   overlay.id = 'placeOverlay';
   document.body.appendChild(overlay);
-  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  // Arrête le suivi de distance en direct (section jeu ci-dessous) dès que la
+  // fiche se ferme, par la croix ou en touchant hors de la modale — sinon
+  // watchPosition continuerait de tourner en arrière-plan pour rien.
+  overlay.onclick = e => { if (e.target === overlay) { stopGameDetailDistanceWatch(); overlay.remove(); } };
   const hasInfos = !!(p.tarif || p.budget !== 'gratuit' || p.difficulte || p.conseils || p.site);
   overlay.innerHTML = `<div class="modal">
     <div class="modal-head"><h3>${p.nom}</h3><button class="modal-close" id="closePlace">✕</button></div>
@@ -3915,7 +4113,7 @@ function openPlaceDetail(p) {
     </div>
     ${gameEnabled ? gameSectionHTML(p) : ''}
   </div>`;
-  document.getElementById('closePlace').onclick = () => overlay.remove();
+  document.getElementById('closePlace').onclick = () => { stopGameDetailDistanceWatch(); overlay.remove(); };
   if (gameEnabled) bindGameSection(p);
   fetchPlacePhotos(p).then(photos => {
     const wrap = document.getElementById('placePhotoWrap');
