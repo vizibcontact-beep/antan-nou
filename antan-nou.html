@@ -2109,11 +2109,12 @@ const TABS = [
 // jeu plutôt que dans l'app patrimoniale habituelle. Favoris et Profil
 // restent accessibles via les icônes d'entête (toujours visibles), et Carte
 // reste accessible via le bouton 📋/🗺️ déjà présent dans les résultats —
-// ces deux onglets sont donc libérés pour Carnet et Badges, propres au jeu.
+// cet onglet est donc libéré pour Carnet, propre au jeu. Pas d'onglet Badges
+// séparé : les badges de territoire vivent dans la section du bas du Carnet
+// (même fenêtre), un onglet dédié n'aurait fait qu'ouvrir la même modale.
 const GAME_TABS = [
   { key:'g-explorer', icon:'🗺️', labelKey:'gameNavExplorer' },
   { key:'g-carnet', icon:'📖', labelKey:'gameNavCarnet' },
-  { key:'g-badges', icon:'🏅', labelKey:'gameNavBadges' },
   { key:'g-profil', icon:'👤', labelKey:'navProfil' },
 ];
 // Les steps/vues classiques (home, explorer, carte) n'ont pas d'équivalent
@@ -2134,7 +2135,6 @@ function renderBottomNav(active) {
       else if (k === 'favoris') { openFavsModal(); }
       else if (k === 'profil' || k === 'g-profil') { openAccountModal(); }
       else if (k === 'g-carnet') { openGrimoireModal(); }
-      else if (k === 'g-badges') { openGrimoireModal('badges'); }
     };
   });
   renderDesktopHeader(active);
@@ -2149,12 +2149,12 @@ function renderDesktopHeader(active) {
   const el = document.getElementById('desktopHeader');
   if (!el) return;
   // En Mode Chasseur de Trésors, la même logique qu'en mobile s'applique :
-  // Carnet et Badges remplacent Accueil/Carte dans les liens de navigation,
+  // Carnet remplace Accueil/Carte dans les liens de navigation (les badges
+  // de territoire vivent dans cette même fenêtre, pas dans un lien à part),
   // Agenda reste pertinent (événements = bonus de points) donc conservé.
   const links = gameEnabled ? [
     { key:'g-explorer', label:t('gameNavExplorer') },
     { key:'g-carnet', label:t('gameNavCarnet') },
-    { key:'g-badges', label:t('gameNavBadges') },
     { key:'agenda', label:t('navAgenda') },
   ] : [
     { key:'home', label:t('navAccueil') },
@@ -2186,7 +2186,6 @@ function renderDesktopHeader(active) {
       else if (k === 'carte') { collectionOverride = null; if (!selT) selT = TERRITOIRES[0].key; viewMode = 'carte'; step = 3; render(); }
       else if (k === 'agenda') { openAgendaModal(); }
       else if (k === 'g-carnet') { openGrimoireModal(); }
-      else if (k === 'g-badges') { openGrimoireModal('badges'); }
     };
   });
   const langBtn = document.getElementById('dhLang'); if (langBtn) langBtn.onclick = () => openLangModal(false);
@@ -3078,19 +3077,27 @@ function gameBadgesSectionHTML() {
     ${TERRITOIRES.map(terr => {
       const terrGroups = groups.filter(g => g.t === terr.key);
       if (!terrGroups.length) return '';
-      return `<p style="font-weight:700; font-size:12.5px; margin:10px 0 6px;">${terr.stamp} ${terr.label}</p>
+      return `<p style="font-weight:700; font-size:12.5px; margin:10px 0 6px; color:var(--game-gold);">${terr.stamp} ${terr.label}</p>
         ${terrGroups.map(g => {
           const complete = g.total > 0 && g.unlocked === g.total;
           const pct = g.total ? Math.round((g.unlocked / g.total) * 100) : 0;
-          return `<div style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:6px; border-radius:10px; background:${complete ? 'var(--sun-yellow-soft)' : 'var(--cream-bg)'}; border:1px solid ${complete ? 'var(--sun-yellow)' : 'var(--line)'};">
+          // Couleurs posées en dur (pas de var(--cream-bg)/var(--muted) ici) :
+          // ce bloc ne s'affiche que dans le Grimoire, toujours sombre
+          // (.modal-game) — un badge clair sur fond clair le rendrait
+          // invisible, comme c'était le cas avant ce correctif.
+          const bg = complete ? 'var(--game-gold-soft)' : 'var(--game-card)';
+          const border = complete ? 'var(--game-gold)' : 'var(--game-line)';
+          const textColor = complete ? 'var(--game-bg)' : 'var(--game-text)';
+          const countColor = complete ? 'var(--game-bg)' : 'var(--game-muted)';
+          return `<div style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:6px; border-radius:10px; background:${bg}; border:1px solid ${border};">
             <span style="font-size:18px; flex-shrink:0;">${complete ? '🏅' : '⬜'}</span>
             <div style="flex:1; min-width:0;">
-              <p style="margin:0; font-weight:700; font-size:12.5px;">${g.z}${complete ? ' — ' + t('gameBadgeComplete') : ''}</p>
-              <div style="height:5px; background:var(--line); border-radius:3px; margin-top:4px; overflow:hidden;">
-                <div style="height:100%; width:${pct}%; background:${complete ? 'var(--sun-yellow)' : 'var(--forest-teal)'};"></div>
+              <p style="margin:0; font-weight:700; font-size:12.5px; color:${textColor};">${g.z}${complete ? ' — ' + t('gameBadgeComplete') : ''}</p>
+              <div style="height:5px; background:var(--game-line); border-radius:3px; margin-top:4px; overflow:hidden;">
+                <div style="height:100%; width:${pct}%; background:var(--game-gold);"></div>
               </div>
             </div>
-            <span style="font-size:11px; font-weight:700; color:var(--muted); white-space:nowrap; flex-shrink:0;">${g.unlocked}/${g.total}</span>
+            <span style="font-size:11px; font-weight:700; color:${countColor}; white-space:nowrap; flex-shrink:0;">${g.unlocked}/${g.total}</span>
           </div>`;
         }).join('')}`;
     }).join('')}
