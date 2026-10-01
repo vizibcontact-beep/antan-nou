@@ -223,6 +223,21 @@
   .tab-btn .tab-icon { font-size:19px; line-height:1; }
   .tab-btn .tab-label { font-size:10px; font-weight:700; }
   .tab-btn.sel { color:var(--brand-green); }
+
+  /* ==================== Mode Chasseur de Trésors : "Tu es passé à côté" ==================== */
+  /* Toast flottant, discret, posé au-dessus de la nav basse (mobile) — section
+     21 du cahier des charges : signaler qu'un trésor non découvert est tout
+     proche, sans révéler lequel, pour donner envie d'aller voir. */
+  .game-nearby-toast { position:fixed; left:16px; right:16px; bottom:84px; max-width:448px; margin:0 auto;
+    background:var(--ink); color:white; border-radius:16px; padding:14px 16px; display:flex; align-items:center;
+    gap:10px; box-shadow:0 10px 28px rgba(0,0,0,.28); z-index:900; animation:gameNearbyIn .35s ease; }
+  .game-nearby-toast .gnt-icon { font-size:22px; flex:0 0 auto; }
+  .game-nearby-toast .gnt-body { flex:1; min-width:0; }
+  .game-nearby-toast .gnt-title { font-size:13px; font-weight:800; margin:0 0 2px; }
+  .game-nearby-toast .gnt-sub { font-size:11.5px; opacity:.8; margin:0; }
+  .game-nearby-toast .gnt-close { background:none; border:none; color:white; opacity:.7; font-size:16px; cursor:pointer; flex:0 0 auto; padding:4px; }
+  @keyframes gameNearbyIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  @media (min-width: 1024px) { .game-nearby-toast { bottom:24px; } }
   .tab-btn.sel .tab-icon { transform:translateY(-1px); }
 
   .home-hero { position:relative; margin:4px -20px 0; padding:18px 24px 20px; border-radius:0 0 28px 28px; overflow:hidden; text-align:center; color:white;
@@ -511,6 +526,7 @@ const TRANSLATIONS = {
     gamePointsLabel:"points", gameToNextLevel:"avant le niveau suivant", gameMaxLevelReached:"Niveau maximum atteint !",
     gameGrimoireBtn:"🗒️ Mon Grimoire", grimoireTitle:"Mon Grimoire", grimoireEmpty:"Aucune découverte pour l'instant — active le mode Chasseur et débloque ton premier lieu !", grimoireTotalPoints:"points",
     gameNavExplorer:"Explorer", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
+    gameNearbyTitle:"Tu es passé tout près d'un trésor…", gameNearbySub:"Quelque chose à découvrir ici. Touche pour voir où.",
     rarity_or:"Trésor rare (or)", rarity_argent:"Trésor peu commun (argent)", rarity_bronze:"Trésor commun (bronze)",
     gameUnlockBtn:"📍 Débloquer ce lieu", gameUnlockedBadge:"✅ Débloqué", gameDiscoveryCardTitle:"Carte de découverte",
     gameTooFar:"Tu es trop loin de ce lieu pour le débloquer.", gameGeoDenied:"Géolocalisation indisponible ou refusée.",
@@ -620,6 +636,7 @@ const TRANSLATIONS = {
     gamePointsLabel:"points", gameToNextLevel:"to next level", gameMaxLevelReached:"Maximum level reached!",
     gameGrimoireBtn:"🗒️ My Grimoire", grimoireTitle:"My Grimoire", grimoireEmpty:"No discoveries yet — turn on Hunter mode and unlock your first place!", grimoireTotalPoints:"points",
     gameNavExplorer:"Explore", gameNavCarnet:"Journal", gameNavBadges:"Badges",
+    gameNearbyTitle:"You just walked past a treasure…", gameNearbySub:"Something to discover nearby. Tap to see where.",
     rarity_or:"Rare treasure (gold)", rarity_argent:"Uncommon treasure (silver)", rarity_bronze:"Common treasure (bronze)",
     gameUnlockBtn:"📍 Unlock this place", gameUnlockedBadge:"✅ Unlocked", gameDiscoveryCardTitle:"Discovery card",
     gameTooFar:"You're too far from this place to unlock it.", gameGeoDenied:"Location unavailable or denied.",
@@ -729,6 +746,7 @@ const TRANSLATIONS = {
     gamePointsLabel:"puntos", gameToNextLevel:"para el siguiente nivel", gameMaxLevelReached:"¡Nivel máximo alcanzado!",
     gameGrimoireBtn:"🗒️ Mi Grimorio", grimoireTitle:"Mi Grimorio", grimoireEmpty:"Todavía no hay descubrimientos — ¡activa el modo Cazador y desbloquea tu primer lugar!", grimoireTotalPoints:"puntos",
     gameNavExplorer:"Explorar", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
+    gameNearbyTitle:"Acabas de pasar cerca de un tesoro…", gameNearbySub:"Hay algo por descubrir aquí cerca. Toca para ver dónde.",
     rarity_or:"Tesoro raro (oro)", rarity_argent:"Tesoro poco común (plata)", rarity_bronze:"Tesoro común (bronce)",
     gameUnlockBtn:"📍 Desbloquear este lugar", gameUnlockedBadge:"✅ Desbloqueado", gameDiscoveryCardTitle:"Tarjeta de descubrimiento",
     gameTooFar:"Estás demasiado lejos de este lugar para desbloquearlo.", gameGeoDenied:"Ubicación no disponible o denegada.",
@@ -838,6 +856,7 @@ const TRANSLATIONS = {
     gamePointsLabel:"pwen", gameToNextLevel:"avan nivo aprè", gameMaxLevelReached:"Nivo maksimòm rivé !",
     gameGrimoireBtn:"🗒️ Grimwè Mwen", grimoireTitle:"Grimwè Mwen", grimoireEmpty:"Pa ni dékouvèt ankò — aktivé mòd Chasè-a é dévéwouyé pwèmyé lyé'w !", grimoireTotalPoints:"pwen",
     gameNavExplorer:"Eksploré", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
+    gameNearbyTitle:"Ou sòti pasé toupré an trézò…", gameNearbySub:"Ni an biten pou dékouvè bò isi-a. Tiré pou wè koté.",
     rarity_or:"Trézò ra (lò)", rarity_argent:"Trézò pa two komen (lajan)", rarity_bronze:"Trézò komen (bwonz)",
     gameUnlockBtn:"📍 Dévéwouyé lyé-tala", gameUnlockedBadge:"✅ Dévéwouyé", gameDiscoveryCardTitle:"Kat dékouvèt",
     gameTooFar:"Ou two lwen lyé-tala pou dévéwouyé-y.", gameGeoDenied:"Jéolokalizasyon pa disponib oben rifizé.",
@@ -2890,6 +2909,7 @@ function bindGameToggleSection() {
     // la nav dédiée au Mode Chasseur, sans fermer la fenêtre Compte ouverte
     // (render() ne touche que #main et l'entête, jamais les modales).
     render();
+    syncGameNearbyWatch();
   };
   const grimBtn = document.getElementById('openGrimoireBtn');
   if (grimBtn) grimBtn.onclick = () => openGrimoireModal();
@@ -3039,6 +3059,96 @@ function gameAttemptUnlock(p) {
     }
   );
 }
+
+// ---- "Tu es passé à côté" (section 21 du cahier des charges) ----
+// Pendant que le Mode Chasseur est actif, on suit la position en tâche de
+// fond (watchPosition, basse précision pour ménager la batterie) et on
+// prévient discrètement l'utilisateur quand il passe près d'un trésor non
+// débloqué, sans jamais révéler lequel avant qu'il touche la notification —
+// l'objectif étant ce sentiment "je suis passé ici des dizaines de fois sans
+// le savoir". Zone de notification = juste au-delà du rayon de déblocage de
+// chaque lieu (gameToleranceMeters) jusqu'à GAME_NEARBY_EXTRA_METERS plus
+// loin ; en dessous de ce rayon, le lieu est de toute façon déblocable
+// directement depuis sa fiche. Valeur non codée en dur ailleurs que cette
+// constante, modifiable sans toucher à la logique.
+const GAME_NEARBY_EXTRA_METERS = 300;
+// Pour ne pas re-notifier en boucle quand on habite ou travaille près d'un
+// trésor non découvert, chaque lieu signalé entre dans un cooldown persistant
+// (localStorage) avant de pouvoir redéclencher une notification.
+const GAME_NEARBY_COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24h
+const GAME_NEARBY_NOTIFIED_KEY = "antan_nou_game_nearby_notified";
+function loadGameNearbyNotified() {
+  try { return JSON.parse(localStorage.getItem(GAME_NEARBY_NOTIFIED_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function saveGameNearbyNotified(map) {
+  try { localStorage.setItem(GAME_NEARBY_NOTIFIED_KEY, JSON.stringify(map)); } catch (e) {}
+}
+let gameNearbyNotified = loadGameNearbyNotified();
+let gameNearbyWatchId = null;
+let gameNearbyToastShowing = false;
+
+function gameNearbyOnPosition(pos) {
+  // Un toast déjà affiché : on ne va pas en empiler un deuxième par-dessus,
+  // l'utilisateur verra le prochain lieu la fois suivante.
+  if (gameNearbyToastShowing) return;
+  const now = Date.now();
+  let best = null, bestDist = Infinity;
+  for (const p of ALL_PLACES) {
+    if (!p.lat || !p.lng || isGameUnlocked(p.nom)) continue;
+    const distM = haversineKm(pos.coords.latitude, pos.coords.longitude, p.lat, p.lng) * 1000;
+    const tol = gameToleranceMeters(p);
+    if (distM <= tol || distM > tol + GAME_NEARBY_EXTRA_METERS) continue; // trop près (déblocable) ou trop loin
+    const lastNotified = gameNearbyNotified[p.nom];
+    if (lastNotified && (now - lastNotified) < GAME_NEARBY_COOLDOWN_MS) continue;
+    if (distM < bestDist) { best = p; bestDist = distM; }
+  }
+  if (best) {
+    gameNearbyNotified[best.nom] = now;
+    saveGameNearbyNotified(gameNearbyNotified);
+    showGameNearbyToast(best);
+  }
+}
+function startGameNearbyWatch() {
+  if (!navigator.geolocation || gameNearbyWatchId !== null) return;
+  gameNearbyWatchId = navigator.geolocation.watchPosition(
+    gameNearbyOnPosition,
+    () => {}, // échec/refus silencieux : ce n'est qu'une notification d'ambiance, pas une action demandée explicitement
+    { enableHighAccuracy: false, maximumAge: 60000, timeout: 20000 }
+  );
+}
+function stopGameNearbyWatch() {
+  if (gameNearbyWatchId !== null && navigator.geolocation) {
+    navigator.geolocation.clearWatch(gameNearbyWatchId);
+  }
+  gameNearbyWatchId = null;
+}
+function showGameNearbyToast(p) {
+  const existing = document.querySelector('.game-nearby-toast');
+  if (existing) existing.remove();
+  gameNearbyToastShowing = true;
+  const toast = document.createElement('div');
+  toast.className = 'game-nearby-toast';
+  toast.innerHTML = `
+    <span class="gnt-icon">🧭</span>
+    <div class="gnt-body">
+      <p class="gnt-title">${t('gameNearbyTitle')}</p>
+      <p class="gnt-sub">${t('gameNearbySub')}</p>
+    </div>
+    <button class="gnt-close" aria-label="${t('detailClose') || '✕'}">✕</button>`;
+  document.body.appendChild(toast);
+  const dismiss = () => { toast.remove(); gameNearbyToastShowing = false; };
+  toast.querySelector('.gnt-close').onclick = (e) => { e.stopPropagation(); dismiss(); };
+  toast.onclick = () => { dismiss(); openPlaceDetail(p); };
+  setTimeout(() => { if (document.body.contains(toast)) dismiss(); }, 9000);
+}
+// Démarre/arrête la surveillance en fonction de l'état du Mode Chasseur, à la
+// fois au chargement (si déjà activé depuis une session précédente) et à
+// chaque bascule du toggle.
+function syncGameNearbyWatch() {
+  if (gameEnabled) startGameNearbyWatch(); else stopGameNearbyWatch();
+}
+syncGameNearbyWatch();
 
 // ---- Partage de la carte de niveau (canvas client-side, aucun backend) ----
 // Réduit progressivement la taille de police jusqu'à ce que le texte tienne
