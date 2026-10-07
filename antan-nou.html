@@ -239,6 +239,12 @@
     --game-gold:var(--sun-yellow); --game-gold-soft:var(--sun-yellow-soft);
   }
   /* Nav basse mobile en Mode Chasseur : fond sombre, onglet actif doré. */
+  .game-hud { display:none; align-items:center; gap:10px; margin:8px 16px 0; padding:8px 12px; background:var(--game-bg); color:var(--game-text); border:1px solid var(--game-line); border-radius:14px; cursor:pointer; font-family:inherit; }
+  .game-hud .gh-level { font-size:12px; font-weight:800; color:var(--game-gold); white-space:nowrap; }
+  .game-hud .gh-bar { flex:1; min-width:40px; height:8px; background:rgba(248,246,237,.16); border-radius:99px; overflow:hidden; }
+  .game-hud .gh-fill { height:100%; background:var(--game-gold); border-radius:99px; transition:width .6s ease; }
+  .game-hud .gh-meta { font-size:11px; font-weight:700; color:var(--game-muted); white-space:nowrap; }
+  @media (prefers-reduced-motion: reduce) { .game-hud .gh-fill { transition:none; } }
   nav.bottom-nav.tab-bar-game { background:var(--game-bg); border-top:1px solid var(--game-line); }
   nav.bottom-nav.tab-bar-game .tab-btn { color:var(--game-muted); }
   nav.bottom-nav.tab-bar-game .tab-btn.sel { color:var(--game-gold); }
@@ -461,6 +467,7 @@
     <p class="step-sub" id="stepSub"></p>
   </header>
   <div class="offline-banner" id="offlineBanner" style="display:none;"></div>
+  <div class="game-hud" id="gameHud" style="display:none;"></div>
   <main id="main"></main>
   <nav class="bottom-nav" id="bottomNav"></nav>
 </div>
@@ -601,7 +608,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Curieux", gameLevelMarcheur:"Marcheur des Mornes", gameLevelGardien:"Gardien de la Mémoire", gameLevelMaitre:"Maître de l'Histoire d'Antan",
     gamePointsLabel:"points", gameToNextLevel:"avant le niveau suivant", gameMaxLevelReached:"Niveau maximum atteint !",
     gameGrimoireBtn:"🗒️ Mon Grimoire", grimoireTitle:"Mon Grimoire", grimoireEmpty:"Aucune découverte pour l'instant — active le mode Chasseur et débloque ton premier lieu !", grimoireTotalPoints:"points",
-    gameNavExplorer:"Explorer", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
+    gameNavExplorer:"Explorer", gameHudTreasures:"trésors", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
     gameNearbyTitle:"Tu es passé tout près d'un trésor…", gameNearbySub:"Quelque chose à découvrir ici. Touche pour voir où.",
     gameMysteryDetected:"🌫️ Mystère détecté", gameTreasureNearby:"✨ Trésor à proximité",
     gameDiscoveredTitle:"TRÉSOR DÉCOUVERT !", gameIntroTagline:"Le patrimoine est partout. À toi de le découvrir.",
@@ -713,7 +720,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Curious Kid", gameLevelMarcheur:"Hillside Walker", gameLevelGardien:"Keeper of Memory", gameLevelMaitre:"Master of Bygone History",
     gamePointsLabel:"points", gameToNextLevel:"to next level", gameMaxLevelReached:"Maximum level reached!",
     gameGrimoireBtn:"🗒️ My Grimoire", grimoireTitle:"My Grimoire", grimoireEmpty:"No discoveries yet — turn on Hunter mode and unlock your first place!", grimoireTotalPoints:"points",
-    gameNavExplorer:"Explore", gameNavCarnet:"Journal", gameNavBadges:"Badges",
+    gameNavExplorer:"Explore", gameHudTreasures:"treasures", gameNavCarnet:"Journal", gameNavBadges:"Badges",
     gameNearbyTitle:"You just walked past a treasure…", gameNearbySub:"Something to discover nearby. Tap to see where.",
     gameMysteryDetected:"🌫️ Mystery detected", gameTreasureNearby:"✨ Treasure nearby",
     gameDiscoveredTitle:"TREASURE FOUND!", gameIntroTagline:"Heritage is everywhere. It's yours to discover.",
@@ -825,7 +832,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Niño Curioso", gameLevelMarcheur:"Caminante de los Mornes", gameLevelGardien:"Guardián de la Memoria", gameLevelMaitre:"Maestro de la Historia de Antaño",
     gamePointsLabel:"puntos", gameToNextLevel:"para el siguiente nivel", gameMaxLevelReached:"¡Nivel máximo alcanzado!",
     gameGrimoireBtn:"🗒️ Mi Grimorio", grimoireTitle:"Mi Grimorio", grimoireEmpty:"Todavía no hay descubrimientos — ¡activa el modo Cazador y desbloquea tu primer lugar!", grimoireTotalPoints:"puntos",
-    gameNavExplorer:"Explorar", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
+    gameNavExplorer:"Explorar", gameHudTreasures:"tesoros", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
     gameNearbyTitle:"Acabas de pasar cerca de un tesoro…", gameNearbySub:"Hay algo por descubrir aquí cerca. Toca para ver dónde.",
     gameMysteryDetected:"🌫️ Misterio detectado", gameTreasureNearby:"✨ Tesoro cerca",
     gameDiscoveredTitle:"¡TESORO DESCUBIERTO!", gameIntroTagline:"El patrimonio está en todas partes. A ti te toca descubrirlo.",
@@ -937,7 +944,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Kirye", gameLevelMarcheur:"Machè Mòn", gameLevelGardien:"Gadyen Mémwa-a", gameLevelMaitre:"Mèt Istwa Antan",
     gamePointsLabel:"pwen", gameToNextLevel:"avan nivo aprè", gameMaxLevelReached:"Nivo maksimòm rivé !",
     gameGrimoireBtn:"🗒️ Grimwè Mwen", grimoireTitle:"Grimwè Mwen", grimoireEmpty:"Pa ni dékouvèt ankò — aktivé mòd Chasè-a é dévéwouyé pwèmyé lyé'w !", grimoireTotalPoints:"pwen",
-    gameNavExplorer:"Eksploré", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
+    gameNavExplorer:"Eksploré", gameHudTreasures:"trezò", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
     gameNearbyTitle:"Ou sòti pasé toupré an trézò…", gameNearbySub:"Ni an biten pou dékouvè bò isi-a. Tiré pou wè koté.",
     gameMysteryDetected:"🌫️ Mistè dékouvè", gameTreasureNearby:"✨ Trézò toupré",
     gameDiscoveredTitle:"TRÉZÒ DÉVÉWOUYÉ !", gameIntroTagline:"Patrimwàn-an pati tout koté. A ou pou dékouvè-y.",
@@ -2203,11 +2210,33 @@ const GAME_TABS = [
 // Les steps/vues classiques (home, explorer, carte) n'ont pas d'équivalent
 // 1:1 dans la nav jeu : on les ramène tous vers l'unique onglet Explorer du
 // Mode Chasseur pour que la bonne pastille reste active.
+const GAME_LEVEL_FLOORS = [0, 20, 60, 150];
+function updateGameHud() {
+  const el = document.getElementById('gameHud');
+  if (!el) return;
+  if (!gameEnabled) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  const pts = gameTotalPoints();
+  const level = gameLevelForPoints(pts);
+  const next = gameNextThreshold(pts);
+  const floor = next === null ? GAME_LEVEL_FLOORS[GAME_LEVEL_FLOORS.length - 1] : GAME_LEVEL_FLOORS.filter(f => f <= pts).pop();
+  const pct = next === null ? 100 : Math.max(0, Math.min(100, Math.round((pts - floor) / (next - floor) * 100)));
+  const count = gameUnlocked.length;
+  el.style.display = 'flex';
+  el.setAttribute('role', 'button');
+  el.setAttribute('tabindex', '0');
+  el.setAttribute('aria-label', `${level.label} — ${pts} ${t('gamePointsLabel')}, ${count} ${t('gameHudTreasures')}`);
+  el.innerHTML = `<span class="gh-level">${level.label}</span>
+    <span class="gh-bar" aria-hidden="true"><span class="gh-fill" style="width:${pct}%;"></span></span>
+    <span class="gh-meta">⭐ ${pts}${next !== null ? '/' + next : ''} · 🎒 ${count}</span>`;
+  el.onclick = () => { if (typeof openGrimoireModal === 'function') openGrimoireModal(); };
+  el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } };
+}
 function renderBottomNav(active) {
   const nav = document.getElementById('bottomNav');
   const tabs = gameEnabled ? GAME_TABS : TABS;
   const activeKey = gameEnabled ? 'g-explorer' : active;
   nav.className = 'bottom-nav tab-bar' + (gameEnabled ? ' tab-bar-game' : '');
+  updateGameHud();
   nav.innerHTML = tabs.map(tb => `<button class="tab-btn ${activeKey===tb.key?'sel':''}" data-tab="${tb.key}"><span class="tab-icon">${tb.icon}</span><span class="tab-label">${t(tb.labelKey)}</span></button>`).join('');
   nav.querySelectorAll('.tab-btn').forEach(el => {
     el.onclick = () => {
@@ -3242,6 +3271,7 @@ function gameMarkUnlocked(p) {
   if (!alreadyUnlocked) {
     gameUnlocked.push({ nom: p.nom, bonus });
     saveGameUnlocked(gameUnlocked);
+    updateGameHud();
   }
   return { alreadyUnlocked, points: GAME_RARITY_POINTS[rarityForPlace(p)] * (bonus ? GAME_EVENT_BONUS_MULTIPLIER : 1) };
 }
