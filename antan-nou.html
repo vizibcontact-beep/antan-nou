@@ -254,6 +254,10 @@
   .game-lore-sources summary { cursor:pointer; font-weight:700; }
   .game-lore-sources a { color:inherit; text-decoration:underline; word-break:break-word; }
   html[data-game-anim="off"] .game-hud .gh-fill, html[data-game-anim="off"] .game-discovery-overlay .gdo-card, html[data-game-anim="off"] .game-intro-overlay *, html[data-game-anim="off"] .game-card, html[data-game-anim="off"] .game-nearby-toast { animation:none !important; transition:none !important; }
+  .game-map-locate { position:absolute; right:10px; bottom:18px; z-index:800; width:44px; height:44px; border-radius:50%; border:1px solid #E8B84A; background:#2B2A33; color:#E8B84A; font-size:20px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.4); }
+  .game-explorer-dot { width:18px; height:18px; border-radius:50%; background:#3B82F6; border:3px solid #fff; box-shadow:0 0 0 0 rgba(59,130,246,.6); animation:gameExplorerPulse 2s infinite; }
+  @keyframes gameExplorerPulse { 0% { box-shadow:0 0 0 0 rgba(59,130,246,.6); } 70% { box-shadow:0 0 0 14px rgba(59,130,246,0); } 100% { box-shadow:0 0 0 0 rgba(59,130,246,0); } }
+  html[data-game-anim="off"] .game-explorer-dot { animation:none; }
   .game-hud { display:none; align-items:center; gap:10px; margin:8px 16px 0; padding:8px 12px; background:var(--game-bg); color:var(--game-text); border:1px solid var(--game-line); border-radius:14px; cursor:pointer; font-family:inherit; }
   .game-hud .gh-level { font-size:12px; font-weight:800; color:var(--game-gold); white-space:nowrap; }
   .game-hud .gh-bar { flex:1; min-width:40px; height:8px; background:rgba(248,246,237,.16); border-radius:99px; overflow:hidden; }
@@ -623,7 +627,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Curieux", gameLevelMarcheur:"Marcheur des Mornes", gameLevelGardien:"Gardien de la Mémoire", gameLevelMaitre:"Maître de l'Histoire d'Antan",
     gamePointsLabel:"points", gameToNextLevel:"avant le niveau suivant", gameMaxLevelReached:"Niveau maximum atteint !",
     gameGrimoireBtn:"🗒️ Mon Grimoire", grimoireTitle:"Mon Grimoire", grimoireEmpty:"Aucune découverte pour l'instant — active le mode Chasseur et débloque ton premier lieu !", grimoireTotalPoints:"points",
-    gameNavExplorer:"Explorer", gameHudTreasures:"trésors", gameQuestsTitle:"🎯 Quêtes", gameRoutesTitle:"🧭 Routes Antan Nou", gameRouteStep:"Étape", gameBdQuests:"Quêtes & routes", gameQuestFirstSteps:"Premiers pas", gameQuestGoalUnlock5:"Débloquer 5 lieux", gameQuestHistory:"Sur les traces de l'histoire", gameQuestGoalHistory3:"Découvrir 3 lieux Mémoire & patrimoine", gameQuestGoalQuiz3:"Réussir 3 quiz", gameQuestIslands:"Entre les îles", gameQuestGoalTerr2:"Débloquer un lieu dans 2 territoires", gameQuestNature:"Nature vive", gameQuestGoalNature5:"Découvrir 5 lieux Nature & sentiers", gameRoute1902:"Martinique — Sur les traces de 1902", gameRouteMemoireMq:"Martinique — Mémoire de l'esclavage", gameRouteMemoireGp:"Guadeloupe — Mémoire et résistance", gameColTitle:"📚 Collections", gameColComplete:"Collection complète !", gameColFragment:"Fragment obtenu", gameColHistoire:"Mémoire & patrimoine", gameColNature:"Nature & sentiers", gameColMer:"Plages & îles", gameColSaveurs:"Saveurs & marchés", gameColVillages:"Villages & phares", gameBdCollections:"Collections", gameProgressTitle:"📈 Ta progression", gameBdPlaces:"Lieux", gameBdQuiz:"Quiz", gameBdBadges:"Badges", gameSettingsTitle:"Réglages du jeu", gameSetVibration:"Vibration", gameSetSound:"Sons", gameSetAnimations:"Animations", gameLoreHistory:"Histoire", gameLoreAnecdote:"Le saviez-vous ?", gameQuizTitle:"Quiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Raté.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Contenu disponible en français uniquement pour le moment.", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
+    gameNavExplorer:"Explorer", gameHudTreasures:"trésors", gameMapMystery:"Trésor mystère", gameMapLocate:"Me recentrer", gameQuestsTitle:"🎯 Quêtes", gameRoutesTitle:"🧭 Routes Antan Nou", gameRouteStep:"Étape", gameBdQuests:"Quêtes & routes", gameQuestFirstSteps:"Premiers pas", gameQuestGoalUnlock5:"Débloquer 5 lieux", gameQuestHistory:"Sur les traces de l'histoire", gameQuestGoalHistory3:"Découvrir 3 lieux Mémoire & patrimoine", gameQuestGoalQuiz3:"Réussir 3 quiz", gameQuestIslands:"Entre les îles", gameQuestGoalTerr2:"Débloquer un lieu dans 2 territoires", gameQuestNature:"Nature vive", gameQuestGoalNature5:"Découvrir 5 lieux Nature & sentiers", gameRoute1902:"Martinique — Sur les traces de 1902", gameRouteMemoireMq:"Martinique — Mémoire de l'esclavage", gameRouteMemoireGp:"Guadeloupe — Mémoire et résistance", gameColTitle:"📚 Collections", gameColComplete:"Collection complète !", gameColFragment:"Fragment obtenu", gameColHistoire:"Mémoire & patrimoine", gameColNature:"Nature & sentiers", gameColMer:"Plages & îles", gameColSaveurs:"Saveurs & marchés", gameColVillages:"Villages & phares", gameBdCollections:"Collections", gameProgressTitle:"📈 Ta progression", gameBdPlaces:"Lieux", gameBdQuiz:"Quiz", gameBdBadges:"Badges", gameSettingsTitle:"Réglages du jeu", gameSetVibration:"Vibration", gameSetSound:"Sons", gameSetAnimations:"Animations", gameLoreHistory:"Histoire", gameLoreAnecdote:"Le saviez-vous ?", gameQuizTitle:"Quiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Raté.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Contenu disponible en français uniquement pour le moment.", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
     gameNearbyTitle:"Tu es passé tout près d'un trésor…", gameNearbySub:"Quelque chose à découvrir ici. Touche pour voir où.",
     gameMysteryDetected:"🌫️ Mystère détecté", gameTreasureNearby:"✨ Trésor à proximité",
     gameDiscoveredTitle:"TRÉSOR DÉCOUVERT !", gameIntroTagline:"Le patrimoine est partout. À toi de le découvrir.",
@@ -735,7 +739,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Curious Kid", gameLevelMarcheur:"Hillside Walker", gameLevelGardien:"Keeper of Memory", gameLevelMaitre:"Master of Bygone History",
     gamePointsLabel:"points", gameToNextLevel:"to next level", gameMaxLevelReached:"Maximum level reached!",
     gameGrimoireBtn:"🗒️ My Grimoire", grimoireTitle:"My Grimoire", grimoireEmpty:"No discoveries yet — turn on Hunter mode and unlock your first place!", grimoireTotalPoints:"points",
-    gameNavExplorer:"Explore", gameHudTreasures:"treasures", gameQuestsTitle:"🎯 Quests", gameRoutesTitle:"🧭 Antan Nou Routes", gameRouteStep:"Step", gameBdQuests:"Quests & routes", gameQuestFirstSteps:"First steps", gameQuestGoalUnlock5:"Unlock 5 places", gameQuestHistory:"On the trail of history", gameQuestGoalHistory3:"Discover 3 History & heritage places", gameQuestGoalQuiz3:"Pass 3 quizzes", gameQuestIslands:"Between the islands", gameQuestGoalTerr2:"Unlock a place in 2 territories", gameQuestNature:"Wild nature", gameQuestGoalNature5:"Discover 5 Nature & trails places", gameRoute1902:"Martinique — Tracing 1902", gameRouteMemoireMq:"Martinique — Memory of slavery", gameRouteMemoireGp:"Guadeloupe — Memory and resistance", gameColTitle:"📚 Collections", gameColComplete:"Collection complete!", gameColFragment:"Fragment found", gameColHistoire:"History & heritage", gameColNature:"Nature & trails", gameColMer:"Beaches & islands", gameColSaveurs:"Flavours & markets", gameColVillages:"Villages & lighthouses", gameBdCollections:"Collections", gameProgressTitle:"📈 Your progress", gameBdPlaces:"Places", gameBdQuiz:"Quiz", gameBdBadges:"Badges", gameSettingsTitle:"Game settings", gameSetVibration:"Vibration", gameSetSound:"Sounds", gameSetAnimations:"Animations", gameLoreHistory:"History", gameLoreAnecdote:"Did you know?", gameQuizTitle:"Quiz", gameQuizCorrect:"Well done!", gameQuizWrong:"Missed.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Content currently available in French only.", gameNavCarnet:"Journal", gameNavBadges:"Badges",
+    gameNavExplorer:"Explore", gameHudTreasures:"treasures", gameMapMystery:"Mystery treasure", gameMapLocate:"Recenter on me", gameQuestsTitle:"🎯 Quests", gameRoutesTitle:"🧭 Antan Nou Routes", gameRouteStep:"Step", gameBdQuests:"Quests & routes", gameQuestFirstSteps:"First steps", gameQuestGoalUnlock5:"Unlock 5 places", gameQuestHistory:"On the trail of history", gameQuestGoalHistory3:"Discover 3 History & heritage places", gameQuestGoalQuiz3:"Pass 3 quizzes", gameQuestIslands:"Between the islands", gameQuestGoalTerr2:"Unlock a place in 2 territories", gameQuestNature:"Wild nature", gameQuestGoalNature5:"Discover 5 Nature & trails places", gameRoute1902:"Martinique — Tracing 1902", gameRouteMemoireMq:"Martinique — Memory of slavery", gameRouteMemoireGp:"Guadeloupe — Memory and resistance", gameColTitle:"📚 Collections", gameColComplete:"Collection complete!", gameColFragment:"Fragment found", gameColHistoire:"History & heritage", gameColNature:"Nature & trails", gameColMer:"Beaches & islands", gameColSaveurs:"Flavours & markets", gameColVillages:"Villages & lighthouses", gameBdCollections:"Collections", gameProgressTitle:"📈 Your progress", gameBdPlaces:"Places", gameBdQuiz:"Quiz", gameBdBadges:"Badges", gameSettingsTitle:"Game settings", gameSetVibration:"Vibration", gameSetSound:"Sounds", gameSetAnimations:"Animations", gameLoreHistory:"History", gameLoreAnecdote:"Did you know?", gameQuizTitle:"Quiz", gameQuizCorrect:"Well done!", gameQuizWrong:"Missed.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Content currently available in French only.", gameNavCarnet:"Journal", gameNavBadges:"Badges",
     gameNearbyTitle:"You just walked past a treasure…", gameNearbySub:"Something to discover nearby. Tap to see where.",
     gameMysteryDetected:"🌫️ Mystery detected", gameTreasureNearby:"✨ Treasure nearby",
     gameDiscoveredTitle:"TREASURE FOUND!", gameIntroTagline:"Heritage is everywhere. It's yours to discover.",
@@ -847,7 +851,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Niño Curioso", gameLevelMarcheur:"Caminante de los Mornes", gameLevelGardien:"Guardián de la Memoria", gameLevelMaitre:"Maestro de la Historia de Antaño",
     gamePointsLabel:"puntos", gameToNextLevel:"para el siguiente nivel", gameMaxLevelReached:"¡Nivel máximo alcanzado!",
     gameGrimoireBtn:"🗒️ Mi Grimorio", grimoireTitle:"Mi Grimorio", grimoireEmpty:"Todavía no hay descubrimientos — ¡activa el modo Cazador y desbloquea tu primer lugar!", grimoireTotalPoints:"puntos",
-    gameNavExplorer:"Explorar", gameHudTreasures:"tesoros", gameQuestsTitle:"🎯 Misiones", gameRoutesTitle:"🧭 Rutas Antan Nou", gameRouteStep:"Etapa", gameBdQuests:"Misiones y rutas", gameQuestFirstSteps:"Primeros pasos", gameQuestGoalUnlock5:"Desbloquear 5 lugares", gameQuestHistory:"Tras las huellas de la historia", gameQuestGoalHistory3:"Descubrir 3 lugares de Memoria y patrimonio", gameQuestGoalQuiz3:"Acertar 3 quizzes", gameQuestIslands:"Entre las islas", gameQuestGoalTerr2:"Desbloquear un lugar en 2 territorios", gameQuestNature:"Naturaleza viva", gameQuestGoalNature5:"Descubrir 5 lugares de Naturaleza y senderos", gameRoute1902:"Martinica — Tras las huellas de 1902", gameRouteMemoireMq:"Martinica — Memoria de la esclavitud", gameRouteMemoireGp:"Guadalupe — Memoria y resistencia", gameColTitle:"📚 Colecciones", gameColComplete:"¡Colección completa!", gameColFragment:"Fragmento obtenido", gameColHistoire:"Memoria y patrimonio", gameColNature:"Naturaleza y senderos", gameColMer:"Playas e islas", gameColSaveurs:"Sabores y mercados", gameColVillages:"Pueblos y faros", gameBdCollections:"Colecciones", gameProgressTitle:"📈 Tu progreso", gameBdPlaces:"Lugares", gameBdQuiz:"Quiz", gameBdBadges:"Insignias", gameSettingsTitle:"Ajustes del juego", gameSetVibration:"Vibración", gameSetSound:"Sonidos", gameSetAnimations:"Animaciones", gameLoreHistory:"Historia", gameLoreAnecdote:"¿Sabías que…?", gameQuizTitle:"Quiz", gameQuizCorrect:"¡Bien!", gameQuizWrong:"Fallaste.", gameQuizPoints:"+{n} puntos", gameLoreSources:"Fuentes", gameLoreFrOnly:"Contenido disponible solo en francés por ahora.", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
+    gameNavExplorer:"Explorar", gameHudTreasures:"tesoros", gameMapMystery:"Tesoro misterioso", gameMapLocate:"Centrarme", gameQuestsTitle:"🎯 Misiones", gameRoutesTitle:"🧭 Rutas Antan Nou", gameRouteStep:"Etapa", gameBdQuests:"Misiones y rutas", gameQuestFirstSteps:"Primeros pasos", gameQuestGoalUnlock5:"Desbloquear 5 lugares", gameQuestHistory:"Tras las huellas de la historia", gameQuestGoalHistory3:"Descubrir 3 lugares de Memoria y patrimonio", gameQuestGoalQuiz3:"Acertar 3 quizzes", gameQuestIslands:"Entre las islas", gameQuestGoalTerr2:"Desbloquear un lugar en 2 territorios", gameQuestNature:"Naturaleza viva", gameQuestGoalNature5:"Descubrir 5 lugares de Naturaleza y senderos", gameRoute1902:"Martinica — Tras las huellas de 1902", gameRouteMemoireMq:"Martinica — Memoria de la esclavitud", gameRouteMemoireGp:"Guadalupe — Memoria y resistencia", gameColTitle:"📚 Colecciones", gameColComplete:"¡Colección completa!", gameColFragment:"Fragmento obtenido", gameColHistoire:"Memoria y patrimonio", gameColNature:"Naturaleza y senderos", gameColMer:"Playas e islas", gameColSaveurs:"Sabores y mercados", gameColVillages:"Pueblos y faros", gameBdCollections:"Colecciones", gameProgressTitle:"📈 Tu progreso", gameBdPlaces:"Lugares", gameBdQuiz:"Quiz", gameBdBadges:"Insignias", gameSettingsTitle:"Ajustes del juego", gameSetVibration:"Vibración", gameSetSound:"Sonidos", gameSetAnimations:"Animaciones", gameLoreHistory:"Historia", gameLoreAnecdote:"¿Sabías que…?", gameQuizTitle:"Quiz", gameQuizCorrect:"¡Bien!", gameQuizWrong:"Fallaste.", gameQuizPoints:"+{n} puntos", gameLoreSources:"Fuentes", gameLoreFrOnly:"Contenido disponible solo en francés por ahora.", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
     gameNearbyTitle:"Acabas de pasar cerca de un tesoro…", gameNearbySub:"Hay algo por descubrir aquí cerca. Toca para ver dónde.",
     gameMysteryDetected:"🌫️ Misterio detectado", gameTreasureNearby:"✨ Tesoro cerca",
     gameDiscoveredTitle:"¡TESORO DESCUBIERTO!", gameIntroTagline:"El patrimonio está en todas partes. A ti te toca descubrirlo.",
@@ -959,7 +963,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Kirye", gameLevelMarcheur:"Machè Mòn", gameLevelGardien:"Gadyen Mémwa-a", gameLevelMaitre:"Mèt Istwa Antan",
     gamePointsLabel:"pwen", gameToNextLevel:"avan nivo aprè", gameMaxLevelReached:"Nivo maksimòm rivé !",
     gameGrimoireBtn:"🗒️ Grimwè Mwen", grimoireTitle:"Grimwè Mwen", grimoireEmpty:"Pa ni dékouvèt ankò — aktivé mòd Chasè-a é dévéwouyé pwèmyé lyé'w !", grimoireTotalPoints:"pwen",
-    gameNavExplorer:"Eksploré", gameHudTreasures:"trezò", gameQuestsTitle:"🎯 Kèt", gameRoutesTitle:"🧭 Wout Antan Nou", gameRouteStep:"Étap", gameBdQuests:"Kèt & wout", gameQuestFirstSteps:"Premyé pa", gameQuestGoalUnlock5:"Dévéwouyé 5 plas", gameQuestHistory:"Dèyè tras listwa-la", gameQuestGoalHistory3:"Dékouvè 3 plas Mémwa & patrimwan", gameQuestGoalQuiz3:"Réisi 3 kiz", gameQuestIslands:"Ant zil-la", gameQuestGoalTerr2:"Dévéwouyé an plas adan 2 téritwa", gameQuestNature:"Latinati vivan", gameQuestGoalNature5:"Dékouvè 5 plas Latinati & santyé", gameRoute1902:"Matinik — Dèyè tras 1902", gameRouteMemoireMq:"Matinik — Mémwa lesklavaj", gameRouteMemoireGp:"Gwadloup — Mémwa é résistans", gameColTitle:"📚 Koleksyon", gameColComplete:"Koleksyon konplè !", gameColFragment:"Mòso jwenn", gameColHistoire:"Mémwa & patrimwan", gameColNature:"Latinati & santyé", gameColMer:"Plaj & zil", gameColSaveurs:"Gou & mawché", gameColVillages:"Vilaj & fa", gameBdCollections:"Koleksyon", gameProgressTitle:"📈 Pwogrésyon aw", gameBdPlaces:"Plas", gameBdQuiz:"Kiz", gameBdBadges:"Badj", gameSettingsTitle:"Réglaj jé-la", gameSetVibration:"Vibrasyon", gameSetSound:"Son", gameSetAnimations:"Animasyon", gameLoreHistory:"Listwa", gameLoreAnecdote:"Ou té sav ?", gameQuizTitle:"Kiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Pa sa.", gameQuizPoints:"+{n} pwen", gameLoreSources:"Sous", gameLoreFrOnly:"Kontni-la ka disponib an fransé sèlman pou kounyéa.", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
+    gameNavExplorer:"Eksploré", gameHudTreasures:"trezò", gameMapMystery:"Trézò mistè", gameMapLocate:"Mété mwen o mitan", gameQuestsTitle:"🎯 Kèt", gameRoutesTitle:"🧭 Wout Antan Nou", gameRouteStep:"Étap", gameBdQuests:"Kèt & wout", gameQuestFirstSteps:"Premyé pa", gameQuestGoalUnlock5:"Dévéwouyé 5 plas", gameQuestHistory:"Dèyè tras listwa-la", gameQuestGoalHistory3:"Dékouvè 3 plas Mémwa & patrimwan", gameQuestGoalQuiz3:"Réisi 3 kiz", gameQuestIslands:"Ant zil-la", gameQuestGoalTerr2:"Dévéwouyé an plas adan 2 téritwa", gameQuestNature:"Latinati vivan", gameQuestGoalNature5:"Dékouvè 5 plas Latinati & santyé", gameRoute1902:"Matinik — Dèyè tras 1902", gameRouteMemoireMq:"Matinik — Mémwa lesklavaj", gameRouteMemoireGp:"Gwadloup — Mémwa é résistans", gameColTitle:"📚 Koleksyon", gameColComplete:"Koleksyon konplè !", gameColFragment:"Mòso jwenn", gameColHistoire:"Mémwa & patrimwan", gameColNature:"Latinati & santyé", gameColMer:"Plaj & zil", gameColSaveurs:"Gou & mawché", gameColVillages:"Vilaj & fa", gameBdCollections:"Koleksyon", gameProgressTitle:"📈 Pwogrésyon aw", gameBdPlaces:"Plas", gameBdQuiz:"Kiz", gameBdBadges:"Badj", gameSettingsTitle:"Réglaj jé-la", gameSetVibration:"Vibrasyon", gameSetSound:"Son", gameSetAnimations:"Animasyon", gameLoreHistory:"Listwa", gameLoreAnecdote:"Ou té sav ?", gameQuizTitle:"Kiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Pa sa.", gameQuizPoints:"+{n} pwen", gameLoreSources:"Sous", gameLoreFrOnly:"Kontni-la ka disponib an fransé sèlman pou kounyéa.", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
     gameNearbyTitle:"Ou sòti pasé toupré an trézò…", gameNearbySub:"Ni an biten pou dékouvè bò isi-a. Tiré pou wè koté.",
     gameMysteryDetected:"🌫️ Mistè dékouvè", gameTreasureNearby:"✨ Trézò toupré",
     gameDiscoveredTitle:"TRÉZÒ DÉVÉWOUYÉ !", gameIntroTagline:"Patrimwàn-an pati tout koté. A ou pou dékouvè-y.",
@@ -2888,6 +2892,7 @@ function renderResults() {
   }
   listEl.style.display = '';
   mapEl.style.display = 'none';
+  stopGameMapWatch();
   if (mapInstance) { mapInstance.remove(); mapInstance = null; }
 
   listEl.innerHTML = results.length === 0
@@ -2905,6 +2910,49 @@ window.addEventListener('resize', () => {
   clearTimeout(mapResizeTimer);
   mapResizeTimer = setTimeout(() => { if (mapInstance) mapInstance.invalidateSize(); }, 200);
 });
+// ---- Carte dédiée au Mode Chasseur ----
+// Trésors débloqués : pastille dorée avec l'icône de rareté. Trésors à trouver :
+// pastille sombre "?" (le nom n'est pas dévoilé). Un marqueur "explorateur"
+// bleu suit la position, entouré du cercle de détection (rayon 500 m, purement
+// visuel : le déblocage réel reste à la tolérance du lieu).
+const GAME_MAP_DETECTION_RADIUS_M = 500;
+let gameMapWatchId = null, gameMapExplorer = null, gameMapCircle = null, gameMapFirstFix = true;
+function gameMapIcon(p, unlocked) {
+  const bg = unlocked ? '#E8B84A' : '#2B2A33';
+  const fg = unlocked ? '#2B2A33' : '#E8B84A';
+  const inner = unlocked ? gameRarityIcon(rarityForPlace(p)) : '?';
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:30px;height:30px;border-radius:50%;background:${bg};color:${fg};border:2px solid ${unlocked ? '#fff' : '#E8B84A'};box-shadow:0 1px 5px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;">${inner}</div>`,
+    iconSize: [30, 30], iconAnchor: [15, 15],
+  });
+}
+function stopGameMapWatch() {
+  if (gameMapWatchId !== null && navigator.geolocation) { try { navigator.geolocation.clearWatch(gameMapWatchId); } catch (e) {} }
+  gameMapWatchId = null; gameMapExplorer = null; gameMapCircle = null; gameMapFirstFix = true;
+}
+function startGameMapWatch(mapEl) {
+  if (!mapInstance || !navigator.geolocation) return;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'game-map-locate';
+  btn.setAttribute('aria-label', t('gameMapLocate'));
+  btn.textContent = '🎯';
+  btn.onclick = () => { if (gameMapExplorer && mapInstance) mapInstance.setView(gameMapExplorer.getLatLng(), Math.max(mapInstance.getZoom(), 15)); };
+  mapEl.style.position = 'relative';
+  mapEl.appendChild(btn);
+  const thisMap = mapInstance;
+  gameMapWatchId = navigator.geolocation.watchPosition(pos => {
+    if (mapInstance !== thisMap) return;
+    const ll = [pos.coords.latitude, pos.coords.longitude];
+    if (!gameMapExplorer) {
+      gameMapExplorer = L.marker(ll, { zIndexOffset: 1000, icon: L.divIcon({ className: '', html: '<div class="game-explorer-dot"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(thisMap);
+      gameMapCircle = L.circle(ll, { radius: GAME_MAP_DETECTION_RADIUS_M, color: '#E8B84A', weight: 1.5, fillColor: '#E8B84A', fillOpacity: 0.08, interactive: false }).addTo(thisMap);
+    } else {
+      gameMapExplorer.setLatLng(ll); gameMapCircle.setLatLng(ll);
+    }
+  }, () => {}, { enableHighAccuracy: false, maximumAge: 15000, timeout: 20000 });
+}
 function renderMapView(results) {
   const mapEl = document.getElementById('mapView');
   if (typeof L === 'undefined') {
@@ -2912,6 +2960,7 @@ function renderMapView(results) {
     return;
   }
   const withCoords = results.filter(p => typeof p.lat === 'number' && typeof p.lng === 'number');
+  stopGameMapWatch();
   if (mapInstance) { mapInstance.remove(); mapInstance = null; }
   mapEl.innerHTML = '';
   if (withCoords.length === 0) {
@@ -2924,8 +2973,11 @@ function renderMapView(results) {
     maxZoom: 19,
   }).addTo(mapInstance);
   const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2E2A5C';
+  stopGameMapWatch();
   const markers = withCoords.map(p => {
-    const icon = L.divIcon({
+    const unlockedHere = gameEnabled && isGameUnlocked(p.nom);
+    const lockedHere = gameEnabled && !unlockedHere;
+    const icon = gameEnabled ? gameMapIcon(p, unlockedHere) : L.divIcon({
       className: '',
       html: `<div style="width:28px;height:28px;border-radius:50% 50% 50% 0;background:${accent};transform:rotate(-45deg);border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
       iconSize: [28, 28], iconAnchor: [14, 28],
@@ -2933,7 +2985,7 @@ function renderMapView(results) {
     const marker = L.marker([p.lat, p.lng], { icon }).addTo(mapInstance);
     const popupDiv = document.createElement('div');
     popupDiv.className = 'map-popup';
-    popupDiv.innerHTML = `<p class="nom">${p.nom}</p><p style="margin:0;font-size:11.5px;color:var(--muted);">${p.z}</p><button class="open-btn">${t('detailVoir') || 'Voir la fiche'}</button>`;
+    popupDiv.innerHTML = `<p class="nom">${lockedHere ? gameRarityIcon(rarityForPlace(p)) + ' ' + t('gameMapMystery') : p.nom}</p><p style="margin:0;font-size:11.5px;color:var(--muted);">${p.z}</p><button class="open-btn">${t('detailVoir') || 'Voir la fiche'}</button>`;
     popupDiv.querySelector('.open-btn').onclick = () => openPlaceDetail(p);
     marker.bindPopup(popupDiv);
     return marker;
@@ -2941,6 +2993,7 @@ function renderMapView(results) {
   const group = L.featureGroup(markers);
   mapInstance.fitBounds(group.getBounds().pad(0.2));
   if (withCoords.length === 1) mapInstance.setZoom(12);
+  if (gameEnabled) startGameMapWatch(mapEl);
 }
 
 // ---- Photos libres de droit (Wikimedia Commons + Openverse) ----
