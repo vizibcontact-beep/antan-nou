@@ -253,6 +253,7 @@
   .game-lore-sources { margin-top:12px; font-size:12px; }
   .game-lore-sources summary { cursor:pointer; font-weight:700; }
   .game-lore-sources a { color:inherit; text-decoration:underline; word-break:break-word; }
+  html[data-game-anim="off"] .game-hud .gh-fill, html[data-game-anim="off"] .game-discovery-overlay .gdo-card, html[data-game-anim="off"] .game-intro-overlay *, html[data-game-anim="off"] .game-card, html[data-game-anim="off"] .game-nearby-toast { animation:none !important; transition:none !important; }
   .game-hud { display:none; align-items:center; gap:10px; margin:8px 16px 0; padding:8px 12px; background:var(--game-bg); color:var(--game-text); border:1px solid var(--game-line); border-radius:14px; cursor:pointer; font-family:inherit; }
   .game-hud .gh-level { font-size:12px; font-weight:800; color:var(--game-gold); white-space:nowrap; }
   .game-hud .gh-bar { flex:1; min-width:40px; height:8px; background:rgba(248,246,237,.16); border-radius:99px; overflow:hidden; }
@@ -622,7 +623,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Curieux", gameLevelMarcheur:"Marcheur des Mornes", gameLevelGardien:"Gardien de la Mémoire", gameLevelMaitre:"Maître de l'Histoire d'Antan",
     gamePointsLabel:"points", gameToNextLevel:"avant le niveau suivant", gameMaxLevelReached:"Niveau maximum atteint !",
     gameGrimoireBtn:"🗒️ Mon Grimoire", grimoireTitle:"Mon Grimoire", grimoireEmpty:"Aucune découverte pour l'instant — active le mode Chasseur et débloque ton premier lieu !", grimoireTotalPoints:"points",
-    gameNavExplorer:"Explorer", gameHudTreasures:"trésors", gameLoreHistory:"Histoire", gameLoreAnecdote:"Le saviez-vous ?", gameQuizTitle:"Quiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Raté.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Contenu disponible en français uniquement pour le moment.", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
+    gameNavExplorer:"Explorer", gameHudTreasures:"trésors", gameSettingsTitle:"Réglages du jeu", gameSetVibration:"Vibration", gameSetSound:"Sons", gameSetAnimations:"Animations", gameLoreHistory:"Histoire", gameLoreAnecdote:"Le saviez-vous ?", gameQuizTitle:"Quiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Raté.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Contenu disponible en français uniquement pour le moment.", gameNavCarnet:"Carnet", gameNavBadges:"Badges",
     gameNearbyTitle:"Tu es passé tout près d'un trésor…", gameNearbySub:"Quelque chose à découvrir ici. Touche pour voir où.",
     gameMysteryDetected:"🌫️ Mystère détecté", gameTreasureNearby:"✨ Trésor à proximité",
     gameDiscoveredTitle:"TRÉSOR DÉCOUVERT !", gameIntroTagline:"Le patrimoine est partout. À toi de le découvrir.",
@@ -734,7 +735,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Curious Kid", gameLevelMarcheur:"Hillside Walker", gameLevelGardien:"Keeper of Memory", gameLevelMaitre:"Master of Bygone History",
     gamePointsLabel:"points", gameToNextLevel:"to next level", gameMaxLevelReached:"Maximum level reached!",
     gameGrimoireBtn:"🗒️ My Grimoire", grimoireTitle:"My Grimoire", grimoireEmpty:"No discoveries yet — turn on Hunter mode and unlock your first place!", grimoireTotalPoints:"points",
-    gameNavExplorer:"Explore", gameHudTreasures:"treasures", gameLoreHistory:"History", gameLoreAnecdote:"Did you know?", gameQuizTitle:"Quiz", gameQuizCorrect:"Well done!", gameQuizWrong:"Missed.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Content currently available in French only.", gameNavCarnet:"Journal", gameNavBadges:"Badges",
+    gameNavExplorer:"Explore", gameHudTreasures:"treasures", gameSettingsTitle:"Game settings", gameSetVibration:"Vibration", gameSetSound:"Sounds", gameSetAnimations:"Animations", gameLoreHistory:"History", gameLoreAnecdote:"Did you know?", gameQuizTitle:"Quiz", gameQuizCorrect:"Well done!", gameQuizWrong:"Missed.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Content currently available in French only.", gameNavCarnet:"Journal", gameNavBadges:"Badges",
     gameNearbyTitle:"You just walked past a treasure…", gameNearbySub:"Something to discover nearby. Tap to see where.",
     gameMysteryDetected:"🌫️ Mystery detected", gameTreasureNearby:"✨ Treasure nearby",
     gameDiscoveredTitle:"TREASURE FOUND!", gameIntroTagline:"Heritage is everywhere. It's yours to discover.",
@@ -846,7 +847,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Niño Curioso", gameLevelMarcheur:"Caminante de los Mornes", gameLevelGardien:"Guardián de la Memoria", gameLevelMaitre:"Maestro de la Historia de Antaño",
     gamePointsLabel:"puntos", gameToNextLevel:"para el siguiente nivel", gameMaxLevelReached:"¡Nivel máximo alcanzado!",
     gameGrimoireBtn:"🗒️ Mi Grimorio", grimoireTitle:"Mi Grimorio", grimoireEmpty:"Todavía no hay descubrimientos — ¡activa el modo Cazador y desbloquea tu primer lugar!", grimoireTotalPoints:"puntos",
-    gameNavExplorer:"Explorar", gameHudTreasures:"tesoros", gameLoreHistory:"Historia", gameLoreAnecdote:"¿Sabías que…?", gameQuizTitle:"Quiz", gameQuizCorrect:"¡Bien!", gameQuizWrong:"Fallaste.", gameQuizPoints:"+{n} puntos", gameLoreSources:"Fuentes", gameLoreFrOnly:"Contenido disponible solo en francés por ahora.", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
+    gameNavExplorer:"Explorar", gameHudTreasures:"tesoros", gameSettingsTitle:"Ajustes del juego", gameSetVibration:"Vibración", gameSetSound:"Sonidos", gameSetAnimations:"Animaciones", gameLoreHistory:"Historia", gameLoreAnecdote:"¿Sabías que…?", gameQuizTitle:"Quiz", gameQuizCorrect:"¡Bien!", gameQuizWrong:"Fallaste.", gameQuizPoints:"+{n} puntos", gameLoreSources:"Fuentes", gameLoreFrOnly:"Contenido disponible solo en francés por ahora.", gameNavCarnet:"Diario", gameNavBadges:"Insignias",
     gameNearbyTitle:"Acabas de pasar cerca de un tesoro…", gameNearbySub:"Hay algo por descubrir aquí cerca. Toca para ver dónde.",
     gameMysteryDetected:"🌫️ Misterio detectado", gameTreasureNearby:"✨ Tesoro cerca",
     gameDiscoveredTitle:"¡TESORO DESCUBIERTO!", gameIntroTagline:"El patrimonio está en todas partes. A ti te toca descubrirlo.",
@@ -958,7 +959,7 @@ const TRANSLATIONS = {
     gameLevelTiMoun:"Ti-Moun Kirye", gameLevelMarcheur:"Machè Mòn", gameLevelGardien:"Gadyen Mémwa-a", gameLevelMaitre:"Mèt Istwa Antan",
     gamePointsLabel:"pwen", gameToNextLevel:"avan nivo aprè", gameMaxLevelReached:"Nivo maksimòm rivé !",
     gameGrimoireBtn:"🗒️ Grimwè Mwen", grimoireTitle:"Grimwè Mwen", grimoireEmpty:"Pa ni dékouvèt ankò — aktivé mòd Chasè-a é dévéwouyé pwèmyé lyé'w !", grimoireTotalPoints:"pwen",
-    gameNavExplorer:"Eksploré", gameHudTreasures:"trezò", gameLoreHistory:"Listwa", gameLoreAnecdote:"Ou té sav ?", gameQuizTitle:"Kiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Pa sa.", gameQuizPoints:"+{n} pwen", gameLoreSources:"Sous", gameLoreFrOnly:"Kontni-la ka disponib an fransé sèlman pou kounyéa.", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
+    gameNavExplorer:"Eksploré", gameHudTreasures:"trezò", gameSettingsTitle:"Réglaj jé-la", gameSetVibration:"Vibrasyon", gameSetSound:"Son", gameSetAnimations:"Animasyon", gameLoreHistory:"Listwa", gameLoreAnecdote:"Ou té sav ?", gameQuizTitle:"Kiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Pa sa.", gameQuizPoints:"+{n} pwen", gameLoreSources:"Sous", gameLoreFrOnly:"Kontni-la ka disponib an fransé sèlman pou kounyéa.", gameNavCarnet:"Kanè", gameNavBadges:"Badj",
     gameNearbyTitle:"Ou sòti pasé toupré an trézò…", gameNearbySub:"Ni an biten pou dékouvè bò isi-a. Tiré pou wè koté.",
     gameMysteryDetected:"🌫️ Mistè dékouvè", gameTreasureNearby:"✨ Trézò toupré",
     gameDiscoveredTitle:"TRÉZÒ DÉVÉWOUYÉ !", gameIntroTagline:"Patrimwàn-an pati tout koté. A ou pou dékouvè-y.",
@@ -3108,6 +3109,51 @@ const GAME_EVENT_BONUS_MULTIPLIER = 2;
 // complété à 100 % — recalculé à chaque appel à partir de gameZoneBadges(),
 // jamais stocké, pour ne jamais pouvoir se désynchroniser des lieux réellement
 // débloqués.
+// ---- Réglages du Mode Chasseur : vibration, sons, animations (tous activés par défaut) ----
+const GAME_SETTINGS_KEY = 'antan_nou_game_settings_v1';
+function loadGameSettings() {
+  const d = { vibration:true, sound:true, animations:true };
+  try {
+    const v = JSON.parse(localStorage.getItem(GAME_SETTINGS_KEY) || '{}');
+    if (v && typeof v === 'object') Object.keys(d).forEach(k => { if (typeof v[k] === 'boolean') d[k] = v[k]; });
+  } catch (e) {}
+  return d;
+}
+let gameSettings = loadGameSettings();
+function saveGameSettings() {
+  try { localStorage.setItem(GAME_SETTINGS_KEY, JSON.stringify(gameSettings)); } catch (e) {}
+}
+function applyGameAnimAttribute() {
+  document.documentElement.setAttribute('data-game-anim', gameSettings.animations ? 'on' : 'off');
+}
+let gameAudioCtx = null;
+function gamePlayTones(freqs) {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    if (!gameAudioCtx) gameAudioCtx = new AC();
+    const ctx = gameAudioCtx;
+    if (ctx.state === 'suspended' && ctx.resume) ctx.resume();
+    freqs.forEach((fr, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      const t0 = ctx.currentTime + i * 0.12;
+      o.type = 'sine'; o.frequency.value = fr;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.15, t0 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.22);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t0); o.stop(t0 + 0.25);
+    });
+  } catch (e) {}
+}
+// kind : 'unlock' (trésor trouvé) | 'good' (bonne réponse au quiz)
+function gameFeedback(kind) {
+  if (!gameEnabled) return;
+  if (gameSettings.vibration) {
+    try { if (navigator.vibrate) navigator.vibrate(kind === 'unlock' ? [80, 40, 120] : 60); } catch (e) {}
+  }
+  if (gameSettings.sound) gamePlayTones(kind === 'unlock' ? [523, 659, 784] : [659, 880]);
+}
 const GAME_BADGE_BONUS_POINTS = 10;
 // ---- Fiches trésor : histoire, anecdote et quiz (contenu en français uniquement pour l'instant) ----
 // Contenu sourcé à la main, indexé par nom de lieu exact. Un lieu sans entrée
@@ -3155,6 +3201,7 @@ function saveGameQuiz(obj) {
   try { localStorage.setItem(GAME_QUIZ_KEY, JSON.stringify(obj)); } catch (e) {}
 }
 let gameQuizAnswers = loadGameQuiz();
+applyGameAnimAttribute();
 function getGameQuizResult(nom) { return gameQuizAnswers[nom] || null; }
 function gameQuizPointsTotal() {
   return gameUnlocked.reduce((sum, entry) => {
@@ -3208,6 +3255,7 @@ function bindGameLore(p) {
       gameQuizAnswers[p.nom] = { choice, correct: choice === lore.quiz.answer };
       saveGameQuiz(gameQuizAnswers);
       updateGameHud();
+      if (gameQuizAnswers[p.nom].correct) gameFeedback('good');
       refreshGameSection(p);
     };
   });
@@ -3278,6 +3326,8 @@ function gameToggleSectionHTML() {
       <p style="margin:0 0 4px; font-weight:700; font-size:13px;">${level.label}</p>
       <p class="step-sub" style="margin:0 0 8px;">⭐ ${pts} ${t('gamePointsLabel')}${next !== null ? ` — ${next - pts} ${t('gamePointsLabel')} ${t('gameToNextLevel')}` : ` — ${t('gameMaxLevelReached')}`}</p>
       <button class="btn btn-ghost" id="openGrimoireBtn" style="width:100%;">${t('gameGrimoireBtn')}</button>
+      <p class="adv-label" style="margin:14px 0 6px;">${t('gameSettingsTitle')}</p>
+      ${[['vibration','gameSetVibration'],['sound','gameSetSound'],['animations','gameSetAnimations']].map(([k,l]) => `<label style="display:flex; align-items:center; gap:8px; margin-bottom:6px; cursor:pointer;"><input type="checkbox" data-game-setting="${k}" ${gameSettings[k] ? 'checked' : ''} style="width:18px; height:18px;"><span style="font-size:13px; font-weight:700;">${t(l)}</span></label>`).join('')}
     ` : ''}
   </div>`;
 }
@@ -3300,6 +3350,13 @@ function bindGameToggleSection() {
   };
   const grimBtn = document.getElementById('openGrimoireBtn');
   if (grimBtn) grimBtn.onclick = () => openGrimoireModal();
+  document.querySelectorAll('#gameToggleSection input[data-game-setting]').forEach(cb => {
+    cb.onchange = () => {
+      gameSettings[cb.getAttribute('data-game-setting')] = cb.checked;
+      saveGameSettings();
+      applyGameAnimAttribute();
+    };
+  });
 }
 function refreshGameToggleSectionIfOpen() {
   const el = document.getElementById('gameToggleSection');
@@ -3525,6 +3582,7 @@ function gameAttemptUnlock(p) {
 }
 // ---- Animation de découverte (section 13) ----
 function gameShowDiscoveryAnimation(p, points) {
+  gameFeedback('unlock');
   const overlay = document.createElement('div');
   overlay.className = 'game-discovery-overlay';
   overlay.innerHTML = `<div class="gdo-card">
@@ -3543,6 +3601,7 @@ function gameShowDiscoveryAnimation(p, points) {
 // Compte — brève, et qu'on peut écourter d'un tap pour ne jamais ralentir
 // quelqu'un de pressé.
 function showGameIntroOverlay() {
+  if (!gameSettings.animations) return;
   const overlay = document.createElement('div');
   overlay.className = 'game-intro-overlay';
   overlay.innerHTML = `<div class="gio-card">
