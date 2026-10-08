@@ -2937,6 +2937,17 @@ const TERRITOIRE_SEARCH_TERM = {
   "saint-martin": "Saint Martin Caribbean", "saint-barthelemy": "Saint Barthélemy",
 };
 const photoCache = {};
+// Photos propres à l'app : champ optionnel `photos` sur un lieu, par exemple
+//   photos:["assets/lieux/anse-dufour.jpg"]
+//   photos:[{ src:"assets/lieux/anse-dufour.jpg", credit:"Photo : Maureen" }]
+// Elles passent toujours avant Wikimedia / Openverse.
+function ownPhotos(p) {
+  if (!p || !Array.isArray(p.photos)) return [];
+  return p.photos
+    .map(ph => typeof ph === 'string' ? { src: ph } : ph)
+    .filter(ph => ph && ph.src)
+    .map(ph => ({ url: ph.src, page: null, source: ph.credit || 'Antan Nou' }));
+}
 // Les requêtes photo ne doivent jamais bloquer l'affichage : chaque source a
 // son propre délai maximum, et on limite le nombre de requêtes simultanées
 // (l'accueil peut afficher des dizaines de cartes d'un coup).
@@ -3002,11 +3013,12 @@ async function fetchOpenversePhotos(p) {
 }
 async function fetchPlacePhotos(p) {
   if (photoCache[p.nom] !== undefined) return photoCache[p.nom];
+  const own = ownPhotos(p);
   const [wiki, openverse] = await photoLimited(() => Promise.all([
     fetchWikimediaPhotos(p),
     fetchOpenversePhotos(p),
   ]));
-  const results = [...wiki, ...openverse].slice(0, 10);
+  const results = [...own, ...wiki, ...openverse].slice(0, 10);
   // On ne met en cache un résultat vide que si les deux sources ont répondu
   // : un échec réseau ponctuel ne doit pas masquer les photos pour la session.
   if (results.length) photoCache[p.nom] = results;
@@ -3017,6 +3029,8 @@ async function fetchPlacePhotos(p) {
 // (Wikimedia) ; Openverse n'est interrogé que si Wikimedia ne renvoie rien.
 const cardPhotoCache = {};
 async function fetchCardPhoto(p) {
+  const own = ownPhotos(p);
+  if (own.length) return own[0];
   if (photoCache[p.nom] && photoCache[p.nom].length) return photoCache[p.nom][0];
   if (cardPhotoCache[p.nom] !== undefined) return cardPhotoCache[p.nom];
   let photos = await photoLimited(() => fetchWikimediaPhotos(p));
@@ -4292,14 +4306,14 @@ function openPlaceDetail(p) {
     if (p.communautaire && p.photoUrl) photos = [{ url: p.photoUrl, page: null }, ...(photos || [])];
     if (wrap && photos && photos.length) {
       wrap.innerHTML = photos.map(ph => `<div class="photo-slide"><img src="${ph.url}" alt="${p.nom.replace(/"/g,'&quot;')}" loading="lazy"></div>`).join('');
-      if (credit) credit.innerHTML = photos[0].page ? `<a href="${photos[0].page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 ${photos[0].source || 'Wikimedia Commons'}</a>` : '';
+      if (credit) credit.innerHTML = photos[0].page ? `<a href="${photos[0].page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 ${photos[0].source || 'Wikimedia Commons'}</a>` : (photos[0].source ? `📷 ${photos[0].source}` : '');
       if (photos.length > 1 && dotsEl) {
         dotsEl.innerHTML = photos.map((_, i) => `<span class="${i===0?'active':''}"></span>`).join('');
         wrap.onscroll = () => {
           const idx = Math.min(photos.length - 1, Math.round(wrap.scrollLeft / wrap.clientWidth));
           dotsEl.querySelectorAll('span').forEach((d, i) => d.classList.toggle('active', i === idx));
           const ph = photos[idx];
-          if (credit && ph) credit.innerHTML = ph.page ? `<a href="${ph.page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 ${ph.source || 'Wikimedia Commons'}</a>` : '';
+          if (credit && ph) credit.innerHTML = ph.page ? `<a href="${ph.page}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">📷 ${ph.source || 'Wikimedia Commons'}</a>` : (ph.source ? `📷 ${ph.source}` : '');
         };
       }
     } else if (wrap) {
