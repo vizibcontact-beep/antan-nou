@@ -2370,16 +2370,25 @@ function wirePlaceCards(container) {
 // appel de wirePlaceCards (filtres, favoris...) pour ne pas cumuler d'anciens
 // observers ni redéclencher un fetch pour une carte déjà traitée.
 function wirePlaceCardPhotos(container) {
-  const cards = container.querySelectorAll('.place.pcard[data-open]');
+  wireLazyPhotos(container, '.place.pcard[data-open]', '.pcard-bg');
+}
+// Même chargement paresseux pour les mini-cartes de l'accueil (collections).
+function wireMiniCardPhotos(container) {
+  wireLazyPhotos(container, '.mini-card[data-open]', '.visual');
+}
+function wireLazyPhotos(container, cardSelector, bgSelector) {
+  const cards = container.querySelectorAll(cardSelector);
   const loadCardPhoto = (el) => {
     const nom = el.dataset.open;
     const p = ALL_PLACES.find(x => x.nom === nom);
     if (!p) return;
-    fetchPlacePhotos(p).then(photos => {
-      if (!photos || !photos.length) return;
-      const bg = el.querySelector('.pcard-bg');
+    fetchCardPhoto(p).then(photo => {
+      if (!photo) return;
+      const bg = el.querySelector(bgSelector);
       if (!bg) return;
-      bg.style.backgroundImage = `url('${photos[0].url.replace(/'/g,"%27")}')`;
+      bg.style.backgroundImage = `url('${photo.url.replace(/'/g,"%27")}')`;
+      bg.style.backgroundSize = 'cover';
+      bg.style.backgroundPosition = 'center';
       bg.textContent = '';
     }).catch(() => {});
   };
@@ -2393,8 +2402,6 @@ function wirePlaceCardPhotos(container) {
     cards.forEach(el => obs.observe(el));
     container._placePhotoObserver = obs;
   } else {
-    // Pas d'IntersectionObserver disponible (vieux navigateur / environnement
-    // de test) : on charge tout de suite plutôt que de ne jamais afficher de photo.
     cards.forEach(loadCardPhoto);
   }
 }
@@ -2413,6 +2420,7 @@ function wireMiniCards(container) {
   container.querySelectorAll('.mini-card[data-open]').forEach(el => {
     el.onclick = () => { const p = ALL_PLACES.find(x => x.nom === el.dataset.open); if (p) openPlaceDetail(p); };
   });
+  wireMiniCardPhotos(container);
 }
 
 // ==================== Accueil : distance à vol d'oiseau (Haversine) ====================
@@ -2929,11 +2937,36 @@ const TERRITOIRE_SEARCH_TERM = {
   "saint-martin": "Saint Martin Caribbean", "saint-barthelemy": "Saint Barthélemy",
 };
 const photoCache = {};
+// Les requêtes photo ne doivent jamais bloquer l'affichage : chaque source a
+// son propre délai maximum, et on limite le nombre de requêtes simultanées
+// (l'accueil peut afficher des dizaines de cartes d'un coup).
+function fetchWithTimeout(url, ms) {
+  if (typeof AbortController !== 'function') return fetch(url);
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+const PHOTO_MAX_CONCURRENT = 4;
+let photoActive = 0;
+const photoWaiting = [];
+function photoLimited(task) {
+  return new Promise((resolve, reject) => {
+    const run = () => {
+      photoActive++;
+      task().then(resolve, reject).finally(() => {
+        photoActive--;
+        const next = photoWaiting.shift();
+        if (next) next();
+      });
+    };
+    if (photoActive < PHOTO_MAX_CONCURRENT) run(); else photoWaiting.push(run);
+  });
+}
 async function fetchWikimediaPhotos(p) {
   try {
     const term = `${p.nom} ${TERRITOIRE_SEARCH_TERM[p.t] || ''}`;
     const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url, 6000);
     const json = await res.json();
     const pages = json.query && json.query.pages;
     if (!pages) return [];
@@ -2950,7 +2983,7 @@ async function fetchOpenversePhotos(p) {
   try {
     const term = `${p.nom} ${TERRITOIRE_SEARCH_TERM[p.t] || ''}`;
     const url = `https://api.openverse.org/v1/images/?q=${encodeURIComponent(term)}&license_type=all-cc,publicdomain&page_size=6`;
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url, 6000);
     const json = await res.json();
     const results = Array.isArray(json.results) ? json.results : [];
     return results
@@ -2969,13 +3002,28 @@ async function fetchOpenversePhotos(p) {
 }
 async function fetchPlacePhotos(p) {
   if (photoCache[p.nom] !== undefined) return photoCache[p.nom];
-  const [wiki, openverse] = await Promise.all([
+  const [wiki, openverse] = await photoLimited(() => Promise.all([
     fetchWikimediaPhotos(p),
     fetchOpenversePhotos(p),
-  ]);
+  ]));
   const results = [...wiki, ...openverse].slice(0, 10);
-  photoCache[p.nom] = results;
+  // On ne met en cache un résultat vide que si les deux sources ont répondu
+  // : un échec réseau ponctuel ne doit pas masquer les photos pour la session.
+  if (results.length) photoCache[p.nom] = results;
   return results;
+}
+
+// Photo de carte (accueil, résultats) : on n'attend que la source rapide
+// (Wikimedia) ; Openverse n'est interrogé que si Wikimedia ne renvoie rien.
+const cardPhotoCache = {};
+async function fetchCardPhoto(p) {
+  if (photoCache[p.nom] && photoCache[p.nom].length) return photoCache[p.nom][0];
+  if (cardPhotoCache[p.nom] !== undefined) return cardPhotoCache[p.nom];
+  let photos = await photoLimited(() => fetchWikimediaPhotos(p));
+  if (!photos.length) photos = await photoLimited(() => fetchOpenversePhotos(p));
+  const first = photos[0] || null;
+  if (first) cardPhotoCache[p.nom] = first;
+  return first;
 }
 
 // ---- Avis / notes utilisateurs (Firestore, collection "avis") ----
