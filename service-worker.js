@@ -2,12 +2,13 @@
    toujours chercher la dernière version en ligne quand une connexion est
    disponible (stratégie "réseau d'abord, cache en secours" — évite de
    rester bloqué sur une ancienne version après une mise à jour). */
-const CACHE_NAME = "antan-nou-v2";
+const CACHE_NAME = "antan-nou-v3";
 const FILES_TO_CACHE = [
   "./antan-nou.html",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
+  "./assets/papillon.svg",
 ];
 
 self.addEventListener("install", (event) => {

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Papillon">
+  <path d="M32 30 C22 10 4 10 6 26 C7 36 18 38 30 34 Z" fill="#F8C42A" stroke="#7A4A00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32 30 C42 10 60 10 58 26 C57 36 46 38 34 34 Z" fill="#F8C42A" stroke="#7A4A00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M31 36 C20 38 10 46 16 54 C22 60 30 50 31 40 Z" fill="#F28C28" stroke="#7A4A00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M33 36 C44 38 54 46 48 54 C42 60 34 50 33 40 Z" fill="#F28C28" stroke="#7A4A00" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="17" cy="22" r="3.2" fill="#fff" opacity=".85"/>
+  <circle cx="47" cy="22" r="3.2" fill="#fff" opacity=".85"/>
+  <rect x="29.5" y="18" width="5" height="34" rx="2.5" fill="#3B2A14"/>
+  <path d="M30.5 19 C28 12 24 9 21 9 M33.5 19 C36 12 40 9 43 9" fill="none" stroke="#3B2A14" stroke-width="1.8" stroke-linecap="round"/>
+</svg>
