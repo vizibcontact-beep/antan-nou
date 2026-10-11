@@ -7,7 +7,7 @@
    Ce qui reste disponible hors connexion :
    - l'appli elle-même (page, icônes, manifeste) ;
    - les bibliothèques (carte Leaflet, Firebase, polices) ;
-   - les tuiles de carte déjà affichées ;
+   - les tuiles de carte déjà affichées, et les zones téléchargées sur demande ;
    - les photos déjà vues et les listes de photos déjà chargées pour une fiche.
 
    Ce qui n'est JAMAIS mis en cache : tout ce qui n'est pas une requête GET
@@ -20,7 +20,11 @@ const CACHE_LIBS = "antan-nou-libs-" + VERSION; // Leaflet, Firebase SDK, police
 const CACHE_TILES = "antan-nou-tiles-" + VERSION; // tuiles de carte
 const CACHE_IMG = "antan-nou-img-" + VERSION;   // photos
 const CACHE_API = "antan-nou-api-" + VERSION;   // listes de photos (Wikimedia, Openverse)
-const ALL_CACHES = [CACHE_APP, CACHE_LIBS, CACHE_TILES, CACHE_IMG, CACHE_API];
+// Zones de carte téléchargées à la demande de l'utilisateur (bouton « Télécharger la
+// zone » d'une fiche). Cache géré par la page : jamais purgé par le plafond des
+// tuiles, et son nom ne porte pas de version pour survivre aux mises à jour.
+const CACHE_ZONES = "antan-nou-zones-v1";
+const ALL_CACHES = [CACHE_APP, CACHE_LIBS, CACHE_TILES, CACHE_IMG, CACHE_API, CACHE_ZONES];
 
 // Plafonds : évitent de saturer le stockage du téléphone.
 const MAX_TILES = 400;
@@ -116,7 +120,7 @@ function networkFirst(event, cacheName, max, fallbackShell) {
       event.waitUntil(store(cacheName, request, fresh.clone(), max));
       return fresh;
     } catch (e) {
-      const cached = await caches.match(request, { ignoreSearch: false });
+      const cached = await caches.match(request, { ignoreVary: true });
       if (cached) return cached;
       if (fallbackShell) {
         const shell = await caches.match("./antan-nou.html", { ignoreSearch: true });
@@ -131,7 +135,7 @@ function networkFirst(event, cacheName, max, fallbackShell) {
 function cacheFirst(event, cacheName, max) {
   const request = event.request;
   return (async () => {
-    const cached = await caches.match(request);
+    const cached = await caches.match(request, { ignoreVary: true });
     if (cached) return cached;
     const fresh = await fetch(request);
     event.waitUntil(store(cacheName, request, fresh.clone(), max));
@@ -143,7 +147,7 @@ function cacheFirst(event, cacheName, max) {
 function staleWhileRevalidate(event, cacheName, max) {
   const request = event.request;
   return (async () => {
-    const cached = await caches.match(request);
+    const cached = await caches.match(request, { ignoreVary: true });
     const refresh = fetch(request)
       .then((fresh) => { event.waitUntil(store(cacheName, request, fresh.clone(), max)); return fresh; })
       .catch(() => null);
@@ -171,7 +175,12 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Tuiles de carte OpenStreetMap.
+  // Seules les images affichées par la carte passent ici : le téléchargement d'une zone
+  // (fetch depuis la page) n'est pas intercepté, la page range elle-même les tuiles
+  // dans CACHE_ZONES. Les tuiles d'une zone téléchargée sont retrouvées par
+  // caches.match, qui cherche dans tous les caches.
   if (/(^|\.)tile\.openstreetmap\.org$/.test(url.hostname)) {
+    if (request.destination !== "image") return;
     event.respondWith(cacheFirst(event, CACHE_TILES, MAX_TILES));
     return;
   }
