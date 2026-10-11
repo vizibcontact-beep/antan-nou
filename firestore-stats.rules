@@ -1,0 +1,25 @@
+// Règles Firestore à AJOUTER pour la mesure d'audience anonyme d'Antan Nou.
+// Console Firebase > Firestore Database > Règles : colle ce bloc à l'intérieur de
+//   match /databases/{database}/documents { ... }
+// et remplace TON_EMAIL_ADMIN par l'e-mail de ton compte Antan Nou (le même que
+// dans ADMIN_EMAILS, en haut de antan-nou.html).
+//
+// - Écriture : ouverte à tous (la mesure est anonyme, sans compte), mais limitée à
+//   un document nommé comme une date (AAAA-MM-JJ) qui ne contient que { day, n }.
+//   `n` est la table des compteurs ; sa taille est plafonnée.
+// - Lecture : uniquement ton compte administrateur.
+// - Suppression : interdite.
+//
+// Limite à connaître : n'importe qui connaissant ce principe pourrait fausser les
+// compteurs en envoyant de faux incréments. C'est le compromis d'une mesure sans
+// serveur ; elle sert à avoir un ordre de grandeur, pas une comptabilité exacte.
+match /stats/{day} {
+  allow read: if request.auth != null
+              && request.auth.token.email in ['TON_EMAIL_ADMIN'];
+  allow create, update: if day.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+                        && request.resource.data.keys().hasOnly(['day', 'n'])
+                        && request.resource.data.day == day
+                        && request.resource.data.n is map
+                        && request.resource.data.n.size() <= 600;
+  allow delete: if false;
+}
