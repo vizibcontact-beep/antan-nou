@@ -406,7 +406,7 @@
   .desktop-header .dh-brand:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
   .desktop-header .dh-brand .wordmark-svg { display:block; }
   .dh-nav { display:flex; align-items:center; gap:8px; flex:1; }
-  .dh-link { background:none; border:none; cursor:pointer; padding:9px 16px; border-radius:999px; font-family:var(--font-display); font-size:14px; font-weight:700; color:var(--ink); }
+  .dh-link { display:inline-flex; flex-direction:row; align-items:center; gap:6px; white-space:nowrap; background:none; border:none; cursor:pointer; padding:9px 16px; border-radius:999px; font-family:var(--font-display); font-size:14px; font-weight:700; color:var(--ink); }
   .dh-link:hover { background:var(--accent-soft); color:var(--accent); }
   .dh-link.sel { background:var(--accent); color:white; }
   .dh-actions { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
@@ -601,6 +601,7 @@ const TRANSLATIONS = {
     accountLoginBtn:"Se connecter", accountCreateBtn:"Créer mon compte",
     accountNoAccount:"Pas encore de compte ? En créer un", accountHasAccount:"Déjà un compte ? Se connecter", accountFillFields:"Remplis l'email et le mot de passe.",
     errEmailInUse:"Un compte existe déjà avec cet email — essaie de te connecter.", errInvalidEmail:"Adresse email invalide.",
+    accountGoogleBtn:"Continuer avec Google", accountOrEmail:"ou avec ton e-mail", errGoogleOff:"La connexion avec Google n'est pas encore activée.", errAccountExists:"Un compte existe déjà avec cet e-mail : connecte-toi avec ton mot de passe.",
     errWeakPassword:"Mot de passe trop court (6 caractères minimum).", errWrongCreds:"Email ou mot de passe incorrect.", errGeneric:"Une erreur est survenue. Réessaie.",
     vibe_manger:"Manger", vibe_plage:"Plage", vibe_riviere:"Rivière", vibe_nature:"Nature", vibe_activites:"Activités", vibe_famille:"Famille", vibe_boire:"Verre", vibe_culture:"Culture",
     vibe_sport:"Sport & aventure", vibe_randonnee:"Randonnée", vibe_nightlife:"Vie nocturne", vibe_shopping:"Shopping & artisanat", vibe_bienetre:"Bien-être & détente", vibe_photo:"Spot photo",
@@ -720,6 +721,7 @@ const TRANSLATIONS = {
     accountLoginBtn:"Log in", accountCreateBtn:"Create my account",
     accountNoAccount:"No account yet? Create one", accountHasAccount:"Already have an account? Log in", accountFillFields:"Fill in your email and password.",
     errEmailInUse:"An account already exists with this email — try logging in.", errInvalidEmail:"Invalid email address.",
+    accountGoogleBtn:"Continue with Google", accountOrEmail:"or with your e-mail", errGoogleOff:"Google sign-in isn't enabled yet.", errAccountExists:"An account already exists with this e-mail: sign in with your password.",
     errWeakPassword:"Password too short (6 characters minimum).", errWrongCreds:"Incorrect email or password.", errGeneric:"Something went wrong. Try again.",
     vibe_manger:"Food", vibe_plage:"Beach", vibe_riviere:"River", vibe_nature:"Nature", vibe_activites:"Activities", vibe_famille:"Family", vibe_boire:"Drinks", vibe_culture:"Culture",
     vibe_sport:"Sport & adventure", vibe_randonnee:"Hiking", vibe_nightlife:"Nightlife", vibe_shopping:"Shopping & crafts", vibe_bienetre:"Wellness & relaxation", vibe_photo:"Photo spot",
@@ -839,6 +841,7 @@ const TRANSLATIONS = {
     accountLoginBtn:"Iniciar sesión", accountCreateBtn:"Crear mi cuenta",
     accountNoAccount:"¿Aún no tienes cuenta? Crea una", accountHasAccount:"¿Ya tienes cuenta? Inicia sesión", accountFillFields:"Completa el correo y la contraseña.",
     errEmailInUse:"Ya existe una cuenta con este correo — intenta iniciar sesión.", errInvalidEmail:"Correo electrónico inválido.",
+    accountGoogleBtn:"Continuar con Google", accountOrEmail:"o con tu correo", errGoogleOff:"El inicio de sesión con Google aún no está activado.", errAccountExists:"Ya existe una cuenta con este correo: inicia sesión con tu contraseña.",
     errWeakPassword:"Contraseña demasiado corta (mínimo 6 caracteres).", errWrongCreds:"Correo o contraseña incorrectos.", errGeneric:"Ocurrió un error. Inténtalo de nuevo.",
     vibe_manger:"Comer", vibe_plage:"Playa", vibe_riviere:"Río", vibe_nature:"Naturaleza", vibe_activites:"Actividades", vibe_famille:"Familia", vibe_boire:"Copas", vibe_culture:"Cultura",
     vibe_sport:"Deporte y aventura", vibe_randonnee:"Senderismo", vibe_nightlife:"Vida nocturna", vibe_shopping:"Compras y artesanía", vibe_bienetre:"Bienestar y relax", vibe_photo:"Lugar para fotos",
@@ -958,6 +961,7 @@ const TRANSLATIONS = {
     accountLoginBtn:"Konèkté", accountCreateBtn:"Kréyé kont mwen",
     accountNoAccount:"Ou pa ni kont ankò ? Kréyé younn", accountHasAccount:"Ou ja ni an kont ? Konèkté", accountFillFields:"Ranpli imèl-la épi mo pas-la.",
     errEmailInUse:"An kont ja égzisté épi imèl-tala — èsèyé konèkté.", errInvalidEmail:"Imèl-la pa bon.",
+    accountGoogleBtn:"Kontinyé épi Google", accountOrEmail:"oben épi e-mail aw", errGoogleOff:"Koneksyon épi Google pa aktivé ankò.", errAccountExists:"An kont ka egzisté déja épi e-mail-la : konekté aw épi mo pas aw.",
     errWeakPassword:"Mo pas twò kout (minimòm 6 karaktè).", errWrongCreds:"Imèl oben mo pas pa bon.", errGeneric:"Ni an érè. Èsèyé ankò.",
     vibe_manger:"Manjé", vibe_plage:"Laplaj", vibe_riviere:"Rivyè", vibe_nature:"Lanati", vibe_activites:"Aktivite", vibe_famille:"Fanmi", vibe_boire:"Bwè", vibe_culture:"Kilti",
     vibe_sport:"Espò & avantir", vibe_randonnee:"Randoné", vibe_nightlife:"Lavi lannwit", vibe_shopping:"Shopin & atizana", vibe_bienetre:"Byennèt & détant", vibe_photo:"Spot foto",
@@ -2385,10 +2389,25 @@ function traduireErreurFirebase(e) {
   if (c === 'auth/email-already-in-use') return t('errEmailInUse');
   if (c === 'auth/invalid-email') return t('errInvalidEmail');
   if (c === 'auth/weak-password') return t('errWeakPassword');
+  if (c === 'auth/operation-not-allowed' || c === 'auth/unauthorized-domain') return t('errGoogleOff');
+  if (c === 'auth/account-exists-with-different-credential') return t('errAccountExists');
   if (c === 'auth/wrong-password' || c === 'auth/user-not-found' || c === 'auth/invalid-credential') return t('errWrongCreds');
   return t('errGeneric');
 }
 
+// Connexion avec Google (Firebase Authentication). Fenêtre surgissante ; si le navigateur
+// la bloque ou ne la gère pas (certains navigateurs intégrés), on bascule sur la redirection.
+const GOOGLE_G_SVG = '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
+async function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try { await auth.signInWithPopup(provider); return true; }
+  catch (e) {
+    const c = e && e.code;
+    if (c === 'auth/popup-closed-by-user' || c === 'auth/cancelled-popup-request') return false;
+    if (c === 'auth/popup-blocked' || c === 'auth/operation-not-supported-in-this-environment') { await auth.signInWithRedirect(provider); return false; }
+    throw e;
+  }
+}
 function openAccountModal(initialMode) {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -2460,6 +2479,8 @@ function openAccountModal(initialMode) {
       ${offlineZonesSectionHTML()}
       ${statsSectionHTML()}
       <p class="step-sub" style="margin-bottom:14px;">${t('accountSub')}</p>
+      <button class="btn btn-ghost" id="accGoogle" style="width:100%; margin-bottom:6px; display:flex; align-items:center; justify-content:center; gap:10px;">${GOOGLE_G_SVG}<span>${t('accountGoogleBtn')}</span></button>
+      <p class="step-sub" style="text-align:center; margin:8px 0 12px; font-size:12px;">${t('accountOrEmail')}</p>
       <div class="prog-form">
         <div class="adv-group">
           <p class="adv-label">${t('accountEmail')}</p>
@@ -2480,6 +2501,12 @@ function openAccountModal(initialMode) {
     bindOfflineZonesSection();
     bindStatsSection();
     document.getElementById('accSwitch').onclick = () => { mode = mode === 'login' ? 'signup' : 'login'; renderForm(); };
+    document.getElementById('accGoogle').onclick = async () => {
+      const errEl = document.getElementById('accError');
+      errEl.style.display = 'none';
+      try { if (await signInWithGoogle()) overlay.remove(); }
+      catch (e) { errEl.textContent = traduireErreurFirebase(e); errEl.style.display = 'block'; }
+    };
     document.getElementById('accSubmit').onclick = async () => {
       const email = document.getElementById('accEmail').value.trim();
       const pass = document.getElementById('accPass').value;
@@ -2978,14 +3005,14 @@ function renderDesktopHeader(active) {
   // de territoire vivent dans cette même fenêtre, pas dans un lien à part),
   // Agenda reste pertinent (événements = bonus de points) donc conservé.
   const links = gameEnabled ? [
-    { key:'g-explorer', label:t('gameNavExplorer') },
-    { key:'g-carnet', label:t('gameNavCarnet') },
-    { key:'agenda', label:t('navAgenda') },
+    { key:'g-explorer', icon:'🗺️', label:t('gameNavExplorer') },
+    { key:'g-carnet', icon:'📖', label:t('gameNavCarnet') },
+    { key:'agenda', icon:'📅', label:t('navAgenda') },
   ] : [
-    { key:'home', label:t('navAccueil') },
-    { key:'explorer', label:t('navExplorer') },
-    { key:'carte', label:t('navCarte') },
-    { key:'agenda', label:t('navAgenda') },
+    { key:'home', icon:'🏠', label:t('navAccueil') },
+    { key:'explorer', icon:'🔎', label:t('navExplorer') },
+    { key:'carte', icon:'🗺️', label:t('navCarte') },
+    { key:'agenda', icon:'📅', label:t('navAgenda') },
   ];
   const activeKey = gameEnabled && (active === 'home' || active === 'explorer' || active === 'carte') ? 'g-explorer' : active;
   const curLang = LANGS.find(l => l.key === lang);
@@ -2994,7 +3021,7 @@ function renderDesktopHeader(active) {
   el.innerHTML = `<div class="desktop-header-inner">
     <div class="dh-brand" id="dhBrand" role="button" tabindex="0" aria-label="${t('navAccueil')}">${wordmarkSVG({width:126})}</div>
     <nav class="dh-nav">
-      ${links.map(l => `<button class="dh-link ${activeKey===l.key?'sel':''}" data-dh="${l.key}">${l.label}</button>`).join('')}
+      ${links.map(l => `<button class="dh-link ${activeKey===l.key?'sel':''}" data-dh="${l.key}">${l.icon} ${l.label}</button>`).join('')}
     </nav>
     <div class="dh-actions">
       <button class="dh-action" id="dhLang">🌐 ${curLang ? curLang.label : t('navLangue')}</button>
