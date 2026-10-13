@@ -2522,7 +2522,7 @@ const LEGAL_TEXTS = {
       <h4>Données personnelles</h4>
       <p>Pour plus de détails sur les données collectées, leur usage et vos droits, consultez notre <a href="#" data-legal-link="privacy">politique de confidentialité</a>.</p>
       <h4>Cookies et stockage local</h4>
-      <p>Le site peut utiliser le stockage local du navigateur (localStorage) afin de conserver certaines préférences d'affichage (langue, territoire sélectionné). Ce stockage reste local à l'appareil de l'utilisateur.</p>
+      <p>Le site peut utiliser le stockage local du navigateur (localStorage) afin de conserver certaines préférences et données (langue, territoire sélectionné, favoris, progression au jeu, zones de carte téléchargées pour le hors ligne). Ce stockage reste local à l'appareil de l'utilisateur.</p>
       <h4>Responsabilité</h4>
       <p>Les informations relatives aux lieux, tarifs, horaires et conditions d'accès sont fournies à titre indicatif, à partir de sources publiques, et peuvent évoluer sans préavis. Il est recommandé de vérifier les informations importantes directement auprès des lieux concernés avant tout déplacement.</p>
       <h4>Droit applicable</h4>
@@ -2538,13 +2538,16 @@ const LEGAL_TEXTS = {
       <ul>
         <li><strong>Adresse email</strong> — lors de la création d'un compte (Firebase Authentication), pour authentifier l'utilisateur et lui permettre de publier des avis.</li>
         <li><strong>Avis et notes publiés</strong> — pour les afficher à tous les visiteurs sur la fiche du lieu concerné.</li>
-        <li><strong>Préférences d'affichage</strong> (langue, territoire) — stockées localement dans le navigateur, non transmises à l'éditeur.</li>
+        <li><strong>Progression au Mode Chasseur de trésors</strong> (si tu as un compte) — liste des lieux débloqués, réponses aux quiz et réglages du jeu, sauvegardés avec ton compte pour les retrouver sur un autre appareil.</li>
+        <li><strong>Propositions de lieux</strong> envoyées par les utilisateurs — pour les examiner avant publication.</li>
+        <li><strong>Mesure d'audience anonyme</strong> — compteurs agrégés par jour (visites, fonctions utilisées), sans identifiant, sans cookie et sans lien avec un compte. Elle est désactivée si le navigateur demande de ne pas être suivi, et chacun peut la désactiver dans « Mon compte ».</li>
+        <li><strong>Préférences et données locales</strong> (langue, territoire, favoris, progression locale au jeu, zones de carte téléchargées pour le hors ligne) — stockées uniquement dans le navigateur de l'appareil, non transmises à l'éditeur (sauf la progression au jeu si tu as un compte, voir plus haut).</li>
       </ul>
-      <p>Aucune autre donnée (nom, adresse, téléphone, paiement, géolocalisation précise) n'est demandée ni collectée.</p>
+      <p>Ta position GPS sert uniquement, dans ton téléphone, à te situer par rapport aux lieux et à débloquer les trésors : elle n'est ni envoyée ni enregistrée. Aucune autre donnée (nom, adresse postale, téléphone, paiement) n'est demandée ni collectée.</p>
       <h4>Base légale</h4>
       <p>Le traitement repose sur l'exécution du service demandé par l'utilisateur (article 6.1.b du RGPD).</p>
       <h4>Destinataires des données</h4>
-      <p>Les données sont hébergées et traitées par Firebase (Google Ireland Limited / Google LLC), sous-traitant technique. Aucune donnée n'est vendue ni transmise à des tiers à des fins commerciales. Si des publicités ou de l'affiliation sont ajoutées, cette politique sera mise à jour avant leur activation.</p>
+      <p>Les données sont hébergées et traitées par Firebase (Google Ireland Limited / Google LLC), sous-traitant technique. Aucune donnée n'est vendue ni transmise à des tiers à des fins commerciales. Pour afficher la carte, les photos et les bibliothèques de l'appli, ton navigateur contacte des services tiers (OpenStreetMap pour les tuiles de carte, Wikimedia Commons et Openverse pour les photos, unpkg et Google pour les bibliothèques et les polices) : ces services voient alors ton adresse IP, comme pour toute page web. Si des publicités ou de l'affiliation sont ajoutées, cette politique sera mise à jour avant leur activation.</p>
       <h4>Durée de conservation</h4>
       <p>Les données de compte et les avis sont conservés tant que le compte reste actif, et supprimés dans un délai raisonnable en cas de suppression du compte ou de demande expresse.</p>
       <h4>Vos droits</h4>
@@ -2554,8 +2557,8 @@ const LEGAL_TEXTS = {
       <h4>Mineurs</h4>
       <p>Le site ne cible pas spécifiquement un public mineur et ne demande aucune information relative à l'âge lors de la création d'un compte.</p>
       <h4>Cookies</h4>
-      <p>Le site n'utilise pas de cookies publicitaires ou de suivi à ce jour. Le stockage local (langue, territoire) reste sur l'appareil de l'utilisateur.</p>
-      <p style="margin-top:14px;font-style:italic;color:var(--muted);">Dernière mise à jour : 27 septembre 2026</p>
+      <p>Le site n'utilise pas de cookies publicitaires ou de suivi. Le stockage local du navigateur (langue, territoire, favoris, progression, zones hors ligne, choix concernant la mesure d'audience) reste sur l'appareil de l'utilisateur et peut être effacé à tout moment depuis les réglages du navigateur.</p>
+      <p style="margin-top:14px;font-style:italic;color:var(--muted);">Dernière mise à jour : 13 octobre 2026</p>
     `
   },
   cgu: {
@@ -2574,6 +2577,8 @@ const LEGAL_TEXTS = {
         <li>respecter les droits de propriété intellectuelle d'autrui.</li>
       </ul>
       <p>L'éditeur se réserve le droit de modérer, modifier ou supprimer tout avis ne respectant pas ces règles, sans préavis. Un utilisateur peut demander la suppression de son propre avis en écrivant à vizib.contact@gmail.com.</p>
+      <h4>Mode Chasseur de trésors</h4>
+      <p>Le Mode Chasseur de trésors est facultatif. Il t'invite à te rendre sur des lieux : reste prudent, respecte la signalisation et les interdictions d'accès, n'entre jamais sur une propriété privée ou une zone interdite, et ne te mets pas en danger pour débloquer un trésor. Certains sites peuvent être fermés, dégradés ou d'accès réglementé : l'éditeur ne saurait être tenu responsable d'un accident ou d'un différend survenu lors d'une sortie. Les points, niveaux et badges n'ont aucune valeur monétaire. Toute tentative de contournement du jeu (fausse position, manipulation) peut entraîner la réinitialisation de la progression.</p>
       <h4>Propriété intellectuelle</h4>
       <p>Le contenu du site (textes, code, mise en forme) est la propriété de l'éditeur, à l'exception des photographies (Wikimedia Commons et Openverse, sous licences libres) et des avis publiés par les utilisateurs, qui en restent les auteurs.</p>
       <h4>Responsabilité</h4>
@@ -2584,7 +2589,7 @@ const LEGAL_TEXTS = {
       <p>Les présentes CGU peuvent être modifiées à tout moment pour refléter l'évolution du service. La poursuite de l'utilisation du site après modification vaut acceptation des nouvelles CGU.</p>
       <h4>Droit applicable</h4>
       <p>Les présentes CGU sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
-      <p style="margin-top:14px;font-style:italic;color:var(--muted);">Dernière mise à jour : 27 septembre 2026</p>
+      <p style="margin-top:14px;font-style:italic;color:var(--muted);">Dernière mise à jour : 13 octobre 2026</p>
     `
   }
 };
