@@ -568,6 +568,13 @@ const LANGS = [
 
 const TRANSLATIONS = {
   fr: {
+    welcomeTitle:"Bienvenue sur Antan Nou",
+    welcomeSub:"Crée un compte gratuit pour garder tes favoris et ta progression au jeu sur tous tes appareils, ou continue sans compte.",
+    welcomeSignup:"Créer un compte gratuit",
+    welcomeLogin:"J'ai déjà un compte",
+    welcomeGuest:"Continuer en invité",
+    guestNoticeText:"Tu es en invité : tes favoris et ta progression restent sur cet appareil. Crée un compte gratuit pour les retrouver partout.",
+    guestNoticeBtn:"Créer un compte",
     langPickerTitle:"Choisis ta langue", langPickerSub:"Tu peux la changer à tout moment depuis l'icône 🌐.",
     step0Title:"Où as-tu envie d'aller ?", step0Sub:"Choisis un territoire pour commencer.",
     step1Title:"Dans quel coin ?", zoneAll:"Toute l'île", chooseZone:"Choisis une zone",
@@ -680,6 +687,13 @@ const TRANSLATIONS = {
     communautaireBadge:"🤝 Proposé par la communauté",
   },
   en: {
+    welcomeTitle:"Welcome to Antan Nou",
+    welcomeSub:"Create a free account to keep your favorites and game progress on all your devices, or carry on without one.",
+    welcomeSignup:"Create a free account",
+    welcomeLogin:"I already have an account",
+    welcomeGuest:"Continue as a guest",
+    guestNoticeText:"You're a guest: your favorites and progress stay on this device. Create a free account to find them everywhere.",
+    guestNoticeBtn:"Create an account",
     langPickerTitle:"Choose your language", langPickerSub:"You can change this anytime from the 🌐 icon.",
     step0Title:"Where do you want to go?", step0Sub:"Choose a territory to get started.",
     step1Title:"Which area?", zoneAll:"Whole island", chooseZone:"Choose an area",
@@ -792,6 +806,13 @@ const TRANSLATIONS = {
     communautaireBadge:"🤝 Suggested by the community",
   },
   es: {
+    welcomeTitle:"Te damos la bienvenida a Antan Nou",
+    welcomeSub:"Crea una cuenta gratuita para conservar tus favoritos y tu progreso en el juego en todos tus dispositivos, o sigue sin cuenta.",
+    welcomeSignup:"Crear una cuenta gratuita",
+    welcomeLogin:"Ya tengo una cuenta",
+    welcomeGuest:"Continuar como invitado",
+    guestNoticeText:"Eres invitado: tus favoritos y tu progreso se quedan en este dispositivo. Crea una cuenta gratuita para recuperarlos en todas partes.",
+    guestNoticeBtn:"Crear una cuenta",
     langPickerTitle:"Elige tu idioma", langPickerSub:"Puedes cambiarlo en cualquier momento desde el icono 🌐.",
     step0Title:"¿A dónde quieres ir?", step0Sub:"Elige un territorio para empezar.",
     step1Title:"¿En qué zona?", zoneAll:"Toda la isla", chooseZone:"Elige una zona",
@@ -904,6 +925,13 @@ const TRANSLATIONS = {
     communautaireBadge:"🤝 Propuesto por la comunidad",
   },
   cr: {
+    welcomeTitle:"Bienvini asi Antan Nou",
+    welcomeSub:"Kréyé an kont gratis pou gadé favori aw é pwogrésyon aw adan jé-la asi tout aparèy aw, oben kontinyé san kont.",
+    welcomeSignup:"Kréyé an kont gratis",
+    welcomeLogin:"Mwen ni an kont déja",
+    welcomeGuest:"Kontinyé kon envité",
+    guestNoticeText:"Ou envité : favori aw é pwogrésyon aw rété asi aparèy-la. Kréyé an kont gratis pou jwenn yo toupatou.",
+    guestNoticeBtn:"Kréyé an kont",
     langPickerTitle:"Chwazi lang ou", langPickerSub:"Ou ka chanjé-y an nenpòt moman ak zikon 🌐.",
     step0Title:"Kot ou ni anvi ale ?", step0Sub:"Chwazi an tewitwa pou koumansé.",
     step1Title:"Ki koté ?", zoneAll:"Tout lil-la", chooseZone:"Chwazi an zòn",
@@ -1026,6 +1054,7 @@ function setLang(l) {
   lang = l;
   if (typeof statsOnce === 'function') statsOnce('lang', l);
   try { localStorage.setItem('antan_nou_lang', l); } catch(e){}
+  if (typeof welcomeMaybe === 'function') setTimeout(welcomeMaybe, 400);
 }
 function openLangModal(forced) {
   const overlay = document.createElement('div');
@@ -2345,6 +2374,8 @@ if (FIREBASE_ENABLED && auth) {
   auth.onAuthStateChanged(user => {
     currentUser = user;
     updateAccountIcon();
+    welcomeAuthReady = true;
+    if (user) welcomeSetChoice('account'); else welcomeMaybe();
     if (user) { mergeFavorisFromCloud(); gameCloudMerge(); } else { gameCloudReady = false; }
   });
 }
@@ -2358,7 +2389,7 @@ function traduireErreurFirebase(e) {
   return t('errGeneric');
 }
 
-function openAccountModal() {
+function openAccountModal(initialMode) {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'accountOverlay';
@@ -2421,7 +2452,7 @@ function openAccountModal() {
     return;
   }
 
-  let mode = 'login';
+  let mode = initialMode === 'signup' ? 'signup' : 'login';
   function renderForm() {
     overlay.innerHTML = `<div class="modal">
       <div class="modal-head"><h3>${mode === 'login' ? t('accountLoginTitle') : t('accountSignupTitle')}</h3><button class="modal-close" id="closeAccount">✕</button></div>
@@ -2473,6 +2504,40 @@ document.getElementById('openAccount').onclick = openAccountModal;
 document.getElementById('openLang').onclick = () => openLangModal(false);
 
 // ---- Fenêtre Favoris ----
+// ---- Fenêtre d'accueil (premier lancement) : compte gratuit, compte existant ou invité ----
+// Le choix est mémorisé et la fenêtre ne revient plus. Rien ne s'affiche si la connexion
+// avec compte n'est pas activée, ni pour une personne déjà connectée.
+const WELCOME_KEY = 'antan_nou_welcome_v1';
+function welcomeChoice() { try { return localStorage.getItem(WELCOME_KEY); } catch (e) { return null; } }
+function welcomeSetChoice(v) { try { localStorage.setItem(WELCOME_KEY, v); } catch (e) {} }
+let welcomeAuthReady = false;
+function welcomeMaybe() {
+  if (!welcomeAuthReady || !FIREBASE_ENABLED || currentUser || welcomeChoice() || !lang) return;
+  if (document.getElementById('welcomeOverlay') || document.getElementById('langOverlay')) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'welcomeOverlay';
+  overlay.innerHTML = `<div class="modal">
+    <div class="modal-head"><h3>${t('welcomeTitle')}</h3></div>
+    <p class="step-sub" style="margin-bottom:16px;">${t('welcomeSub')}</p>
+    <button class="btn btn-primary" id="welcomeSignup" style="width:100%; margin-bottom:10px;">${t('welcomeSignup')}</button>
+    <button class="btn btn-ghost" id="welcomeLogin" style="width:100%; margin-bottom:10px;">${t('welcomeLogin')}</button>
+    <button class="btn btn-ghost" id="welcomeGuest" style="width:100%;">${t('welcomeGuest')}</button>
+  </div>`;
+  document.body.appendChild(overlay);
+  const done = (choice, then) => { welcomeSetChoice(choice); overlay.remove(); if (then) then(); };
+  document.getElementById('welcomeSignup').onclick = () => done('signup', () => openAccountModal('signup'));
+  document.getElementById('welcomeLogin').onclick = () => done('login', () => openAccountModal('login'));
+  document.getElementById('welcomeGuest').onclick = () => done('guest');
+}
+function guestNoticeHTML() {
+  if (!FIREBASE_ENABLED || currentUser) return '';
+  return `<div class="adv-group" style="margin:0 0 12px; padding:10px 12px; border-radius:12px; background:var(--cream-bg); border:1px solid var(--line);">
+    <p class="step-sub" style="margin:0 0 8px;">${t('guestNoticeText')}</p>
+    <button class="btn btn-ghost" id="guestNoticeBtn" style="width:100%;">${t('guestNoticeBtn')}</button>
+  </div>`;
+}
+
 function openFavsModal() {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -2480,6 +2545,7 @@ function openFavsModal() {
   const items = ALL_PLACES.filter(p => favoris.includes(p.nom));
   overlay.innerHTML = `<div class="modal">
     <div class="modal-head"><h3>${t('favTitle')}</h3><button class="modal-close" id="closeFavs">✕</button></div>
+    ${guestNoticeHTML()}
     <div id="favsList">${items.length === 0
       ? `<div class="empty"><span class="e">♡</span>${t('favEmpty')}</div>`
       : items.map(p => `
@@ -2494,6 +2560,8 @@ function openFavsModal() {
   document.body.appendChild(overlay);
   overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
   document.getElementById('closeFavs').onclick = () => overlay.remove();
+  const gnb = document.getElementById('guestNoticeBtn');
+  if (gnb) gnb.onclick = () => { overlay.remove(); openAccountModal('signup'); };
   overlay.querySelectorAll('.fav-btn').forEach(el => {
     el.onclick = () => { toggleFav(el.dataset.nom); openFavsModal(); overlay.remove(); };
   });
