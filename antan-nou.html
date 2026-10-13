@@ -61,8 +61,8 @@
     --warm-orange:#F66620; --warm-orange-soft:#FDE1D0;
     --sun-yellow:#F8A411; --sun-yellow-soft:#FDECD1;
     --cream-bg:#F8F6ED;
-    --font-display:'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-body:'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-display:'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+    --font-body:'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
 
     --ink:#1B1A2E; --muted:#736F8C;
     /* Couleurs d'action / UI ancrées sur la charte officielle */
@@ -544,7 +544,7 @@ const VIBES = [
   { key:"culture", label:"Culture", e:"🗿" },
   { key:"sport", label:"Sport & aventure", e:"🧗" },
   { key:"randonnee", label:"Randonnée", e:"🥾" },
-  { key:"nightlife", label:"Vie nocturne", e:"🪩" },
+  { key:"nightlife", label:"Vie nocturne", e:"🌃" },
   { key:"shopping", label:"Shopping & artisanat", e:"🛍️" },
   { key:"bienetre", label:"Bien-être & détente", e:"🧘" },
   { key:"photo", label:"Spot photo", e:"📸" },
@@ -2315,7 +2315,7 @@ function getGameUnlockedEntry(nom) { return gameUnlocked.find(e => e.nom === nom
 function updateAccountIcon() {
   const btn = document.getElementById('openAccount');
   if (btn) {
-    btn.textContent = currentUser ? '🟢' : '👤';
+    btn.textContent = currentUser ? '✅' : '👤';
     btn.setAttribute('aria-label', currentUser ? 'Mon compte (connecté)' : 'Se connecter');
   }
   const dhBtn = document.getElementById('dhProfil');
@@ -2481,7 +2481,7 @@ function openFavsModal() {
   overlay.innerHTML = `<div class="modal">
     <div class="modal-head"><h3>${t('favTitle')}</h3><button class="modal-close" id="closeFavs">✕</button></div>
     <div id="favsList">${items.length === 0
-      ? `<div class="empty"><span class="e">🤍</span>${t('favEmpty')}</div>`
+      ? `<div class="empty"><span class="e">♡</span>${t('favEmpty')}</div>`
       : items.map(p => `
         <div class="place">
           <span class="tab">${TERRITOIRES.find(t=>t.key===p.t).label} · ${placeZone(p)}</span>
@@ -2832,7 +2832,7 @@ function wireTodayAlerts(container) {
 // Accueil/Explorer/Carte pilotent la variable `step` déjà utilisée par le
 // parcours de recherche.
 const TABS = [
-  { key:'home', icon:'⌂', labelKey:'navAccueil' },
+  { key:'home', icon:'🏠', labelKey:'navAccueil' },
   { key:'explorer', icon:'🔎', labelKey:'navExplorer' },
   { key:'carte', icon:'🗺️', labelKey:'navCarte' },
   { key:'favoris', icon:'❤️', labelKey:'navFavoris' },
@@ -2990,7 +2990,7 @@ function placeCardHTML(p) {
       <div class="pcard-bg" style="background:${terr ? terr.grad : 'var(--brand-green)'};">${emoji}</div>
       ${p.typeKey ? `<span class="pcard-badge-cat">${t('type_'+p.typeKey)}</span>` : ''}
       ${p.communautaire ? `<span class="pcard-badge-comm">${t('communautaireBadge')}</span>` : ''}
-      <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${nomAttr}">${isFav(p.nom)?'❤️':'🤍'}</button>
+      <button class="fav-btn ${isFav(p.nom)?'active':''}" data-nom="${nomAttr}">${isFav(p.nom)?'❤️':'♡'}</button>
       <div class="pcard-overlay">
         <p class="pcard-nom">${p.nom}</p>
         <p class="pcard-loc">📍 ${placeZone(p)}</p>
