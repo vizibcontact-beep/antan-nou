@@ -253,7 +253,7 @@
   .game-lore-sources { margin-top:12px; font-size:12px; }
   .game-lore-sources summary { cursor:pointer; font-weight:700; }
   .game-lore-sources a { color:inherit; text-decoration:underline; word-break:break-word; }
-  html[data-game-anim="off"] .game-hud .gh-fill, html[data-game-anim="off"] .game-discovery-overlay .gdo-card, html[data-game-anim="off"] .game-intro-overlay *, html[data-game-anim="off"] .game-card, html[data-game-anim="off"] .game-nearby-toast { animation:none !important; transition:none !important; }
+  html[data-game-anim="off"] .game-hud .gh-fill, html[data-game-anim="off"] .game-discovery-overlay *, html[data-game-anim="off"] .game-intro-overlay *, html[data-game-anim="off"] .game-card, html[data-game-anim="off"] .game-nearby-toast { animation:none !important; transition:none !important; }
   .game-map-locate { position:absolute; right:10px; bottom:18px; z-index:800; width:44px; height:44px; border-radius:50%; border:1px solid #E8B84A; background:#2B2A33; color:#E8B84A; font-size:20px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.4); }
   .game-explorer-dot { width:18px; height:18px; border-radius:50%; background:#3B82F6; border:3px solid #fff; box-shadow:0 0 0 0 rgba(59,130,246,.6); animation:gameExplorerPulse 2s infinite; }
   @keyframes gameExplorerPulse { 0% { box-shadow:0 0 0 0 rgba(59,130,246,.6); } 70% { box-shadow:0 0 0 14px rgba(59,130,246,0); } 100% { box-shadow:0 0 0 0 rgba(59,130,246,0); } }
@@ -314,16 +314,43 @@
   @keyframes gameNearbyIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
   @media (min-width: 1024px) { .game-nearby-toast { bottom:24px; } }
 
-  /* Animation de découverte (section 13) : flash plein écran bref, discret
-     mais satisfaisant, qui s'efface tout seul. */
+  /* Animation de découverte : le sceau se brise, un flash doré, puis la carte
+     de découverte (couleur selon la rareté). Sans animation (réglage ou
+     "réduire les animations"), la carte s'affiche directement. */
   .game-discovery-overlay { position:fixed; inset:0; z-index:1100; display:flex; align-items:center; justify-content:center;
-    background:rgba(11,46,41,.92); animation:gameFadeIn .25s ease; cursor:pointer; }
-  .game-discovery-overlay .gdo-card { text-align:center; color:var(--game-text); padding:0 24px; animation:gameDiscoveryPop .45s cubic-bezier(.2,1.4,.4,1); }
-  .game-discovery-overlay .gdo-spark { font-size:40px; display:block; margin-bottom:8px; }
-  .game-discovery-overlay .gdo-title { font-family:var(--font-display); font-size:22px; font-weight:900; color:var(--game-gold); margin:0 0 6px; }
-  .game-discovery-overlay .gdo-name { font-size:16px; font-weight:700; margin:0 0 10px; }
-  .game-discovery-overlay .gdo-points { font-size:14px; font-weight:800; color:var(--game-gold); margin:0; }
-  @keyframes gameDiscoveryPop { from { opacity:0; transform:scale(.85); } to { opacity:1; transform:scale(1); } }
+    background:rgba(11,46,41,.94); animation:gameFadeIn .25s ease; --rar:#CD7F32; overflow-y:auto; padding:16px; }
+  .game-discovery-overlay[data-rarity="argent"] { --rar:#C9D1D9; }
+  .game-discovery-overlay[data-rarity="or"] { --rar:#F8C42A; }
+  .game-discovery-overlay[data-rarity="legendaire"] { --rar:#FFD76A; }
+  .game-discovery-overlay .gdo-seal { position:absolute; font-size:72px; animation:gdoSeal 1s ease forwards; pointer-events:none; }
+  .game-discovery-overlay .gdo-flash { position:absolute; inset:0; pointer-events:none; opacity:0;
+    background:radial-gradient(circle at 50% 45%, var(--rar) 0%, rgba(248,196,42,0) 55%); animation:gdoFlash .9s ease .55s; }
+  .game-discovery-overlay .gdo-card { position:relative; width:100%; max-width:380px; text-align:center; color:var(--game-text); padding:22px 20px 18px;
+    background:var(--game-bg-2); border:2px solid var(--rar); border-radius:20px; box-shadow:0 0 36px -6px var(--rar);
+    opacity:0; animation:gdoCard .55s cubic-bezier(.2,1.3,.4,1) 1s forwards; }
+  .game-discovery-overlay[data-rarity="legendaire"] .gdo-card { box-shadow:0 0 54px 4px var(--rar); }
+  .game-discovery-overlay .gdo-rarity { display:inline-block; font-size:12px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; color:var(--game-bg);
+    background:var(--rar); border-radius:99px; padding:4px 12px; margin:0 0 10px; }
+  .game-discovery-overlay .gdo-spark { font-size:34px; display:block; margin-bottom:4px; }
+  .game-discovery-overlay[data-rarity="legendaire"] .gdo-spark { animation:gdoTwinkle 1.4s ease-in-out infinite; }
+  .game-discovery-overlay .gdo-title { font-family:var(--font-display); font-size:20px; font-weight:900; color:var(--rar); margin:0 0 6px; }
+  .game-discovery-overlay .gdo-name { font-family:var(--font-display); font-size:21px; font-weight:800; margin:0 0 2px; }
+  .game-discovery-overlay .gdo-loc { font-size:12.5px; color:var(--game-muted); margin:0 0 12px; }
+  .game-discovery-overlay .gdo-points { font-size:20px; font-weight:900; color:var(--rar); margin:0 0 4px; }
+  .game-discovery-overlay .gdo-sub { font-size:12.5px; font-weight:700; color:var(--game-gold); margin:6px 0 0; }
+  .game-discovery-overlay .gdo-teaser { font-size:13.5px; line-height:1.5; font-style:italic; margin:14px 0 0; padding:10px 12px; border-left:3px solid var(--rar); background:rgba(248,246,237,.06); text-align:left; border-radius:0 10px 10px 0; }
+  .game-discovery-overlay .gdo-actions { display:flex; flex-direction:column; gap:8px; margin-top:16px; }
+  .game-discovery-overlay .gdo-actions .btn { width:100%; }
+  @keyframes gdoSeal { 0% { transform:scale(.6); opacity:0; } 20% { transform:scale(1); opacity:1; } 35% { transform:rotate(-8deg); } 50% { transform:rotate(8deg); } 60% { transform:rotate(0); opacity:1; } 100% { transform:scale(2.6); opacity:0; } }
+  @keyframes gdoFlash { 0% { opacity:0; } 35% { opacity:.9; } 100% { opacity:0; } }
+  @keyframes gdoCard { from { opacity:0; transform:scale(.88) translateY(14px); } to { opacity:1; transform:none; } }
+  @keyframes gdoTwinkle { 0%,100% { transform:scale(1) rotate(0); } 50% { transform:scale(1.25) rotate(12deg); } }
+  html[data-game-anim="off"] .game-discovery-overlay .gdo-seal, html[data-game-anim="off"] .game-discovery-overlay .gdo-flash { display:none; }
+  html[data-game-anim="off"] .game-discovery-overlay .gdo-card { opacity:1; animation:none; }
+  @media (prefers-reduced-motion: reduce) {
+    .game-discovery-overlay .gdo-seal, .game-discovery-overlay .gdo-flash { display:none; }
+    .game-discovery-overlay .gdo-card, .game-discovery-overlay .gdo-spark { opacity:1; animation:none !important; }
+  }
 
   /* Entrée immersive (section 4) : jouée une fois à l'activation du mode. */
   .game-intro-overlay { position:fixed; inset:0; z-index:1200; display:flex; align-items:center; justify-content:center;
@@ -638,7 +665,7 @@ const TRANSLATIONS = {
     gameNavExplorer:"Explorer", gameHudTreasures:"trésors", gameColFigures:"Grandes figures", gameColLegendes:"Légendes", gameColMusique:"Musique", gameColHeritageGroup:"Patrimoine vivant", gameLoreFigure:"Grande figure", gameLoreLegend:"Légende", gameNarrTitle:"📖 Quêtes narratives", gameNarrStep:"Étape", gameNarrAnswer:"À retenir", rarity_legendaire:"Trésor légendaire 👑", gameCheatAccuracyLegendary:"Trésor légendaire : un signal GPS précis (50 m ou mieux) est exigé. Attends un instant, dehors, et réessaie.", gameCheatBadFix:"Position non fiable : réessaie dehors, GPS activé.", gameCheatAccuracy:"Signal GPS trop imprécis. Attends quelques secondes et réessaie.", gameCheatTeleport:"Déplacement trop rapide depuis ton dernier trésor : position refusée.", gameCheatRate:"Trop de trésors débloqués en peu de temps. Reprends ton souffle et réessaie plus tard.", gameMapMystery:"Trésor mystère", gameMapLocate:"Me recentrer", gameQuestsTitle:"🎯 Quêtes", gameRoutesTitle:"🧭 Routes Antan Nou", gameRouteStep:"Étape", gameBdQuests:"Quêtes & routes", gameQuestFirstSteps:"Premiers pas", gameQuestGoalUnlock5:"Débloquer 5 lieux", gameQuestHistory:"Sur les traces de l'histoire", gameQuestGoalHistory3:"Découvrir 3 lieux Mémoire & patrimoine", gameQuestGoalQuiz3:"Réussir 3 quiz", gameQuestIslands:"Entre les îles", gameQuestGoalTerr2:"Débloquer un lieu dans 2 territoires", gameQuestNature:"Nature vive", gameQuestGoalNature5:"Découvrir 5 lieux Nature & sentiers", gameRoute1902:"Martinique — Sur les traces de 1902", gameRouteMemoireMq:"Martinique — Mémoire de l'esclavage", gameRouteMemoireGp:"Guadeloupe — Mémoire et résistance", gameColTitle:"📚 Collections", gameColComplete:"Collection complète !", gameColFragment:"Fragment obtenu", gameColHistoire:"Mémoire & patrimoine", gameColNature:"Nature & sentiers", gameColMer:"Plages & îles", gameColSaveurs:"Saveurs & marchés", gameColVillages:"Villages & phares", gameBdCollections:"Collections", gameProgressTitle:"📈 Ta progression", gameBdPlaces:"Lieux", gameBdQuiz:"Quiz", gameBdBadges:"Badges", gameSettingsTitle:"Réglages du jeu", gameSetVibration:"Vibration", gameSetSound:"Sons", gameSetAnimations:"Animations", gameLoreHistory:"Histoire", gameLoreAnecdote:"Le saviez-vous ?", gameQuizTitle:"Quiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Raté.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Contenu disponible en français uniquement pour le moment.", gameNavCarnet:"Carnet", gameSyncOk:"Progression sauvegardée sur ton compte.", gameSyncPending:"En attente de synchronisation avec ton compte…", gameSyncOffline:"Hors connexion : ta progression est gardée sur cet appareil et sera envoyée au retour du réseau.", offlineZoneBtn:"Télécharger la zone pour l'utiliser hors ligne", offlineZoneHint:"≈ {mb} Mo · carte autour du lieu (rayon {km} km). À faire avec du réseau, avant de partir.", offlineZoneProgress:"Téléchargement de la zone… {pct} %", offlineZoneDone:"Zone de carte disponible hors ligne", offlineZoneRemove:"Supprimer cette zone", offlineZoneError:"Téléchargement incomplet. Vérifie ta connexion et réessaie.", offlineZoneNeedOnline:"Connecte-toi à internet pour télécharger la zone.", offlineZoneUnsupported:"Ton navigateur ne permet pas le téléchargement hors ligne.", offlineZonesTitle:"📥 Zones hors ligne", offlineZonesDeleteAll:"Tout supprimer", statsPrivacyTitle:"📊 Mesure d'audience anonyme", statsPrivacyText:"Pour savoir combien de personnes utilisent Antan Nou et quelles fonctions servent, l'appli compte des visites et des usages, sans aucune donnée personnelle : pas de cookie, pas d'identifiant, aucun lien avec ton compte. Tu peux la désactiver ici.", statsToggle:"Participer à la mesure anonyme", statsDntNote:"Ton navigateur demande de ne pas être suivi (Do Not Track) : la mesure est désactivée.", statsBtn:"📊 Statistiques",
     gameNearbyTitle:"Tu es passé tout près d'un trésor…", gameNearbySub:"Quelque chose à découvrir ici. Touche pour voir où.",
     gameMysteryDetected:"🌫️ Mystère détecté", gameTreasureNearby:"✨ Trésor à proximité",
-    gameDiscoveredTitle:"TRÉSOR DÉCOUVERT !", gameIntroTagline:"Le patrimoine est partout. À toi de le découvrir.",
+    gameDiscoveredTitle:"TRÉSOR DÉCOUVERT !", gameDiscContinue:"Continuer", gameDiscNext:"Prochain trésor mystère à ≈ {d}", gameDiscRarBronze:"Bronze", gameDiscRarArgent:"Argent", gameDiscRarOr:"Or", gameDiscRarLeg:"Légendaire", gameDiscBonus:"Bonus événement ×2", gameDiscUnsealed:"Sceau brisé", gameIntroTagline:"Le patrimoine est partout. À toi de le découvrir.",
     rarity_or:"Trésor rare (or)", rarity_argent:"Trésor peu commun (argent)", rarity_bronze:"Trésor commun (bronze)",
     gameUnlockBtn:"📍 Débloquer ce lieu", gameUnlockedBadge:"✅ Débloqué", gameDiscoveryCardTitle:"Carte de découverte",
     gameTooFar:"Tu es trop loin de ce lieu pour le débloquer.", gameGeoDenied:"Géolocalisation indisponible ou refusée.",
@@ -758,7 +785,7 @@ const TRANSLATIONS = {
     gameNavExplorer:"Explore", gameHudTreasures:"treasures", gameColFigures:"Great figures", gameColLegendes:"Legends", gameColMusique:"Music", gameColHeritageGroup:"Living heritage", gameLoreFigure:"Great figure", gameLoreLegend:"Legend", gameNarrTitle:"📖 Story quests", gameNarrStep:"Step", gameNarrAnswer:"Remember", rarity_legendaire:"Legendary treasure 👑", gameCheatAccuracyLegendary:"Legendary treasure: a precise GPS signal (50 m or better) is required. Wait a moment, outdoors, and try again.", gameCheatBadFix:"Unreliable location: try again outdoors with GPS on.", gameCheatAccuracy:"GPS signal too imprecise. Wait a few seconds and try again.", gameCheatTeleport:"Moved too fast since your last treasure: location refused.", gameCheatRate:"Too many treasures unlocked in a short time. Take a break and try again later.", gameMapMystery:"Mystery treasure", gameMapLocate:"Recenter on me", gameQuestsTitle:"🎯 Quests", gameRoutesTitle:"🧭 Antan Nou Routes", gameRouteStep:"Step", gameBdQuests:"Quests & routes", gameQuestFirstSteps:"First steps", gameQuestGoalUnlock5:"Unlock 5 places", gameQuestHistory:"On the trail of history", gameQuestGoalHistory3:"Discover 3 History & heritage places", gameQuestGoalQuiz3:"Pass 3 quizzes", gameQuestIslands:"Between the islands", gameQuestGoalTerr2:"Unlock a place in 2 territories", gameQuestNature:"Wild nature", gameQuestGoalNature5:"Discover 5 Nature & trails places", gameRoute1902:"Martinique — Tracing 1902", gameRouteMemoireMq:"Martinique — Memory of slavery", gameRouteMemoireGp:"Guadeloupe — Memory and resistance", gameColTitle:"📚 Collections", gameColComplete:"Collection complete!", gameColFragment:"Fragment found", gameColHistoire:"History & heritage", gameColNature:"Nature & trails", gameColMer:"Beaches & islands", gameColSaveurs:"Flavours & markets", gameColVillages:"Villages & lighthouses", gameBdCollections:"Collections", gameProgressTitle:"📈 Your progress", gameBdPlaces:"Places", gameBdQuiz:"Quiz", gameBdBadges:"Badges", gameSettingsTitle:"Game settings", gameSetVibration:"Vibration", gameSetSound:"Sounds", gameSetAnimations:"Animations", gameLoreHistory:"History", gameLoreAnecdote:"Did you know?", gameQuizTitle:"Quiz", gameQuizCorrect:"Well done!", gameQuizWrong:"Missed.", gameQuizPoints:"+{n} points", gameLoreSources:"Sources", gameLoreFrOnly:"Content currently available in French only.", gameNavCarnet:"Journal", gameSyncOk:"Progress saved to your account.", gameSyncPending:"Waiting to sync with your account…", gameSyncOffline:"Offline: your progress is kept on this device and will be sent when you're back online.", offlineZoneBtn:"Download the area to use offline", offlineZoneHint:"≈ {mb} MB · map around the place ({km} km radius). Do it with a connection, before you leave.", offlineZoneProgress:"Downloading the area… {pct}%", offlineZoneDone:"Map area available offline", offlineZoneRemove:"Remove this area", offlineZoneError:"Download incomplete. Check your connection and try again.", offlineZoneNeedOnline:"Connect to the internet to download the area.", offlineZoneUnsupported:"Your browser doesn't support offline downloads.", offlineZonesTitle:"📥 Offline areas", offlineZonesDeleteAll:"Delete all", statsPrivacyTitle:"📊 Anonymous audience measurement", statsPrivacyText:"To learn how many people use Antan Nou and which features matter, the app counts visits and usage with no personal data: no cookies, no identifier, no link to your account. You can turn it off here.", statsToggle:"Take part in anonymous measurement", statsDntNote:"Your browser asks not to be tracked (Do Not Track): measurement is turned off.", statsBtn:"📊 Statistics",
     gameNearbyTitle:"You just walked past a treasure…", gameNearbySub:"Something to discover nearby. Tap to see where.",
     gameMysteryDetected:"🌫️ Mystery detected", gameTreasureNearby:"✨ Treasure nearby",
-    gameDiscoveredTitle:"TREASURE FOUND!", gameIntroTagline:"Heritage is everywhere. It's yours to discover.",
+    gameDiscoveredTitle:"TREASURE FOUND!", gameDiscContinue:"Continue", gameDiscNext:"Next mystery treasure ≈ {d} away", gameDiscRarBronze:"Bronze", gameDiscRarArgent:"Silver", gameDiscRarOr:"Gold", gameDiscRarLeg:"Legendary", gameDiscBonus:"Event bonus ×2", gameDiscUnsealed:"Seal broken", gameIntroTagline:"Heritage is everywhere. It's yours to discover.",
     rarity_or:"Rare treasure (gold)", rarity_argent:"Uncommon treasure (silver)", rarity_bronze:"Common treasure (bronze)",
     gameUnlockBtn:"📍 Unlock this place", gameUnlockedBadge:"✅ Unlocked", gameDiscoveryCardTitle:"Discovery card",
     gameTooFar:"You're too far from this place to unlock it.", gameGeoDenied:"Location unavailable or denied.",
@@ -878,7 +905,7 @@ const TRANSLATIONS = {
     gameNavExplorer:"Explorar", gameHudTreasures:"tesoros", gameColFigures:"Grandes figuras", gameColLegendes:"Leyendas", gameColMusique:"Música", gameColHeritageGroup:"Patrimonio vivo", gameLoreFigure:"Gran figura", gameLoreLegend:"Leyenda", gameNarrTitle:"📖 Misiones narrativas", gameNarrStep:"Etapa", gameNarrAnswer:"A recordar", rarity_legendaire:"Tesoro legendario 👑", gameCheatAccuracyLegendary:"Tesoro legendario: se exige una señal GPS precisa (50 m o menos). Espera un momento, al aire libre, e inténtalo de nuevo.", gameCheatBadFix:"Ubicación poco fiable: inténtalo al aire libre con el GPS activado.", gameCheatAccuracy:"Señal GPS demasiado imprecisa. Espera unos segundos e inténtalo de nuevo.", gameCheatTeleport:"Desplazamiento demasiado rápido desde tu último tesoro: ubicación rechazada.", gameCheatRate:"Demasiados tesoros desbloqueados en poco tiempo. Descansa e inténtalo más tarde.", gameMapMystery:"Tesoro misterioso", gameMapLocate:"Centrarme", gameQuestsTitle:"🎯 Misiones", gameRoutesTitle:"🧭 Rutas Antan Nou", gameRouteStep:"Etapa", gameBdQuests:"Misiones y rutas", gameQuestFirstSteps:"Primeros pasos", gameQuestGoalUnlock5:"Desbloquear 5 lugares", gameQuestHistory:"Tras las huellas de la historia", gameQuestGoalHistory3:"Descubrir 3 lugares de Memoria y patrimonio", gameQuestGoalQuiz3:"Acertar 3 quizzes", gameQuestIslands:"Entre las islas", gameQuestGoalTerr2:"Desbloquear un lugar en 2 territorios", gameQuestNature:"Naturaleza viva", gameQuestGoalNature5:"Descubrir 5 lugares de Naturaleza y senderos", gameRoute1902:"Martinica — Tras las huellas de 1902", gameRouteMemoireMq:"Martinica — Memoria de la esclavitud", gameRouteMemoireGp:"Guadalupe — Memoria y resistencia", gameColTitle:"📚 Colecciones", gameColComplete:"¡Colección completa!", gameColFragment:"Fragmento obtenido", gameColHistoire:"Memoria y patrimonio", gameColNature:"Naturaleza y senderos", gameColMer:"Playas e islas", gameColSaveurs:"Sabores y mercados", gameColVillages:"Pueblos y faros", gameBdCollections:"Colecciones", gameProgressTitle:"📈 Tu progreso", gameBdPlaces:"Lugares", gameBdQuiz:"Quiz", gameBdBadges:"Insignias", gameSettingsTitle:"Ajustes del juego", gameSetVibration:"Vibración", gameSetSound:"Sonidos", gameSetAnimations:"Animaciones", gameLoreHistory:"Historia", gameLoreAnecdote:"¿Sabías que…?", gameQuizTitle:"Quiz", gameQuizCorrect:"¡Bien!", gameQuizWrong:"Fallaste.", gameQuizPoints:"+{n} puntos", gameLoreSources:"Fuentes", gameLoreFrOnly:"Contenido disponible solo en francés por ahora.", gameNavCarnet:"Diario", gameSyncOk:"Progreso guardado en tu cuenta.", gameSyncPending:"Esperando sincronizar con tu cuenta…", gameSyncOffline:"Sin conexión: tu progreso se guarda en este dispositivo y se enviará al volver la conexión.", offlineZoneBtn:"Descargar la zona para usarla sin conexión", offlineZoneHint:"≈ {mb} MB · mapa alrededor del lugar (radio de {km} km). Hazlo con conexión, antes de salir.", offlineZoneProgress:"Descargando la zona… {pct} %", offlineZoneDone:"Zona del mapa disponible sin conexión", offlineZoneRemove:"Eliminar esta zona", offlineZoneError:"Descarga incompleta. Comprueba tu conexión e inténtalo de nuevo.", offlineZoneNeedOnline:"Conéctate a internet para descargar la zona.", offlineZoneUnsupported:"Tu navegador no permite la descarga sin conexión.", offlineZonesTitle:"📥 Zonas sin conexión", offlineZonesDeleteAll:"Eliminar todo", statsPrivacyTitle:"📊 Medición de audiencia anónima", statsPrivacyText:"Para saber cuántas personas usan Antan Nou y qué funciones sirven, la app cuenta visitas y usos sin ningún dato personal: sin cookies, sin identificador, sin vínculo con tu cuenta. Puedes desactivarlo aquí.", statsToggle:"Participar en la medición anónima", statsDntNote:"Tu navegador pide no ser rastreado (Do Not Track): la medición está desactivada.", statsBtn:"📊 Estadísticas",
     gameNearbyTitle:"Acabas de pasar cerca de un tesoro…", gameNearbySub:"Hay algo por descubrir aquí cerca. Toca para ver dónde.",
     gameMysteryDetected:"🌫️ Misterio detectado", gameTreasureNearby:"✨ Tesoro cerca",
-    gameDiscoveredTitle:"¡TESORO DESCUBIERTO!", gameIntroTagline:"El patrimonio está en todas partes. A ti te toca descubrirlo.",
+    gameDiscoveredTitle:"¡TESORO DESCUBIERTO!", gameDiscContinue:"Continuar", gameDiscNext:"Próximo tesoro misterioso a ≈ {d}", gameDiscRarBronze:"Bronce", gameDiscRarArgent:"Plata", gameDiscRarOr:"Oro", gameDiscRarLeg:"Legendario", gameDiscBonus:"Bonus de evento ×2", gameDiscUnsealed:"Sello roto", gameIntroTagline:"El patrimonio está en todas partes. A ti te toca descubrirlo.",
     rarity_or:"Tesoro raro (oro)", rarity_argent:"Tesoro poco común (plata)", rarity_bronze:"Tesoro común (bronce)",
     gameUnlockBtn:"📍 Desbloquear este lugar", gameUnlockedBadge:"✅ Desbloqueado", gameDiscoveryCardTitle:"Tarjeta de descubrimiento",
     gameTooFar:"Estás demasiado lejos de este lugar para desbloquearlo.", gameGeoDenied:"Ubicación no disponible o denegada.",
@@ -998,7 +1025,7 @@ const TRANSLATIONS = {
     gameNavExplorer:"Eksploré", gameHudTreasures:"trezò", gameColFigures:"Gran figi", gameColLegendes:"Lédjann", gameColMusique:"Mizik", gameColHeritageGroup:"Patrimwan vivan", gameLoreFigure:"Gran figi", gameLoreLegend:"Lédjann", gameNarrTitle:"📖 Kèt istwa", gameNarrStep:"Étap", gameNarrAnswer:"Pou sonjé", rarity_legendaire:"Trézò lédjandè 👑", gameCheatAccuracyLegendary:"Trézò lédjandè : fò an siyal GPS pwéssi (50 m oben mié). Atann an ti moman, déwò, épi éséyé ankò.", gameCheatBadFix:"Pozisyon-la pa fyab : éséyé ankò déwò épi GPS alimé.", gameCheatAccuracy:"Siyal GPS-la pa ase pwéssi. Atann an ti moman épi éséyé ankò.", gameCheatTeleport:"Ou chanjé plas twop vit dépi dènyé trézò-la : pozisyon-la refizé.", gameCheatRate:"Twop trézò dévéwouyé an pé tan. Pran souf épi éséyé pli ta.", gameMapMystery:"Trézò mistè", gameMapLocate:"Mété mwen o mitan", gameQuestsTitle:"🎯 Kèt", gameRoutesTitle:"🧭 Wout Antan Nou", gameRouteStep:"Étap", gameBdQuests:"Kèt & wout", gameQuestFirstSteps:"Premyé pa", gameQuestGoalUnlock5:"Dévéwouyé 5 plas", gameQuestHistory:"Dèyè tras listwa-la", gameQuestGoalHistory3:"Dékouvè 3 plas Mémwa & patrimwan", gameQuestGoalQuiz3:"Réisi 3 kiz", gameQuestIslands:"Ant zil-la", gameQuestGoalTerr2:"Dévéwouyé an plas adan 2 téritwa", gameQuestNature:"Latinati vivan", gameQuestGoalNature5:"Dékouvè 5 plas Latinati & santyé", gameRoute1902:"Matinik — Dèyè tras 1902", gameRouteMemoireMq:"Matinik — Mémwa lesklavaj", gameRouteMemoireGp:"Gwadloup — Mémwa é résistans", gameColTitle:"📚 Koleksyon", gameColComplete:"Koleksyon konplè !", gameColFragment:"Mòso jwenn", gameColHistoire:"Mémwa & patrimwan", gameColNature:"Latinati & santyé", gameColMer:"Plaj & zil", gameColSaveurs:"Gou & mawché", gameColVillages:"Vilaj & fa", gameBdCollections:"Koleksyon", gameProgressTitle:"📈 Pwogrésyon aw", gameBdPlaces:"Plas", gameBdQuiz:"Kiz", gameBdBadges:"Badj", gameSettingsTitle:"Réglaj jé-la", gameSetVibration:"Vibrasyon", gameSetSound:"Son", gameSetAnimations:"Animasyon", gameLoreHistory:"Listwa", gameLoreAnecdote:"Ou té sav ?", gameQuizTitle:"Kiz", gameQuizCorrect:"Bravo !", gameQuizWrong:"Pa sa.", gameQuizPoints:"+{n} pwen", gameLoreSources:"Sous", gameLoreFrOnly:"Kontni-la ka disponib an fransé sèlman pou kounyéa.", gameNavCarnet:"Kanè", gameSyncOk:"Pwogrésyon aw sovégadé asi kont aw.", gameSyncPending:"Ka atann pou senkwonizé épi kont aw…", gameSyncOffline:"Ou pa konekté : pwogrésyon aw rété asi aparèy-la épi ka voyé lè rézo-a viré.", offlineZoneBtn:"Télétchajé zòn-la pou sèvi ek'y san rézo", offlineZoneHint:"≈ {mb} Mo · kat otou plas-la (reyon {km} km). Fè'y èvè rézo, avan ou pati.", offlineZoneProgress:"Ka télétchajé zòn-la… {pct} %", offlineZoneDone:"Zòn kat disponib san rézo", offlineZoneRemove:"Wété zòn-la", offlineZoneError:"Télétchajman pa fini. Gadé rézo aw épi éséyé ankò.", offlineZoneNeedOnline:"Konekté aw asi entènèt pou télétchajé zòn-la.", offlineZoneUnsupported:"Navigatè aw pa ka télétchajé san rézo.", offlineZonesTitle:"📥 Zòn san rézo", offlineZonesDeleteAll:"Wété tout", statsPrivacyTitle:"📊 Konté odyans anonim", statsPrivacyText:"Pou sav konbyen moun ka sèvi épi Antan Nou é ki fonksyon ka sèvi, aplikasyon-la ka konté vizit é itilizasyon san ayen pèsonèl : pa ni cookie, pa ni idantifyan, pa ni lyen épi kont aw. Ou ka dézaktivé'y isiya.", statsToggle:"Patisipé nan konté anonim-la", statsDntNote:"Navigatè aw mandé pa swiv li (Do Not Track) : konté-a dézaktivé.", statsBtn:"📊 Estatistik",
     gameNearbyTitle:"Ou sòti pasé toupré an trézò…", gameNearbySub:"Ni an biten pou dékouvè bò isi-a. Tiré pou wè koté.",
     gameMysteryDetected:"🌫️ Mistè dékouvè", gameTreasureNearby:"✨ Trézò toupré",
-    gameDiscoveredTitle:"TRÉZÒ DÉVÉWOUYÉ !", gameIntroTagline:"Patrimwàn-an pati tout koté. A ou pou dékouvè-y.",
+    gameDiscoveredTitle:"TRÉZÒ DÉVÉWOUYÉ !", gameDiscContinue:"Kontinyé", gameDiscNext:"Pwochen trézò mistè a ≈ {d}", gameDiscRarBronze:"Bwonz", gameDiscRarArgent:"Ajan", gameDiscRarOr:"Lò", gameDiscRarLeg:"Lédjandè", gameDiscBonus:"Bonis évènman ×2", gameDiscUnsealed:"Sèl kasé", gameIntroTagline:"Patrimwàn-an pati tout koté. A ou pou dékouvè-y.",
     rarity_or:"Trézò ra (lò)", rarity_argent:"Trézò pa two komen (lajan)", rarity_bronze:"Trézò komen (bwonz)",
     gameUnlockBtn:"📍 Dévéwouyé lyé-tala", gameUnlockedBadge:"✅ Dévéwouyé", gameDiscoveryCardTitle:"Kat dékouvèt",
     gameTooFar:"Ou two lwen lyé-tala pou dévéwouyé-y.", gameGeoDenied:"Jéolokalizasyon pa disponib oben rifizé.",
@@ -3928,12 +3955,15 @@ function gamePlayTones(freqs) {
   } catch (e) {}
 }
 // kind : 'unlock' (trésor trouvé) | 'good' (bonne réponse au quiz)
-function gameFeedback(kind) {
+// rarity (facultatif, pour 'unlock') : plus la rareté est haute, plus la
+// fanfare est longue.
+const GAME_UNLOCK_TONES = { bronze:[523,659], argent:[523,659,784], or:[523,659,784,1047], legendaire:[392,523,659,784,1047,1319] };
+function gameFeedback(kind, rarity) {
   if (!gameEnabled) return;
   if (gameSettings.vibration) {
-    try { if (navigator.vibrate) navigator.vibrate(kind === 'unlock' ? [80, 40, 120] : 60); } catch (e) {}
+    try { if (navigator.vibrate) navigator.vibrate(kind === 'unlock' ? (rarity === 'legendaire' ? [80, 40, 80, 40, 200] : [80, 40, 120]) : 60); } catch (e) {}
   }
-  if (gameSettings.sound) gamePlayTones(kind === 'unlock' ? [523, 659, 784] : [659, 880]);
+  if (gameSettings.sound) gamePlayTones(kind === 'unlock' ? (GAME_UNLOCK_TONES[rarity] || GAME_UNLOCK_TONES.argent) : [659, 880]);
 }
 const GAME_BADGE_BONUS_POINTS = 10;
 
@@ -4952,28 +4982,98 @@ function gameAttemptUnlock(p) {
     }
   );
 }
-// ---- Animation de découverte (section 13) ----
+// ---- Animation de découverte ----
+// Premier extrait de l'histoire du lieu (jamais inventé : texte sourcé du jeu,
+// dans la langue de l'interface ; rien si la traduction n'existe pas).
+function gameLoreTeaser(p) {
+  const lore = GAME_LORE[p.nom];
+  if (!lore) return '';
+  const tr = (lang || 'fr') !== 'fr' ? gameTr('lore', p.nom) : null;
+  if ((lang || 'fr') !== 'fr' && !tr) return '';
+  const txt = String((tr ? tr.histoire : lore.histoire) || '');
+  if (!txt) return '';
+  const m = txt.match(/^(.{60,240}?[.!?])(\s|$)/);
+  return m ? m[1] : (txt.length > 240 ? txt.slice(0, 237).replace(/\s+\S*$/, '') + '…' : txt);
+}
+// Lieu non encore découvert le plus proche, dans le même territoire, à partir
+// de la dernière position mesurée (qui ne quitte jamais l'appareil).
+function gameNextTreasureFor(p) {
+  const fix = loadGameFix();
+  const ref = fix && typeof fix.lat === 'number' ? fix : { lat: p.lat, lng: p.lng };
+  let best = null;
+  PLACES.forEach(x => {
+    if (x.nom === p.nom || x.t !== p.t || typeof x.lat !== 'number' || isGameUnlocked(x.nom)) return;
+    const km = haversineKm(ref.lat, ref.lng, x.lat, x.lng);
+    if (!best || km < best.km) best = { place: x, km };
+  });
+  return best;
+}
 function gameShowDiscoveryAnimation(p, points) {
-  gameFeedback('unlock');
+  const rarity = rarityForPlace(p);
+  gameFeedback('unlock', rarity);
+  const rarKey = { bronze:'gameDiscRarBronze', argent:'gameDiscRarArgent', or:'gameDiscRarOr', legendaire:'gameDiscRarLeg' }[rarity];
+  const anim = !!gameSettings.animations;
+  const teaser = gameLoreTeaser(p);
+  const next = gameNextTreasureFor(p);
+  const nextLabel = next ? t('gameDiscNext').replace('{d}', next.km < 1 ? Math.round(next.km * 1000) + ' m' : next.km.toFixed(1).replace('.', (lang || 'fr') === 'en' ? '.' : ',') + ' km') : '';
+  const bonus = isEventBonusUnlocked(p.nom);
   const overlay = document.createElement('div');
   overlay.className = 'game-discovery-overlay';
-  overlay.innerHTML = `<div class="gdo-card">
-    <span class="gdo-spark">✨</span>
+  overlay.setAttribute('data-rarity', rarity);
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', t('gameDiscoveredTitle'));
+  overlay.innerHTML = `<span class="gdo-seal" aria-hidden="true">🔒</span><span class="gdo-flash" aria-hidden="true"></span>
+  <div class="gdo-card">
+    <span class="gdo-rarity">${gameRarityIcon(rarity)} ${t(rarKey)}</span>
+    <span class="gdo-spark" aria-hidden="true">${rarity === 'legendaire' ? '👑' : '✨'}</span>
     <p class="gdo-title">${t('gameDiscoveredTitle')}</p>
-    <p class="gdo-name">${p.nom}</p>
-    <p class="gdo-points">+${points} ${t('gamePointsLabel')}</p>
+    <p class="gdo-name">${gameEsc(p.nom)}</p>
+    <p class="gdo-loc">${gameEsc(placeZone(p))}</p>
+    <p class="gdo-points" id="gdoPoints">+${points} ${t('gamePointsLabel')}</p>
+    ${bonus ? `<p class="gdo-sub">🎉 ${t('gameDiscBonus')}</p>` : ''}
     ${(() => {
       const cp = gameCollectionProgressFor(p);
       if (!cp) return '';
       const done = cp.done === cp.total;
-      return `<p class="gdo-points" style="margin-top:8px; font-weight:700;">${cp.col.icon} ${t('gameColFragment')} — ${t(cp.col.labelKey)} ${cp.done}/${cp.total}${done ? ' 🎉 ' + t('gameColComplete') + ' +' + GAME_COLLECTION_POINTS : ''}</p>`;
+      return `<p class="gdo-sub">${cp.col.icon} ${t('gameColFragment')} — ${t(cp.col.labelKey)} ${cp.done}/${cp.total}${done ? ' 🎉 ' + t('gameColComplete') + ' +' + GAME_COLLECTION_POINTS : ''}</p>`;
     })()}
-    ${gameHeritageProgressFor(p).map(hp => `<p class="gdo-points" style="margin-top:6px; font-weight:700;">${hp.h.icon} ${t('gameColFragment')} — ${t(hp.h.labelKey)} ${hp.done}/${hp.total}${hp.done === hp.total ? ' 🎉 ' + t('gameColComplete') + ' +' + GAME_COLLECTION_POINTS : ''}</p>`).join('')}
+    ${gameHeritageProgressFor(p).map(hp => `<p class="gdo-sub">${hp.h.icon} ${t('gameColFragment')} — ${t(hp.h.labelKey)} ${hp.done}/${hp.total}${hp.done === hp.total ? ' 🎉 ' + t('gameColComplete') + ' +' + GAME_COLLECTION_POINTS : ''}</p>`).join('')}
+    ${teaser ? `<p class="gdo-teaser">${gameEsc(teaser)}</p>` : ''}
+    <div class="gdo-actions">
+      <button type="button" class="btn btn-game" id="gdoContinue">${t('gameDiscContinue')}</button>
+      ${next ? `<button type="button" class="btn btn-game btn-ghost" id="gdoNext">🧭 ${gameEsc(nextLabel)}</button>` : ''}
+    </div>
   </div>`;
   document.body.appendChild(overlay);
-  const dismiss = () => { if (document.body.contains(overlay)) overlay.remove(); };
-  overlay.onclick = dismiss;
-  setTimeout(dismiss, 1800);
+  const onKey = e => { if (e.key === 'Escape') dismiss(); };
+  const dismiss = () => { document.removeEventListener('keydown', onKey); if (document.body.contains(overlay)) overlay.remove(); };
+  document.addEventListener('keydown', onKey);
+  overlay.addEventListener('click', e => { if (e.target === overlay) dismiss(); });
+  const cont = overlay.querySelector('#gdoContinue');
+  cont.onclick = dismiss;
+  const nx = overlay.querySelector('#gdoNext');
+  if (nx) nx.onclick = () => { dismiss(); if (typeof openPlaceDetail === 'function') openPlaceDetail(next.place); };
+  try { cont.focus({ preventScroll: true }); } catch (e) {}
+  // Les points "montent" jusqu'à leur valeur pendant que la carte apparaît.
+  if (anim) {
+    const el = overlay.querySelector('#gdoPoints');
+    const label = t('gamePointsLabel');
+    const steps = 18; let i = 0;
+    el.textContent = '+0 ' + label;
+    setTimeout(() => {
+      const id = setInterval(() => {
+        i++;
+        if (!document.body.contains(overlay)) { clearInterval(id); return; }
+        el.textContent = '+' + Math.round(points * Math.min(1, i / steps)) + ' ' + label;
+        if (i >= steps) clearInterval(id);
+      }, 40);
+    }, 1000);
+  }
+}
+function isEventBonusUnlocked(nom) {
+  const e = gameUnlocked.find(x => x.nom === nom);
+  return !!(e && e.bonus);
 }
 // ---- Entrée immersive (section 4) ----
 // Jouée une seule fois, à l'activation du Mode Chasseur depuis la fenêtre
