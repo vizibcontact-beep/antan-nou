@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="google-site-verification" content="vbMWfmfjdUOSu2A9_K9P-a_G0s--KhLgHyCOX5UvtNs" />
 <title>Antan Nou — Trouve ta sortie en Martinique, Guadeloupe, Guyane, Saint-Martin et Saint-Barthélemy</title>
 <meta name="description" content="Antan Nou, l'application gratuite pour trouver une sortie en Martinique, Guadeloupe, Guyane, Saint-Martin et Saint-Barthélemy : plages, randonnées, rivières, culture, gastronomie et bien plus, avec avis et photos.">
@@ -14,15 +14,22 @@
 <meta property="og:title" content="Antan Nou — Trouve ta sortie">
 <meta property="og:description" content="L'application gratuite pour trouver une sortie en Martinique, Guadeloupe, Guyane, Saint-Martin et Saint-Barthélemy.">
 <meta property="og:url" content="https://vizibcontact-beep.github.io/antan-nou/antan-nou.html">
-<meta property="og:image" content="https://vizibcontact-beep.github.io/antan-nou/icon-512.png">
+<meta property="og:image" content="https://vizibcontact-beep.github.io/antan-nou/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo Antan Nou et le texte « Trouve ta sortie aux Antilles-Guyane »">
+<meta property="og:site_name" content="Antan Nou">
 <meta property="og:locale" content="fr_FR">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Antan Nou — Trouve ta sortie">
 <meta name="twitter:description" content="L'application gratuite pour trouver une sortie en Martinique, Guadeloupe, Guyane, Saint-Martin et Saint-Barthélemy.">
-<meta name="twitter:image" content="https://vizibcontact-beep.github.io/antan-nou/icon-512.png">
+<meta name="twitter:image" content="https://vizibcontact-beep.github.io/antan-nou/og-image.jpg">
+<meta name="twitter:image:alt" content="Logo Antan Nou et le texte « Trouve ta sortie aux Antilles-Guyane »">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#093B36">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Antan Nou">
@@ -46,7 +53,10 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+<!-- SDK Firebase Storage volontairement non chargé tant que l'offre Blaze n'est pas activée (gain de poids) : pour les photos, ajouter
+     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script> ici. -->
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
 <!-- Leaflet (carte des résultats) : gratuit, fonds de carte OpenStreetMap, aucune clé API requise -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -64,7 +74,7 @@
     --font-display:'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
     --font-body:'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
 
-    --ink:#1B1A2E; --muted:#736F8C;
+    --ink:#1B1A2E; --muted:#66627F;
     /* Couleurs d'action / UI ancrées sur la charte officielle */
     --indigo:var(--forest-teal); --indigo-soft:var(--forest-teal-soft);
     --accent:var(--forest-teal); --accent-soft:var(--forest-teal-soft);
@@ -212,7 +222,7 @@
   .empty .e { font-size:34px; display:block; margin-bottom:10px; }
 
   nav.bottom-nav { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:var(--card); border-top:1px solid var(--line); padding:12px 16px; display:flex; gap:10px; z-index:50; }
-  .legal-footer { text-align:center; font-size:11.5px; color:var(--muted); margin:28px 0 8px; padding-bottom:4px; text-decoration:underline; cursor:pointer; }
+  .legal-footer { text-align:center; font-size:11.5px; color:#55516F; margin:28px 0 8px; padding-bottom:4px; text-decoration:underline; cursor:pointer; }
   .btn { flex:1; padding:13px; border-radius:12px; border:none; font-size:15px; font-weight:700; cursor:pointer; text-align:center; }
   .btn-primary { background:var(--accent); color:white; }
   .btn-primary:disabled { background:var(--line); color:var(--muted); }
@@ -410,7 +420,7 @@
 
   .home-section { margin:22px 0; }
   .home-section-title { font-size:15px; font-weight:800; margin:0 0 4px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-  .home-section-title .see-all { font-size:11.5px; font-weight:700; color:var(--brand-blue); cursor:pointer; text-decoration:underline; white-space:nowrap; }
+  .home-section-title .see-all { font-size:11.5px; font-weight:700; color:#0B5C86; cursor:pointer; text-decoration:underline; white-space:nowrap; }
   .home-section-sub { font-size:12px; color:var(--muted); margin:0 0 10px; }
 
   .geo-btn { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:white; background:var(--brand-blue); padding:10px 16px; border-radius:999px; border:none; cursor:pointer; }
@@ -432,6 +442,19 @@
     background:linear-gradient(120deg, var(--warm-orange), var(--sun-yellow)); color:white; font-size:15px; font-weight:800; letter-spacing:.03em; font-family:var(--font-display);
     box-shadow:0 8px 18px -6px rgba(232,93,38,.55); }
   .surprise-form-row { margin-bottom:16px; }
+  /* Une seule action principale par écran d'accueil : le gros bouton « Trouver ma sortie » du bandeau.
+     « Surprends-moi » et « Utiliser ma position » restent visibles mais en contour. */
+  .surprise-btn { background:transparent !important; color:var(--forest-teal) !important; border:2.5px solid var(--forest-teal) !important; box-shadow:none !important; }
+  .geo-btn { background:transparent !important; color:#0B5C86 !important; border:2px solid #0B5C86 !important; }
+  .hero-cta { position:relative; margin-top:14px; display:inline-block; padding:15px 34px; border:none; border-radius:999px; cursor:pointer; font-family:var(--font-display); font-size:17px; font-weight:800; background:var(--sun-yellow); color:#093B36; box-shadow:0 8px 18px -6px rgba(0,0,0,.45); }
+  .hero-cta:focus-visible, .consent-btn:focus-visible { outline:3px solid #fff; outline-offset:3px; box-shadow:0 0 0 6px #093B36; }
+  .hp-field { position:absolute !important; left:-9999px !important; width:1px !important; height:1px !important; opacity:0 !important; pointer-events:none; }
+  .consent-banner { position:fixed; left:12px; right:12px; bottom:84px; z-index:1250; background:#093B36; color:#F8F6ED; border-radius:18px; padding:16px; box-shadow:0 12px 30px rgba(0,0,0,.35); max-width:560px; margin:0 auto; font-size:14px; line-height:1.45; }
+  .consent-banner a { color:#F5B82E; text-decoration:underline; cursor:pointer; font-weight:700; }
+  .consent-row { display:flex; gap:10px; margin-top:12px; }
+  .consent-btn { flex:1; min-height:44px; border-radius:999px; font-weight:800; font-size:15px; cursor:pointer; font-family:var(--font-display); border:2px solid #F8F6ED; background:transparent; color:#F8F6ED; }
+  .consent-btn.ok { background:#F5B82E; border-color:#F5B82E; color:#093B36; }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
   .surprise-reveal { text-align:center; padding:6px 0 4px; }
   .surprise-reveal .visual { height:130px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:46px; color:white; margin-bottom:14px; }
   .surprise-reveal .nom { font-size:17px; font-weight:800; margin:0 0 2px; }
@@ -517,7 +540,7 @@
 </head>
 <body>
 <div id="app">
-  <header class="desktop-header" id="desktopHeader"></header>
+  <div class="desktop-header" id="desktopHeader" role="navigation" aria-label="Navigation principale"></div>
   <header>
     <div class="brand-row">
       <div class="brand" id="headerBrand"></div>
@@ -2044,11 +2067,51 @@ if (FIREBASE_ENABLED) {
     firebase.initializeApp(FIREBASE_CONFIG);
     auth = firebase.auth();
     db = firebase.firestore();
-    storage = firebase.storage();
+    try { storage = firebase.storage(); } catch (e) { storage = null; } // SDK Storage non chargé (offre Spark) : les photos sont désactivées proprement
   } catch (e) {
     console.warn("Firebase non initialisé :", e);
   }
 }
+
+// ==================== Textes d'interface : consentement, anti-spam, validation ====================
+const UX_I18N = {
+  fr: { heroCta:'Trouver ma sortie', consentText:"Antan Nou n'utilise ni cookie publicitaire ni traceur. Nous comptons seulement des visites de façon anonyme pour améliorer l'appli.", consentOk:'OK', consentNo:'Refuser', consentMore:'En savoir plus', spamWait:'Doucement ! Réessaie dans quelques secondes.', spamBlocked:"Envoi bloqué par mesure de sécurité. Recharge la page et réessaie.", emailInvalid:"Cette adresse email n'a pas l'air valide.", passShort:'Le mot de passe doit contenir au moins 6 caractères.' },
+  en: { heroCta:'Find my outing', consentText:'Antan Nou uses no advertising cookies or trackers. We only count visits anonymously to improve the app.', consentOk:'OK', consentNo:'Decline', consentMore:'Learn more', spamWait:'Slow down! Try again in a few seconds.', spamBlocked:'Submission blocked for security reasons. Reload the page and try again.', emailInvalid:'This email address does not look valid.', passShort:'The password must be at least 6 characters long.' },
+  es: { heroCta:'Encontrar mi salida', consentText:'Antan Nou no usa cookies publicitarias ni rastreadores. Solo contamos visitas de forma anónima para mejorar la app.', consentOk:'OK', consentNo:'Rechazar', consentMore:'Más información', spamWait:'¡Despacio! Inténtalo de nuevo en unos segundos.', spamBlocked:'Envío bloqueado por seguridad. Recarga la página e inténtalo de nuevo.', emailInvalid:'Esta dirección de correo no parece válida.', passShort:'La contraseña debe tener al menos 6 caracteres.' }
+};
+function ux(k) { return ((UX_I18N[lang] || UX_I18N.fr)[k]) || UX_I18N.fr[k]; }
+// Anti-spam sans service externe : champ piège (honeypot) invisible, délai minimum depuis l'ouverture du
+// formulaire et délai entre deux envois. Les règles Firestore restent la vraie barrière côté serveur.
+const SPAM_LAST = {};
+function hpField(id) { return `<input type="text" id="${id}" class="hp-field" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" data-t="${Date.now()}">`; }
+function spamCheck(kind, hpId) {
+  const hp = document.getElementById(hpId);
+  if (hp && (hp.value || Date.now() - Number(hp.dataset.t || 0) < 2500)) return ux('spamBlocked');
+  if (Date.now() - (SPAM_LAST[kind] || 0) < 20000) return ux('spamWait');
+  SPAM_LAST[kind] = Date.now();
+  return '';
+}
+// Bandeau d'information à la première visite : pas de cookie de suivi, simple choix pour la mesure anonyme.
+const CONSENT_KEY = 'antan_nou_consent_v1';
+function consentAnswered() { try { return !!localStorage.getItem(CONSENT_KEY); } catch (e) { return true; } }
+function consentShow() {
+  if (consentAnswered() || document.getElementById('consentBanner')) return true;
+  if (!lang || document.querySelector('.modal-overlay')) return false;
+  const d = document.createElement('div');
+  d.className = 'consent-banner'; d.id = 'consentBanner'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-label', ux('consentOk'));
+  d.innerHTML = `<div>${ux('consentText')} <a id="consentMore" role="link" tabindex="0">${ux('consentMore')}</a></div>
+    <div class="consent-row"><button class="consent-btn" id="consentNo">${ux('consentNo')}</button><button class="consent-btn ok" id="consentOk">${ux('consentOk')}</button></div>`;
+  document.body.appendChild(d);
+  const done = (v) => { try { localStorage.setItem(CONSENT_KEY, v); } catch (e) {} if (v === 'no') statsSetOptOut(true); d.remove(); };
+  document.getElementById('consentOk').onclick = () => done('ok');
+  document.getElementById('consentNo').onclick = () => done('no');
+  document.getElementById('consentMore').onclick = () => openLegalDoc('privacy');
+  document.getElementById('consentMore').onkeydown = (e) => { if (e.key === 'Enter') openLegalDoc('privacy'); };
+  return true;
+}
+// Accessibilité : chaque fenêtre ouverte est annoncée comme une boîte de dialogue.
+new MutationObserver(() => { document.querySelectorAll('.modal-overlay > .modal:not([role])').forEach(m => { m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); const h = m.querySelector('h3'); if (h) m.setAttribute('aria-label', h.textContent.trim()); }); }).observe(document.body, { childList: true, subtree: true });
+(function consentLoop() { let n = 0; const iv = setInterval(() => { if (consentShow() || ++n > 120) clearInterval(iv); }, 2000); })();
 
 // ==================== Mesure d'audience anonyme ====================
 // Compteurs agrégés par jour dans Firestore (collection `stats`, un document par
@@ -2669,11 +2732,11 @@ function openAccountModal(initialMode) {
       <div class="prog-form">
         <div class="adv-group">
           <p class="adv-label">${t('accountEmail')}</p>
-          <input type="email" id="accEmail" placeholder="${t('accountEmailPlaceholder')}" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
+          <input type="email" id="accEmail" maxlength="254" autocomplete="email" inputmode="email" required placeholder="${t('accountEmailPlaceholder')}" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
         </div>
         <div class="adv-group">
           <p class="adv-label">${t('accountPassword')}</p>
-          <input type="password" id="accPass" placeholder="${t('accountPasswordPlaceholder')}" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
+          <input type="password" id="accPass" autocomplete="current-password" maxlength="128" placeholder="${t('accountPasswordPlaceholder')}" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); font-size:14px;">
         </div>
         <p id="accError" style="color:var(--coral); font-size:12.5px; display:none; margin:0 0 12px;"></p>
       </div>
@@ -2698,6 +2761,8 @@ function openAccountModal(initialMode) {
       const errEl = document.getElementById('accError');
       errEl.style.display = 'none';
       if (!email || !pass) { errEl.textContent = t('accountFillFields'); errEl.style.display = 'block'; return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || email.length > 254) { errEl.textContent = ux('emailInvalid'); errEl.style.display = 'block'; return; }
+      if (mode !== 'login' && pass.length < 6) { errEl.textContent = ux('passShort'); errEl.style.display = 'block'; return; }
       try {
         if (mode === 'login') await auth.signInWithEmailAndPassword(email, pass);
         else await auth.createUserWithEmailAndPassword(email, pass);
@@ -2837,7 +2902,7 @@ const LEGAL_TEXTS = {
       <h4>Mineurs</h4>
       <p>Le site ne cible pas spécifiquement un public mineur et ne demande aucune information relative à l'âge lors de la création d'un compte.</p>
       <h4>Cookies</h4>
-      <p>Le site n'utilise pas de cookies publicitaires ou de suivi. Le stockage local du navigateur (langue, territoire, favoris, progression, zones hors ligne, choix concernant la mesure d'audience) reste sur l'appareil de l'utilisateur et peut être effacé à tout moment depuis les réglages du navigateur.</p>
+      <p>Le site n'utilise pas de cookies publicitaires ou de suivi. À la première visite, un bandeau te permet de refuser la mesure d'audience anonyme (tu peux aussi la couper plus tard dans « Mon compte »). Le stockage local du navigateur (langue, territoire, favoris, progression, zones hors ligne, choix concernant la mesure d'audience) reste sur l'appareil de l'utilisateur et peut être effacé à tout moment depuis les réglages du navigateur.</p>
       <p style="margin-top:14px;font-style:italic;color:var(--muted);">Dernière mise à jour : 13 octobre 2026</p>
     `
   },
@@ -3414,7 +3479,7 @@ function renderGeoSection() {
       <p class="geo-count">${list.length} ${list.length > 1 ? t('geoCountPlural') : t('geoCountSingular')}</p>
       ${list.length === 0
         ? `<p class="geo-note">${t('geoEmpty')}</p>`
-        : `<div class="h-scroll">${list.slice(0,20).map(p => miniCardHTML(p)).join('')}</div>`}
+        : `<div class="h-scroll" tabindex="0">${list.slice(0,20).map(p => miniCardHTML(p)).join('')}</div>`}
     `;
   }
   return `<div class="home-section">
@@ -3462,7 +3527,7 @@ function renderCollectionsSection() {
     ${colls.map(c => `
       <div style="margin-bottom:18px;">
         <p class="home-section-title" style="font-size:13px;"><span>${t(c.titleKey)}</span><span class="see-all" data-coll="${c.key}">${t('collSeeAll')}</span></p>
-        <div class="h-scroll">${c.places.slice(0,12).map(p => miniCardHTML(p)).join('')}</div>
+        <div class="h-scroll" tabindex="0">${c.places.slice(0,12).map(p => miniCardHTML(p)).join('')}</div>
       </div>`).join('')}
   </div>`;
 }
@@ -3615,6 +3680,7 @@ function renderHome() {
       <h1 class="home-title">ANTAN NOU</h1>
       <p class="home-brand-tagline">${t('brandTagline')}</p>
       <p class="home-hero-sub">${t('homeHeroSub')}</p>
+      <button class="hero-cta" id="heroCtaBtn">${ux('heroCta')}</button>
     </div>
     <div class="home-search-block">
       <p class="home-search-label">${t('homeSearchLabel')}</p>
@@ -3628,6 +3694,7 @@ function renderHome() {
     <button class="surprise-btn" id="surpriseBtnHome">${t('surpriseBtn')}</button>
   `;
   wireTodayAlerts(main);
+  document.getElementById('heroCtaBtn').onclick = () => { const i = document.getElementById('homeSearchInput'); i.scrollIntoView({ behavior:'smooth', block:'center' }); setTimeout(() => i.focus(), 350); track('hero_cta'); };
   document.getElementById('homeSearchInput').oninput = (e) => { homeSearchQ = e.target.value; statsOnce('search'); renderHomeDynamicArea(); };
   main.querySelectorAll('.territory-chip[data-t]').forEach(el => {
     el.onclick = () => { collectionOverride = null; selT = el.dataset.t; selZ = null; selV = []; step = 3; track('terr', selT); render(); };
@@ -5743,7 +5810,7 @@ function renderAvisForm(p) {
       <button type="button" id="avisPhotoRemoveBtn" class="btn" style="width:auto; padding:4px 10px; font-size:12px;">${t('avisPhotoRemove')}</button>
     </div>
     <p id="avisPhotoStatus" class="step-sub" style="margin:0 0 8px; display:none;"></p>
-    <button class="btn" id="avisSubmitBtn" style="width:100%;">${t('avisSubmit')}</button>
+    ${hpField('hpAvis')}<button class="btn" id="avisSubmitBtn" style="width:100%;">${t('avisSubmit')}</button>
   `;
   selectedNote = 0;
   selectedAvisPhotoBlob = null;
@@ -5809,6 +5876,7 @@ function renderAvisForm(p) {
 async function submitAvis(p) {
   if (!FIREBASE_ENABLED || !currentUser) return;
   if (!selectedNote) { alert(t('avisNoteRequired')); return; }
+  { const sp = spamCheck('avis', 'hpAvis'); if (sp) { alert(sp); return; } }
   const commentaire = document.getElementById('avisTextarea').value.trim().slice(0, 500);
   const pseudo = (currentUser.email || '').split('@')[0];
   const ref = db.collection('avis').doc(slugId(p.nom));
@@ -5951,7 +6019,7 @@ function renderProposeForm(overlay) {
       </div>
       <p id="propError" style="color:var(--coral); font-size:12.5px; display:none; margin:0 0 12px;"></p>
     </div>
-    <button class="btn btn-primary" id="propSubmitBtn" style="width:100%;">${t('proposeSubmitBtn')}</button>
+    ${hpField('hpProp')}<button class="btn btn-primary" id="propSubmitBtn" style="width:100%;">${t('proposeSubmitBtn')}</button>
   </div>`;
   document.getElementById('closePropose').onclick = () => overlay.remove();
 
@@ -6074,6 +6142,7 @@ async function submitProposition(overlay) {
     errEl.style.display = 'block';
     return;
   }
+  { const sp = spamCheck('prop', 'hpProp'); if (sp) { errEl.textContent = sp; errEl.style.display = 'block'; return; } }
   const submitBtn = document.getElementById('propSubmitBtn');
   const photoBlob = proposePhotoBlob;
   let photoUrl = null, photoFailed = false;

@@ -14,7 +14,7 @@
    (écritures) et tout ce qui touche au compte et à la base (Firebase Auth,
    Firestore, Storage) : ces données doivent toujours être fraîches. */
 
-const VERSION = "v4";
+const VERSION = "v5";
 const CACHE_APP = "antan-nou-app-" + VERSION;   // appli (même origine)
 const CACHE_LIBS = "antan-nou-libs-" + VERSION; // Leaflet, Firebase SDK, polices
 const CACHE_TILES = "antan-nou-tiles-" + VERSION; // tuiles de carte
@@ -53,7 +53,6 @@ const LIBS_TO_PRECACHE = [
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js",
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js",
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js",
-  "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js",
 ];
 
 // Hôtes à ne jamais intercepter (compte, base de données, stockage).
